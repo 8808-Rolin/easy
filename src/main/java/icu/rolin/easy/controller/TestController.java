@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @ResponseBody
 @RequestMapping(value = "/test")
-public class testController {
+public class TestController {
 
     
     @RequestMapping(value = "/one")

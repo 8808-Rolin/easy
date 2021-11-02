@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @ResponseBody
 @RequestMapping(value = "/api/tool")
-public class toolController {
+public class ToolController {
 
     @GetMapping(value = "/uni-variable")
     public ResponseVO uni_variable(UniVariablePO uv){

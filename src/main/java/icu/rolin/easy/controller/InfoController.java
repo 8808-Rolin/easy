@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @ResponseBody
 @RequestMapping(value = "/api/info")
-public class infoController {
+public class InfoController {
 
     @PostMapping(value = "/get-common-person-information")
     public ResponseVO get_common_person_information( Integer uid){

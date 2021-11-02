@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @ResponseBody
 @RequestMapping(value = "/api/user")
-public class userController {
+public class UserController {
 
     @PostMapping(value = "/login")
     public ResponseVO login(LoginPO loginPO){

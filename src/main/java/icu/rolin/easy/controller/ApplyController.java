@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @ResponseBody
 @RequestMapping(value = "/api/apply")
-public class applyController {
+public class ApplyController {
 
     @PostMapping(value = "/create-ass")
     public ResponseVO create_ass(CreateAssPO cap){

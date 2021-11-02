@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @ResponseBody
 @RequestMapping(value = "/api/action")
-public class actionController {
+public class ActionController {
 
     @PostMapping(value = "/participate")
     public ResponseVO participate_action (Integer uid,Integer actid){

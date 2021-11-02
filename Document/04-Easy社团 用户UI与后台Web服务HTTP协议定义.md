@@ -741,7 +741,7 @@
     <tr><td>pid</td><td>Integer</td><td>ID值，帖子的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0为获取成功，1为获取失败，且帖子不存在</td></tr>
+    <tr><td>code</td><td colspan=2>0为获取成功，1为获取失败，且帖子不存在</td></tr>
     <tr><td>permissionCode</td><td colspan=2>权限代码，1为管理员 ，0为普通用户,2为用户不存在</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
     <tr><th>data.post</th><td colspan=2>result为0是返回该字段，是帖子数据</td></tr>
@@ -758,6 +758,7 @@
     <tr><td>image</td><td colspan=2>Base64编码字符串，是用户头像</td></tr>
 </table>
 
+
 ### 3.4.3 获取回复和回复人列表
 
 <table>
@@ -772,10 +773,10 @@
     <tr><td>page</td><td>Integer</td><td>可空，页码 默认为1</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0为获取成功，1为获取失败</td></tr>
+    <tr><td>code</td><td colspan=2>-1获取失败，获取成功返回总页数</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
     <tr><th>data.discuss[]</th><td colspan=2>result为0是返回该字段，是回复数据数组</td></tr>
-    <tr><td>all</td><td colspan=2>总页数 是一个整数</td></tr>
+    <tr><td>page</td><td colspan=2>第几页 是一个整数</td></tr>
     <tr><th>data.discuss.author</th><td colspan=2>评论人数据</td></tr>
     <tr><td>cuid</td><td colspan=2>评论人的UID</td></tr>
     <tr><td>username</td><td colspan=2>评论人的昵称</td></tr>
@@ -786,6 +787,7 @@
     <tr><td>text</td><td colspan=2>回复的文本内容</td></tr>
     <tr><td>releaseDate</td><td colspan=2>回复的发表时间</td></tr>
 </table>
+
 
 ### 3.4.4 提交回复
 
@@ -802,10 +804,10 @@
     <tr><td>content</td><td>String</td><td>无格式文本内容</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0为提交成功，1为提交失败</td></tr>
+    <tr><td>code</td><td colspan=2>-1提交失败，提交成功返回pid</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
-    <tr><td>cid</td><td colspan=2>提交成功返回评论唯一标识符</td></tr>
 </table>
+
 
 ### 3.4.5 删除帖子以及回复
 
@@ -822,9 +824,10 @@
     <tr><td>typeid</td><td>Integer</td><td>ID值，当请求类型为0时是pid，为1时是cid</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0为删除成功，1为删除失败</td></tr>
+    <tr><td>code</td><td colspan=2>0为删除成功，1为删除失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
 </table>
+
 
 ### 3.4.6 修改帖子
 
@@ -842,9 +845,10 @@
     <tr><td>newContent</td><td>String</td><td>新内容</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0为修改成功，1为修改失败</td></tr>
+    <tr><td>code</td><td colspan=2>0为修改成功，1为修改失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 ### 3.4.7 收藏帖子
 
