@@ -141,6 +141,7 @@
 | 2021-11-02 | 3.1.4.1 个人信息 | 将响应参数中的org修改为college |
 | 2021-11-02 | 3.1.4.3 发送邮件| 将mid修改为msg，code的含义修改为返回mid |
 | 2021-11-02 | 3.4.7 收藏帖子 | 删除result参数，code的含义重新定义 |
+| 2021-11-02 | 3.2.2 获取公告 | 将响应参数num修改为code |
 
 
 
@@ -471,12 +472,13 @@
     <tr><td colspan=3>无</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>num</td><td colspan=2>公告数量，是一个整数</td></tr>
+    <tr><td>code</td><td colspan=2>公告数量，是一个整数</td></tr>
     <tr><th>data.notice[]</td><th colspan=2>当数量不为0时返回如下Json对象数组</td></tr>
     <tr><td>title</td><td colspan=2>公告标题</td></tr>
     <tr><td>date</td><td colspan=2>公告日期</td></tr>
     <tr><td>pid</td><td colspan=2>pid，帖子唯一标识符，可以直接进入帖子页面</td></tr>
 </table>
+
 
 ### 3.2.3 创建社团审批
 
@@ -496,9 +498,10 @@
     <tr><td>org</td><td>Integer</td><td>社团所属组织</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
-    <tr><td>caid</td><td colspan=2>成功返回一个caid => create association ID</td></tr>
+	<tr><td>code</td><td colspan=2>失败返回-1，成功返回一个caid => create association ID</td></tr>
+    <tr><td>msg</td><td colspan=2></td></tr>
 </table>
+
 
 ## 3.3 论坛页面相关接口
 
@@ -522,7 +525,7 @@
     <tr><td>uid</td><td>Integer</td><td>id值，是用户的唯一标识符</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
+    <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
     <tr><th>data.ass[]</td><th colspan=2>result为0时返回如下社团信息数组</td></tr>
     <tr><td>assName</td><td colspan=2>社团名称</td></tr>
@@ -530,6 +533,7 @@
     <tr><td>isJoin</td><td colspan=2>0为未加入，1为已加入</td></tr>
     <tr><td>assImage</td><td colspan=2>社团Logo，如果isJoin字段为1，则读取该字段</td></tr>
 </table>
+
 
 ### 3.3.2 获取帖子列表数据接口
 
@@ -547,8 +551,8 @@
     <tr><td>page</td><td>Integer</td><td>可空，页面值</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>postnum</td><td colspan=2>一个整数值，返回所有帖子的总数量</td></tr>
-    <tr><th>data.posts[]</td><th colspan=2>postnum字段不为0时返回该列表数组</td></tr>
+    <tr><td>code</td><td colspan=2>一个整数值，返回所有帖子的总数量</td></tr>
+    <tr><th>data.posts[]</td><th colspan=2>code字段不为0时返回该列表数组</td></tr>
     <tr><td>pid</td><td colspan=2>ID值，帖子唯一标识符</td></tr>
     <tr><td>postType</td><td colspan=2>文本数据，帖子类型</td></tr>
     <tr><td>postTitle</td><td colspan=2>帖子标题</td></tr>
@@ -557,6 +561,7 @@
     <tr><td>replyTime</td><td colspan=2>最后回复时间</td></tr>
     <tr><td>releaseTime</td><td colspan=2>发布时间</td></tr>
 </table>
+
 
 ### 3.3.3 发表帖子接口
 
@@ -577,10 +582,10 @@
     <tr><td>tags</td><td>String</td><td>逗号分隔的关键词标签</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0为发布成功。非0为发布失败，可能是由于没有权限</td></tr>
+    <tr><td>code</td><td colspan=2>-1为失败，成功返回PID</td></tr>
     <tr><td>msg</td><td colspan=2>返回提示信息，提示成功或者失败以及失败的原因</td></tr>
-    <tr><td>pid</td><td colspan=2>如果发布成功，则返回该帖子的pid</td></tr>
 </table>
+
 
 ### 3.3.4 论坛页面获取相关个人和论坛信息接口
 
@@ -600,7 +605,7 @@
     <tr><td>aid</td><td>Integer</td><td>ID值，论坛的aid值</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0为获取成功，1为获取失败</td></tr>
+    <tr><td>code</td><td colspan=2>0为获取成功，1为获取失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
     <tr><td>permissionCode</td><td colspan=2>权限代码，2为社团管理员 1为用户以加入该社团，0为用户未加入该社团</td></tr>
     <tr><th>data.ass</th><td colspan=2>result为0是返回该字段，是协会数据</td></tr>
@@ -610,6 +615,7 @@
     <tr><td>assOrg</td><td colspan=2>社团所属组织</td></tr>
     <tr><td>assHead</td><td colspan=2>社团负责人</td></tr>
 </table>
+
 
 ### 3.3.5 申请加入社团接口
 
@@ -628,9 +634,10 @@
 	<tr><td>note</td><td>String</td><td>申请备注</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0为申请成功，1为申请失败</td></tr>
+    <tr><td>code</td><td colspan=2>0为申请成功，1为申请失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
 </table>
+
 
 ### 3.3.6 获取社团活动列表接口
 
@@ -646,7 +653,7 @@
     <tr><td>aid</td><td>Integer</td><td>ID值，论坛的aid值</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1为获取失败，0为没有数据，正整数表示获取到的数据数量</td></tr>
+    <tr><td>code</td><td colspan=2>-1为获取失败，0为没有数据，正整数表示获取到的数据数量</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
 	<tr><th>data.action[]</td><th colspan=2>活动列表</td></tr>
 	<tr><td>actid</td><td colspan=2>ID值，活动唯一标识符</td></tr>
@@ -654,6 +661,7 @@
 	<tr><td>date</td><td colspan=2>活动的开始时间</td></tr>
 	<tr><td>isAttend</td><td colspan=2>是否已参加该活动，0为未参加，1为以参加</td></tr>
 </table>
+
 
 ### 3.3.7 获取活动详细信息接口
 
@@ -669,7 +677,7 @@
     <tr><td>actid</td><td>Integer</td><td>ID值，活动的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0成功，1失败</td></tr>
+    <tr><td>code</td><td colspan=2>0成功，1失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
 	<tr><td>title</td><td colspan=2>活动标题</td></tr>
 	<tr><td>content</td><td colspan=2>活动正文内容</td></tr>
@@ -679,6 +687,7 @@
 	<tr><td>position</td><td colspan=2>活动举办的地点</td></tr>
 	<tr><td>status</td><td colspan=2>活动参加状态码，0为可参加，1为没有权限参加，2为已参加</td></tr>
 </table>
+
 
 ### 3.3.8 申请参加活动接口
 
@@ -694,9 +703,10 @@
     <tr><td>actid</td><td>Integer</td><td>ID值，活动的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0成功，1失败</td></tr>
+    <tr><td>code</td><td colspan=2>0成功，1失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
 </table>
+
 
 ## 3.4 帖子页面相关接口
 
