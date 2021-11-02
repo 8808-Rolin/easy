@@ -134,6 +134,17 @@
 
 ## 1.3 更新版本
 
+
+|  更新时间  | 更新章节  |更新内容  |
+|  ----  | ----  | ---- |
+| 2021-11-02 | 全部章节 |将result参数修改为code参数  |
+| 2021-11-02 | 3.1.4.1 个人信息 | 将响应参数中的org修改为college |
+| 2021-11-02 | 3.1.4.3 发送邮件| 将mid修改为msg，code的含义修改为返回mid |
+| 2021-11-02 | 3.4.7 收藏帖子 | 删除result参数，code的含义重新定义 |
+
+
+
+
 # 2. 接口设计规范
 
 接口设计文档包括如下几项：
@@ -183,11 +194,12 @@
     <tr><td>password</td><td>String</td><td>用户密码（MD5加密）</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：登录成功，非0：登陆失败</td></tr>
-    <tr><td>token</td><td colspan=2>result为0时返回该字段，是一个Token值，否则为空</td></tr>
-    <tr><td>uid</td><td colspan=2>result为0时返回该字段，是用户的ID字段，否则为空</td></tr>
-    <tr><td>msg</td><td colspan=2>当result非0时原因，否则为空</td></tr>
+    <tr><td>code</td><td colspan=2>0：登录成功，非0：登陆失败</td></tr>
+    <tr><td>token</td><td colspan=2>code为0时返回该字段，是一个Token值，否则为空</td></tr>
+    <tr><td>uid</td><td colspan=2>code为0时返回该字段，是用户的ID字段，否则为空</td></tr>
+    <tr><td>msg</td><td colspan=2>当code非0时原因，否则为空</td></tr>
 </table>
+
 
 #### 3.1.1.2 登出
 
@@ -229,9 +241,10 @@
     <tr><td>headImage</td><td>String</td><td>BASE64编码字符串，用户头像</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：注册成功，非0：注册失败</td></tr>
-    <tr><td>msg</td><td colspan=2>当result非0时原因，否则为空</td></tr>
+    <tr><td>code</td><td colspan=2>0：注册成功，非0：注册失败</td></tr>
+    <tr><td>msg</td><td colspan=2>当code非0时原因，否则为空</td></tr>
 </table>
+
 
 ### 3.1.3 忘记密码
 
@@ -250,9 +263,10 @@
     <tr><td>password</td><td>String</td><td>新的用户密码（MD5加密）</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：修改成功，非0：修改失败</td></tr>
-    <tr><td>msg</td><td colspan=2>当result非0时原因，否则为空</td></tr>
+    <tr><td>code</td><td colspan=2>0：修改成功，非0：修改失败</td></tr>
+    <tr><td>msg</td><td colspan=2>当code非0时原因，否则为空</td></tr>
 </table>
+
 
 ### 3.1.4 判断学号与手机号码是否唯一
 
@@ -291,17 +305,18 @@
     <tr><td>uid</td><td>Integer</td><td>id值，是用户的唯一标识符</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：获取成功 非0：获取失败，可能是Token不对</td></tr>
+    <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败，可能是Token不对</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
     <tr><th>data.user</td><th colspan=2>result为0时返回如下用户信息</td></tr>
     <tr><td>userName</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realName</td><td colspan=2>用户真实姓名</td></tr>
     <tr><td>studentID</td><td colspan=2>学号或教工号</td></tr>
-    <tr><td>org</td><td colspan=2>用户所属学院</td></tr>
+    <tr><td>college</td><td colspan=2>用户所属学院</td></tr>
     <tr><td>intro</td><td colspan=2>用户简介</td></tr>
 	<tr><td>level</td><td colspan=2>0:普通用户 1：社团管理员 2：学校管理员</td></tr>
     <tr><td>headImage</td><td colspan=2>用户头像 BASE64编码字符串</td></tr>
 </table>
+
 
 #### 3.1.4.2 图片上传接口
 
@@ -323,6 +338,8 @@
     <tr><td>code</td><td colspan=2>结果代码：0，转码成功 1，转码失败 </td></tr>
     <tr><td>msg</td><td colspan=2>如果code为0，则返回图片的URL地址，如果code为1，则返回错误信息</td></tr>
 </table>
+
+
 #### 3.1.4.3 邮件发送接口
 
 <table>
@@ -341,9 +358,12 @@
 	<tr><td>content</td><td>String</td><td>邮件内容</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示发送是否成功，成功返回0，失败返回1</td></tr>
-    <tr><td>mid</td><td colspan=2>发送成功返回一个mid</td></tr>
+	<tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回一个mid</td></tr>
+    <tr><td>msg</td><td colspan=2>描述信息</td></tr>
 </table>
+
+
+
 #### 3.1.4.4 获取社员列表
 
 该接口是获取简单的社员信息，用以选择社员
@@ -359,13 +379,16 @@
  	<tr><td>aid</td><td>Integer</td><td>社团唯一标识符，为0时获取全部用户信息</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
+	<tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
 	<tr><th>data.members[]</td><th colspan=2>用户信息</td></tr>
     <tr><td>uid</td><td colspan=2>用户uid</td></tr>
 	<tr><td>username</td><td colspan=2>用户昵称</td></tr>
 	<tr><td>realname</td><td colspan=2>用户真实姓名</td></tr>
 	<tr><td>studentid</td><td colspan=2>用户学号</td></tr>
 </table>
+
+
+
 
 #### 3.1.4.5 获取所有社团列表
 
@@ -831,10 +854,10 @@
     <tr><td>uid</td><td>Integer</td><td>ID值，当前登录用户的ID值</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0为修改收藏状态成功，1为修改失败</td></tr>
-	<tr><td>code</td><td colspan=2>修改代码 0为收藏成功，1为取消收藏成功，当result为0时才显示该字段</td></tr>
+	<tr><td>code</td><td colspan=2>-1为修改失败， 0为收藏成功，1为取消收藏成功</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 ## 3.5 搜索页面相关接口
 
@@ -910,8 +933,8 @@
 	<tr><td>type</td><td>Integer</td><td>查询类型：0为帖子列表 1为收藏收藏列表</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>返回一个整数，表示获取到的数据数量</td></tr>
-    <tr><th>data.posts[]</td><th colspan=2>当result不为0时，返回该字段，是一个对象数组</td></tr>
+	<tr><td>code</td><td colspan=2>返回一个整数，表示获取到的数据数量</td></tr>
+    <tr><th>data.posts[]</td><th colspan=2>当code不为0时，返回该字段，是一个对象数组</td></tr>
     <tr><td>aid</td><td colspan=2>ID值，该帖子所在社团的aid号</td></tr>
     <tr><td>aname</td><td colspan=2>帖子所在社团的名称</td></tr>
     <tr><td>title</td><td colspan=2>帖子标题</td></tr>
@@ -920,6 +943,7 @@
     <tr><td>replies</td><td colspan=2>帖子的回复数</td></tr>
 	<tr><td>aimage</td><td colspan=2>帖子所在社团LOGO</td></tr>
 </table>
+
 
 ### 3.6.3 获取我的邮件
 
@@ -955,8 +979,8 @@
     <tr><td>uid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>返回一个整数，表示获取到的数据数量</td></tr>
-    <tr><th>data.mail[]</td><th colspan=2>当result不为0时，返回该字段，是一个对象数组</td></tr>
+	<tr><td>code</td><td colspan=2>返回一个整数，表示获取到的数据数量</td></tr>
+    <tr><th>data.mail[]</td><th colspan=2>当code不为0时，返回该字段，是一个对象数组</td></tr>
     <tr><td>mid</td><td colspan=2>mail-ID:邮件的唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>邮件标题</td></tr>
     <tr><td>date</td><td colspan=2>邮件发送日期</td></tr>
@@ -964,6 +988,7 @@
 	<tr><td>isSystem</td><td colspan=2>是否是系统发送，1为系统发送，0为用户发送</td></tr>
     <tr><td>from</td><td colspan=2>邮件发送者昵称</td></tr>
 </table>
+
 
 #### 3.6.3.3 获取邮件内容
 
@@ -978,9 +1003,10 @@
     <tr><td>mid</td><td>Integer</td><td>ID值，邮件的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
+	<tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
     <tr><td>content</td><td colspan=2>邮件内容</td></tr>
 </table>
+
 
 ### 3.6.4 获取我的个人信息和公告
 
@@ -995,10 +1021,10 @@
     <tr><td>uid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>0表示获取失败，1表示获取成功</td></tr>
+	<tr><td>code</td><td colspan=2>0表示获取失败，1表示获取成功</td></tr>
 	<tr><td>assNum</td><td colspan=2>用户加入的社团数量</td></tr>
 	<tr><td>notice</td><td colspan=2>公告内容</td></tr>
-    <tr><th>data.userdata</td><th colspan=2>当result不为0时，返回该字段，是一个用户数据</td></tr>
+    <tr><th>data.userdata</td><th colspan=2>当code不为0时，返回该字段，是一个用户数据</td></tr>
 	<tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realname</td><td colspan=2>用户真实姓名</td></tr>
@@ -1013,6 +1039,7 @@
 	<tr><td>aname</td><td colspan=2>社团名称</td></tr>
 	<tr><td>aprofile</td><td colspan=2>社团头像Logo</td></tr>
 </table>
+
 
 ### 3.6.5 修改公告
 
@@ -1030,9 +1057,10 @@
 	<tr><td>newContent</td><td>String</td><td>公告新内容</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
+	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 ### 3.6.6 修改个人信息
 
@@ -1052,9 +1080,10 @@
 	<tr><td>newProfile</td><td>String</td><td>新头像，是一个Base64编码字符串</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
+	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 #### 3.6.6.2 修改简介
 
@@ -1070,9 +1099,10 @@
 	<tr><td>newProfile</td><td>String</td><td>新头像，是一个Base64编码字符串</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
+	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 #### 3.6.6.3 修改头像
 
@@ -1088,9 +1118,10 @@
 	<tr><td>newProfile</td><td>String</td><td>新头像，是一个Base64编码字符串</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
+	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 #### 3.6.6.4 修改电子邮箱
 
@@ -1106,9 +1137,10 @@
 	<tr><td>newEmail</td><td>String</td><td>新邮箱</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
+	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 #### 3.6.6.5 修改生日
 
@@ -1124,9 +1156,10 @@
 	<tr><td>newBirth</td><td>String</td><td>新的生日</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
+	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 ## 3.7 社团管理后台相关接口
 
 社团管理后台是社团管理员用于管理相关事务的一个后台系统，此部分的接口权限需要访问者拥有社团管理员的权限方可调用，否则会返回一个权限错误的页面。
@@ -1148,7 +1181,7 @@
     <tr><td>aid</td><td>Integer</td><td>ID值，社团的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
+	<tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
 	<tr><th>data.assInfo</td><th colspan=2>社团信息</td></tr>
     <tr><td>name</td><td colspan=2>社团名字</td></tr>
 	<tr><td>intro</td><td colspan=2>社团简介</td></tr>
@@ -1160,6 +1193,7 @@
     <tr><td>postcount</td><td colspan=2>论坛总帖数</td></tr>
     <tr><td>actioncount</td><td colspan=2>待举行活动的数量</td></tr>
 </table>
+
 
 #### 3.7.1.2 社团邮箱数据
 
@@ -1178,8 +1212,8 @@
     <tr><td>aid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>返回一个整数，表示获取到的数据数量</td></tr>
-    <tr><th>data.mail[]</td><th colspan=2>当result不为0时，返回该字段，是一个对象数组</td></tr>
+	<tr><td>code</td><td colspan=2>返回一个整数，表示获取到的数据数量</td></tr>
+    <tr><th>data.mail[]</td><th colspan=2>当code不为0时，返回该字段，是一个对象数组</td></tr>
     <tr><td>mid</td><td colspan=2>mail-ID:邮件的唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>邮件标题</td></tr>
     <tr><td>date</td><td colspan=2>邮件发送日期</td></tr>
@@ -1187,6 +1221,7 @@
 	<tr><td>isSystem</td><td colspan=2>是否是系统发送，1为系统发送，0为用户发送</td></tr>
     <tr><td>from</td><td colspan=2>邮件发送者昵称</td></tr>
 </table>
+
 
 ##### 3.7.1.2.2 展示邮件信息
 
@@ -1201,9 +1236,10 @@
     <tr><td>mid</td><td>Integer</td><td>ID值，邮件的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
+	<tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
     <tr><td>content</td><td colspan=2>邮件内容</td></tr>
 </table>
+
 
 #### 3.7.1.3 数据可视化接口
 
@@ -1224,12 +1260,13 @@
     <tr><td>aid</td><td>Integer</td><td>ID值，社团的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>失败返回-1，成功返回数据数量，默认为10</td></tr>
+	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为10</td></tr>
     <tr><th>data.data[]</td><th colspan=2>数据体</td></tr>
     <tr><td>uid</td><td colspan=2>用户UID</td></tr>
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
     <tr><td>num</td><td colspan=2>数值(0-1直接的小数)</td></tr>
 </table>
+
 
 ##### 3.7.1.3.2 社团每天活跃度
 
@@ -1246,11 +1283,12 @@
     <tr><td>aid</td><td>Integer</td><td>ID值，社团的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>失败返回-1，成功返回数据数量，默认为15</td></tr>
+	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为15</td></tr>
     <tr><th>data.daily[]</td><th colspan=2>数据体</td></tr>
     <tr><td>date</td><td colspan=2>日期时间</td></tr>
     <tr><td>num</td><td colspan=2>数值(0-无限大)</td></tr>
 </table>
+
 
 ### 3.7.2 社团成员管理
 
@@ -1271,7 +1309,7 @@
 	<tr><td>aid</td><td>Integer</td><td><b>可选</b>。id值，是论坛唯一标志，若参数为0或为空，则默认获取所有用户</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
+    <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
     <tr><th>data.user[]</td><th colspan=2>result为0时返回如下用户信息</td></tr>
 	<tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
@@ -1283,6 +1321,7 @@
 	<tr><td>permisson</td><td colspan=2>用户身份</td></tr>
 	<tr><td>birth</td><td colspan=2>用户生日</td></tr>
 </table>
+
 
 ##### 3.7.2.1.2 踢出成员
 
@@ -1300,9 +1339,10 @@
 	<tr><td>uid</td><td>Integer</td><td>将要移除的用户UID</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：移除成功 非0：移除失败</td></tr>
+    <tr><td>code</td><td colspan=2>0：移除成功 非0：移除失败</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
 </table>
+
 
 #### 3.7.2.2 入社审批管理
 
@@ -1321,7 +1361,7 @@
 	<tr><td>aid</td><td>Integer</td><td>id值，是论坛唯一标志</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
+    <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
     <tr><th>data.apply[]</td><th colspan=2>result为0时返回如下审批列表信息</td></tr>
 	<tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
@@ -1332,6 +1372,7 @@
     <tr><td>org</td><td colspan=2>用户所属学院</td></tr>
     <tr><td>note</td><td colspan=2>申请备注</td></tr>
 </table>
+
 
 ##### 3.7.2.2.2 审批操作
 
@@ -1347,9 +1388,10 @@
 	<tr><td>操作类型</td><td>Integer</td><td>0：拒绝入社申请；1：同意入社申请</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：请求成功 非0：请求失败</td></tr>
+    <tr><td>code</td><td colspan=2>0：请求成功 非0：请求失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 ### 3.7.3 论坛公告管理接口
 
@@ -1394,9 +1436,10 @@
 	<tr><td>headeruid</td><td>Integer</td><td>论坛负责人的UID</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：请求成功 非0：请求失败</td></tr>
+    <tr><td>code</td><td colspan=2>0：请求成功 非0：请求失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 ### 3.7.5 审批申请
 
@@ -1418,14 +1461,15 @@
 	<tr><td>headeruid</td><td>Integer</td><td>论坛负责人的UID</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>请求失败：-1；请求成功则返回数据数量</td></tr>
+    <tr><td>code</td><td colspan=2>请求失败：-1；请求成功则返回数据数量</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
-	<tr><th>data.apply</td><th colspan=2>当result大于0时该字段存在</td></tr>
+	<tr><th>data.apply</td><th colspan=2>当code大于0时该字段存在</td></tr>
 	<tr><td>aaid</td><td colspan=2>Association-Apply-ID：社团申请ID值，唯一标识符</td></tr>
 	<tr><td>title</td><td colspan=2>标题</td></tr>
 	<tr><td>date</td><td colspan=2>发送时间</td></tr>
 	<tr><td>status</td><td colspan=2>审批状态</td></tr>
 </table>
+
 
 #### 3.7.5.2 发送审批
 
@@ -1444,9 +1488,10 @@
 	<tr><td>content</td></td><td>String</td><td>富文本审批内容</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
+
 
 ### 3.7.6 活动管理
 
@@ -1467,9 +1512,10 @@
 	<tr><td>endTime</td></td><td>String</td><td>结束时间</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1：请求失败，请求成功时该参数是一个actid</td></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个actid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
+
 
 #### 3.7.6.2 活动一览
 
@@ -1484,7 +1530,7 @@
 	<tr><td>aid</td></td><td>Integer</td><td>活动举办所在社团aid,为0则显示所有活动</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1：请求失败，请求成功时该参数是action长度</td></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是action长度</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 	<tr><th>data.action[]</td><th colspan=2>活动数据</td></tr>
     <tr><td>actid</td><td colspan=2>活动ID</td></tr>
@@ -1496,6 +1542,7 @@
     <tr><td>endTime</td><td colspan=2>结束时间</td></tr>
 	<tr><td>status</td><td colspan=2>活动状态码：0：待审核，1：已发布，2，审批不过</td></tr>
 </table>
+
 
 #### 3.7.6.3 活动参加人员
 
@@ -1510,13 +1557,14 @@
 	<tr><td>actid</td></td><td>Integer</td><td>活动ID</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1：请求失败，请求成功时该参数是action长度</td></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是action长度</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 	<tr><th>data.action_member[]</td><th colspan=2>参加活动的人员</td></tr>
     <tr><td>uid</td><td colspan=2>用户ID</td></tr>
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
     <tr><td>studentid</td><td colspan=2>学号</td></tr>
 </table>
+
 
 ## 3.8 学校管理后台相关接口
 
@@ -1535,8 +1583,9 @@
 	<tr><th colspan="3">无</th></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>失败值为“-1”，成功则返回用户数量</td></tr>
+    <tr><td>code</td><td colspan=2>失败值为“-1”，成功则返回用户数量</td></tr>
 </table>
+
 
 #### 3.8.1.2 加入社团的学生占比
 
@@ -1571,7 +1620,7 @@
 	<tr><td>statusType</td></td><td>Integer</td><td>若rt为0，则该参数是论坛aid，若rt为1，则该参数0代表待发布，1：待举行，2：已举行，3：审批不过</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1：请求失败，请求成功时返回数据数量</td></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时返回数据数量</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
  	<tr><th>data.action[]</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>actid</td><td colspan=2>活动唯一标识符</td></tr>
@@ -1579,6 +1628,7 @@
     <tr><td>date</td><td colspan=2>活动日期</td></tr>
     <tr><td>status</td><td colspan=2>活动状态，是一个整数值</td></tr>
 </table>
+
 
 #### 3.8.1.4 社团活跃度(数据可视化)
 
@@ -1597,12 +1647,13 @@
     <tr><th colspan="3">None</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>失败返回-1，成功返回数据数量，默认为10</td></tr>
+	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为10</td></tr>
     <tr><th>data.data[]</td><th colspan=2>数据体</td></tr>
     <tr><td>aid</td><td colspan=2>社团UID</td></tr>
     <tr><td>name</td><td colspan=2>社团名称</td></tr>
     <tr><td>actper</td><td colspan=2>数值(0-1直接的小数)</td></tr>
 </table>
+
 
 ##### 3.8.1.4.2 整个系统活跃度同比折线图数据
 
@@ -1617,11 +1668,12 @@
     <tr><th colspan="3">None</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>失败返回-1，成功返回数据数量，默认为15</td></tr>
+	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为15</td></tr>
     <tr><th>data.daily[]</td><th colspan=2>数据体</td></tr>
     <tr><td>date</td><td colspan=2>日期时间</td></tr>
     <tr><td>num</td><td colspan=2>数值(0-无限大)</td></tr>
 </table>
+
 
 ### 3.8.2 社团管理
 
@@ -1640,7 +1692,7 @@
     <tr><th colspan="3">None</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
+	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
     <tr><th>data.ass[]</td><th colspan=2>数据体</td></tr>
 	<tr><td>aid</td><td colspan=2>社团ID，社团的唯一标识符</td></tr>
     <tr><td>name</td><td colspan=2>社团名字</td></tr>
@@ -1649,6 +1701,7 @@
     <tr><td>uid</td><td colspan=2>社团负责人UID</td></tr>
     <tr><td>headname</td><td colspan=2>社团负责人真实姓名</td></tr>
 </table>
+
 #### 3.8.2.2 创建社团审批
 
 ##### 3.8.2.2.1 拉取审批信息
@@ -1664,7 +1717,7 @@
     <tr><th colspan="3">None</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
+	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
     <tr><th>data.create[]</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>caid</td><td colspan=2>创建审批ID</td></tr>
     <tr><td>name</td><td colspan=2>社团名字</td></tr>
@@ -1675,6 +1728,7 @@
     <tr><td>studentID</td><td colspan=2>学号</td></tr>
 	<tr><td>status</td><td colspan=2>状态码：0:未通过，1:已通过</td></tr>
 </table>
+
 
 ##### 3.8.2.2.2 审批
 
@@ -1690,9 +1744,10 @@
     <tr><td>status</td><td>Integer</td><td>状态：0：不通过，1：通过</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
+	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
     <tr><td>caid</td><td colspan=2>成功返回一个caid => create association ID</td></tr>
 </table>
+
 
 ### 3.8.3 用户信息
 
@@ -1709,7 +1764,7 @@
 	<tr><th colspan="3">None</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
+    <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
     <tr><th>data.user[]</td><th colspan=2>result为0时返回如下用户信息</td></tr>
 	<tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
@@ -1721,6 +1776,7 @@
 	<tr><td>permisson</td><td colspan=2>用户身份</td></tr>
 	<tr><td>birth</td><td colspan=2>用户生日</td></tr>
 </table>
+
 
 ### 3.8.4 审批批复
 
@@ -1737,7 +1793,7 @@
 	<tr><th colspan="3">None</th></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1：请求失败，请求成功时返回数据数量</td></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时返回数据数量</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 	<tr><th>data.list[]</td><th colspan=2>请求成功时返回该字段，是个数组</td></tr>
 	<tr><td>aaid</td><td colspan=2>审批ID</td></tr>
@@ -1747,6 +1803,7 @@
 	<tr><td>assname</td><td colspan=2>社团名称</td></tr>
 	<tr><td>date</td><td colspan=2>发布日期</td></tr>
 </table>
+
 
 #### 3.8.4.2 审批批复
 
@@ -1762,9 +1819,10 @@
 	<tr><td>status</td></td><td>Integer</td><td>0:不通过，1：通过</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
+
 
 #### 3.8.4.3 拉取活动审批列表
 
@@ -1779,7 +1837,7 @@
 	<tr><td>aid</td><td>Integer</td><td>id值，论坛唯一标识符，0代表获取所有活动</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1：请求失败，请求成功时该参数是数据的数量</td></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是数据的数量</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
  	<tr><th>data.action[]</td><th colspan=2>活动列表</td></tr>
 	<tr><td>actaid</td><td colspan=2>活动审批唯一ID</td></tr>
@@ -1790,6 +1848,7 @@
     <tr><td>startTime</td><td colspan=2>开始时间</td></tr>
 	<tr><td>endTime</td><td colspan=2>结束时间</td></tr>
 </table>
+
 
 #### 3.8.4.4 活动审批
 
@@ -1805,9 +1864,10 @@
 	<tr><td>status</td></td><td>Integer</td><td>0:不通过，1：通过</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>result</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
+
 
 ### 3.8.5 公共交流区公告管理
 

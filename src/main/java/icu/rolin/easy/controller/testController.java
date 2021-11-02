@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/test")
 public class testController {
 
+    
     @RequestMapping(value = "/one")
     public String test_one(){
         return "Hello Easy_club";
     }
+
+
+
+
 }

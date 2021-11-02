@@ -1,24 +1,8 @@
-<!--
- * @Description: Rolin`s code edit
- * @Author: Rolin-Code
- * @Date: 2021-10-29 12:54:03
- * @LastEditors: Rolin
- * @Code-Function-What do you want to do: 
--->
-
 ## 高校社团综合问题一体化解决平台
 
-# Easy社团 设计约束文档
+# Easy社团 Readme文档
 
 `JavaWeb实训大作业小组 - 05陈洁菁 11黄梓圭 14梁晋邦 15梁培才 16刘楚浩`
-
-- [Easy社团 设计约束文档](#easy社团-设计约束文档)
-- [技术选型及理由](#技术选型及理由)
-- [后端项目结构](#后端项目结构)
-    - [文件结构](#文件结构)
-- [项目规范](#项目规范)
-    - [命名规范](#命名规范)
-    - [代码规范](#代码规范)
 
 # 技术选型及理由
 
@@ -58,10 +42,12 @@
 - Service：业务层，接收来自上一层的请求，经过业务处理后将数据返回给Controller层
 - Mapper：映射层，对数据库进行原子操作，并将结果返回给Service层
 - Model：模型层，项目对象的最小单位
-    - PO：(Persistant Object)持久化对象，一个PO的数据结构对应着库中表的结构，表中的一条记录就是一个PO对象，除了get，set之外没有别的方法
-    - BO：(Business Object)业务对象，将多个PO组合起来就成为业务对象BO，常用在Service层中做业务处理
-    - VO：(View Object) 视图对象，对应接口的对象格式，每一个接口类型就是一个VO。
-- Tool
+    - DO：(Database-Object)数据库映射对象，一个DO的数据结构对应着库中表的结构，表中的一条记录就是一个DO对象，除了get，set之外没有别的方法
+    - PO：(Param-Object)请求参数对象，一个PO对应着一个请求体参数，PO的属性与请求体参数一一对应
+    - VO：(View Object) 视图对象，对应响应接口的对象格式，每一个接口类型就是一个VO。
+    - BO：(Business Object) 业务对象，处理业务时所使用到的对象
+    - POJO：(Plain Ordinary Java Object) 普通最小Java对象，不归属于其他类的模型在这
+- utils
 
 # 项目规范
 

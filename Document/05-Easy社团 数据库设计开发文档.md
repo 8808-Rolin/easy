@@ -152,7 +152,6 @@ apply_content |审批内容表，是通用社团审批表的从表 | | 14 | appl
     <tr><td>学号</td><td>student_number</td><td>varchar(25);NN;UK </td><td>用户的长学号,在该系统里是唯一项</td></tr>
     <tr><td>学院ID</td><td>college_id</td><td>unsigned int;NN </td><td>对应college_table表</td></tr>
     <tr><td>用户密码</td><td>password</td><td>varchar;NN </td><td></td></tr>
-
     <tr><td>用户邮箱</td><td>email</td><td>varchar;NN </td><td></td></tr>
     <tr><td>手机号码</td><td>phone</td><td>char(11);NN;UK </td><td>用户手机号码，在该系统里是唯一项</td></tr>
     <tr><td>性别</td><td>sex</td><td>unsigned int(1);NN </td><td>0为男，1为女</td></tr>
@@ -164,9 +163,7 @@ apply_content |审批内容表，是通用社团审批表的从表 | | 14 | appl
     <tr><td>空间公告</td><td>notice</td><td>varchar(); </td><td></td></tr>
     <tr><td>个人简介</td><td>intro</td><td>varchar() </td><td></td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
-    <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
-</table>
-
+    <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr></table>
 #### 3.2.2.2 学院ID对应表(college_table)
 
 <table>
