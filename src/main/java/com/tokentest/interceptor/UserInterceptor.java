@@ -5,6 +5,9 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.tokentest.controller.UserController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.thymeleaf.util.StringUtils;
@@ -26,6 +29,7 @@ import static com.tokentest.utils.TransformCurrentTimeUtil.returnCurrentTime;
 public class UserInterceptor implements HandlerInterceptor {
 
     private static final String TOKEN_SECRET = "easy"; //密钥
+    private final static Logger logger = LoggerFactory.getLogger(UserInterceptor.class);
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) {
 
@@ -45,6 +49,8 @@ public class UserInterceptor implements HandlerInterceptor {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             System.out.println("------No token------");
             response.setHeader("tokenStatus","808");
+            logger.error("---用户缺失Token---");
+
             return false;
         }
         try {
@@ -56,10 +62,13 @@ public class UserInterceptor implements HandlerInterceptor {
             System.out.println("用户id：" + jwt.getClaim("uid").asString());
             System.out.println("用户密码：" + jwt.getClaim("password").asString());
             System.out.println("------token到期时间：" + expiration.format(jwt.getExpiresAt())+"------");
+
             return true;
         } catch (TokenExpiredException e) {
             System.out.println("------用户token已过期，已向前端发送状态码------");
             response.setHeader("tokenStatus","809");
+            logger.error("---用户Token已过期");
+
             return false;
         }
     }

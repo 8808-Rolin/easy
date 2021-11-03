@@ -29,6 +29,7 @@ public class UserController {
     public JSONObject userLogin(Integer loginType, String account, String password){
         JSONObject data = new JSONObject();
         Test test = new Test(loginType,account,password);
+        logger.error("Error Testting.......");
 
 //        if (logintype == 0){
 //
@@ -51,6 +52,7 @@ public class UserController {
     public JSONObject interceptorTest(){
         JSONObject data = new JSONObject();
         data.put("Test","拦截测试可能成功了....");
+        logger.error("Test日志.....");
 
         return data;
     }
