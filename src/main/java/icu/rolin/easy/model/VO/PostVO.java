@@ -3,6 +3,7 @@ package icu.rolin.easy.model.VO;
 import icu.rolin.easy.model.POJO.MasterPOJO;
 import icu.rolin.easy.model.POJO.PostPOJO;
 
+
 public class PostVO {
     private Integer code;
     private Integer permissionCode;

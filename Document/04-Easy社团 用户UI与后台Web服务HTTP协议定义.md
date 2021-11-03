@@ -142,6 +142,10 @@
 | 2021-11-02 | 3.1.4.3 发送邮件| 将mid修改为msg，code的含义修改为返回mid |
 | 2021-11-02 | 3.4.7 收藏帖子 | 删除result参数，code的含义重新定义 |
 | 2021-11-02 | 3.2.2 获取公告 | 将响应参数num修改为code |
+| 2021-11-03 | 2 接口设计规范 | 将tip字段修改为message字段，将time字段修改为timestamp字段 |
+| 2021-11-03 | 3.6.3.3 邮件内容 | 将content字段修改为msg字段 |
+| 2021-11-03 | 3.6.4 获取个人信息 | 将aname、aprofile字段修改为name、profile，将org字段修改为college |
+| 2021-11-03 | 3.6.5 修改公告 | 将newContent字段修改为newProfile字段 |
 
 
 
@@ -167,9 +171,10 @@
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>参数名</th><th colspan=2>参数描述</th ></tr>
     <tr><td>status</td><td colspan=2>响应状态码：200等</td></tr>
-    <tr><td>tip</td><td colspan=2>提示信息</td></tr>
-    <tr><td>time</td><td colspan=2>响应时间戳</td></tr>
+    <tr><td>message</td><td colspan=2>提示信息</td></tr>
+    <tr><td>timestamp</td><td colspan=2>响应时间戳</td></tr>
 </table>
+
 
 # 3. UI与后台Web服务的HTTP协议定义
 
@@ -1018,8 +1023,9 @@
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
-    <tr><td>content</td><td colspan=2>邮件内容</td></tr>
+    <tr><td>msg</td><td colspan=2>邮件内容</td></tr>
 </table>
+
 
 
 ### 3.6.4 获取我的个人信息和公告
@@ -1045,14 +1051,15 @@
     <tr><td>profile</td><td colspan=2>用户头像</td></tr>
     <tr><td>phone</td><td colspan=2>用户电话号码</td></tr>
 	<tr><td>email</td><td colspan=2>用户电子邮箱</td></tr>
-    <tr><td>org</td><td colspan=2>用户所属院系</td></tr>
+    <tr><td>college</td><td colspan=2>用户所属院系</td></tr>
 	<tr><td>birth</td><td colspan=2>用户生日</td></tr>
 	<tr><td>numpost</td><td colspan=2>发帖数量(包括回复)</td></tr>
 	<tr><th>data.joinass[]</td><th colspan=2>返回用户加入的社团，是一个对象数组</td></tr>
 	<tr><td>aid</td><td colspan=2>社团唯一标识符</td></tr>
-	<tr><td>aname</td><td colspan=2>社团名称</td></tr>
-	<tr><td>aprofile</td><td colspan=2>社团头像Logo</td></tr>
+	<tr><td>name</td><td colspan=2>社团名称</td></tr>
+	<tr><td>profile</td><td colspan=2>社团头像Logo</td></tr>
 </table>
+
 
 
 ### 3.6.5 修改公告
@@ -1068,12 +1075,13 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
-	<tr><td>newContent</td><td>String</td><td>公告新内容</td></tr>
+	<tr><td>newProfile</td><td>String</td><td>公告新内容</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 
 ### 3.6.6 修改个人信息
@@ -1085,18 +1093,19 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-profile</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-name</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
-	<tr><td>newProfile</td><td>String</td><td>新头像，是一个Base64编码字符串</td></tr>
+	<tr><td>newProfile</td><td>String</td><td>新昵称</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 
 #### 3.6.6.2 修改简介
@@ -1104,7 +1113,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-profile</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-intro</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1116,6 +1125,7 @@
 	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 
 #### 3.6.6.3 修改头像
@@ -1242,7 +1252,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-ass-mailcontent</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-mail-content</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1251,8 +1261,9 @@
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
-    <tr><td>content</td><td colspan=2>邮件内容</td></tr>
+    <tr><td>msg</td><td colspan=2>邮件内容</td></tr>
 </table>
+
 
 
 #### 3.7.1.3 数据可视化接口

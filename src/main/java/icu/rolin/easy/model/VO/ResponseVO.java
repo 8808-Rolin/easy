@@ -16,33 +16,33 @@ import icu.rolin.easy.utils.common;
  */
 public class ResponseVO {
     private int status;
-    private String tip;
-    private long time;
+    private String message;
+    private String timestamp;
     private Object data;
 
     public ResponseVO(){}
     public ResponseVO(Object data){
         this.status = 200;
-        this.tip = "";
-        this.time = common.getTimestamp();
+        this.message = "";
+        this.timestamp = common.getTimestamp();
         this.data = data;
     }
     public ResponseVO(String tip, Object data){
         this.status = 200;
-        this.tip = tip;
-        this.time = common.getTimestamp();
+        this.message = tip;
+        this.timestamp = common.getTimestamp();
         this.data = data;
     }
     public ResponseVO(int status, Object data){
         this.status = status;
-        this.tip = "";
-        this.time = common.getTimestamp();
+        this.message = "";
+        this.timestamp = common.getTimestamp();
         this.data = data;
     }
     public ResponseVO(int status, String tip, Object data){
         this.status = status;
-        this.tip = tip;
-        this.time = common.getTimestamp();
+        this.message = tip;
+        this.timestamp = common.getTimestamp();
         this.data = data;
     }
 
@@ -51,7 +51,7 @@ public class ResponseVO {
      * @return 更新时间戳后的对象
      */
     public ResponseVO update(){
-        this.time = common.getTimestamp();
+        this.timestamp = common.getTimestamp();
         return this;
     }
 
@@ -72,20 +72,20 @@ public class ResponseVO {
         this.status = status;
     }
 
-    public String getTip() {
-        return tip;
+    public String getMessage() {
+        return message;
     }
 
-    public void setTip(String tip) {
-        this.tip = tip;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public Long getTime() {
-        return time;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setTime(Long time) {
-        this.time = time;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public Object getData() {
@@ -95,7 +95,4 @@ public class ResponseVO {
     public void setData(Object data) {
         this.data = data;
     }
-
-
-
 }

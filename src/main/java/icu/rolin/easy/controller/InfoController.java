@@ -29,4 +29,33 @@ public class InfoController {
         return new ResponseVO(new GetActionInfoVO());
     }
 
+    @GetMapping(value = "/delete-mail")
+    public ResponseVO delete_mail (Integer uid){
+        return new ResponseVO(new SimpleVO());
+    }
+
+    @GetMapping(value = "/get-mail-content")
+    public ResponseVO get_mail_content(Integer mid){
+        return new ResponseVO(new SimpleVO());
+    }
+
+    @GetMapping(value = "/get-ass-mails")
+    public ResponseVO get_ass_mail_overview(Integer aid){
+        return new ResponseVO(new GetMailOverviewVO());
+    }
+
+    @GetMapping(value = "/get-fixed-show-info")
+    public ResponseVO get_show_info(Integer aid){
+        return new ResponseVO(new AssShowInfoVO());
+    }
+
+    @GetMapping(value = "/get-person-act")
+    public ResponseVO get_person_act(Integer aid){
+        return new ResponseVO(new PersonActionVO());
+    }
+
+    @GetMapping(value = "/get-daily-act")
+    public ResponseVO get_daily_act(Integer aid){
+        return new ResponseVO(new DailyActionVO());
+    }
 }
