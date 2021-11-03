@@ -7,6 +7,8 @@ import com.tokentest.model.Test;
 import com.tokentest.model.User;
 import com.tokentest.service.ResponseService;
 import com.tokentest.utils.TokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,8 @@ import static com.tokentest.utils.TransformCurrentTimeUtil.returnCurrentTime;
 @CrossOrigin
 @RequestMapping("/user")
 public class UserController {
+
+    private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private ResponseService responseService;
