@@ -1,5 +1,6 @@
 package icu.rolin.easy.controller;
 
+import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.VO.*;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +58,20 @@ public class InfoController {
     @GetMapping(value = "/get-daily-act")
     public ResponseVO get_daily_act(Integer aid){
         return new ResponseVO(new DailyActionVO());
+    }
+
+    @PostMapping(value = "/get-member-information-list")
+    public ResponseVO get_member_list_ass(Integer aid){
+        return new ResponseVO(new GetAssMembersVO());
+    }
+
+    @PostMapping(value = "/remove-user")
+    public ResponseVO remove_user(UserAssNotePO ua){
+        return new ResponseVO(new SimpleVO());
+    }
+
+    @PostMapping(value = "/update-ass-info")
+    public ResponseVO update_ass_info(AssInfoUpdatePO aiu){
+        return new ResponseVO(new SimpleVO());
     }
 }

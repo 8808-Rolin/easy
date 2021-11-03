@@ -146,6 +146,7 @@
 | 2021-11-03 | 3.6.3.3 邮件内容 | 将content字段修改为msg字段 |
 | 2021-11-03 | 3.6.4 获取个人信息 | 将aname、aprofile字段修改为name、profile，将org字段修改为college |
 | 2021-11-03 | 3.6.5 修改公告 | 将newContent字段修改为newProfile字段 |
+| 2021-11-03 | 3.7.4 修改论坛信息 | 订正请求参数类型，订正请求URL |
 
 
 
@@ -1341,11 +1342,12 @@
     <tr><td>userName</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realName</td><td colspan=2>用户真实姓名</td></tr>
     <tr><td>studentID</td><td colspan=2>学号或教工号</td></tr>
-    <tr><td>org</td><td colspan=2>用户所属学院</td></tr>
+    <tr><td>college</td><td colspan=2>用户所属学院</td></tr>
     <tr><td>intro</td><td colspan=2>用户简介</td></tr>
 	<tr><td>permisson</td><td colspan=2>用户身份</td></tr>
 	<tr><td>birth</td><td colspan=2>用户生日</td></tr>
 </table>
+
 
 
 ##### 3.7.2.1.2 踢出成员
@@ -1394,9 +1396,10 @@
     <tr><td>userName</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realName</td><td colspan=2>用户真实姓名</td></tr>
     <tr><td>studentID</td><td colspan=2>学号或教工号</td></tr>
-    <tr><td>org</td><td colspan=2>用户所属学院</td></tr>
+    <tr><td>college</td><td colspan=2>用户所属学院</td></tr>
     <tr><td>note</td><td colspan=2>申请备注</td></tr>
 </table>
+
 
 
 ##### 3.7.2.2.2 审批操作
@@ -1410,12 +1413,13 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
 	<tr><td>uaid</td><td>Integer</td><td>id值，是审批数据唯一标志</td></tr>
-	<tr><td>操作类型</td><td>Integer</td><td>0：拒绝入社申请；1：同意入社申请</td></tr>
+	<tr><td>type</td><td>Integer</td><td>0：拒绝入社申请；1：同意入社申请</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
     <tr><td>code</td><td colspan=2>0：请求成功 非0：请求失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 
 ### 3.7.3 论坛公告管理接口
@@ -1449,21 +1453,22 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/association/update-ass-info</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/update-ass-info</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
 	<tr><td>aid</td><td>Integer</td><td>id值，是论坛唯一标识符</td></tr>
-	<tr><td>name</td><td>Integer</td><td>论坛名称</td></tr>
-	<tr><td>intro</td><td>Integer</td><td>论坛简介</td></tr>
-	<tr><td>logo</td><td>Integer</td><td>论坛Logo，Base64编码格式字符串</td></tr>
+	<tr><td>name</td><td>String</td><td>论坛名称</td></tr>
+	<tr><td>intro</td><td>String</td><td>论坛简介</td></tr>
+	<tr><td>logo</td><td>String</td><td>论坛Logo，Base64编码格式字符串</td></tr>
 	<tr><td>headeruid</td><td>Integer</td><td>论坛负责人的UID</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
     <tr><td>code</td><td colspan=2>0：请求成功 非0：请求失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 
 ### 3.7.5 审批申请
@@ -1509,13 +1514,14 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
 	<tr><td>aid</td><td>Integer</td><td>id值，是论坛唯一标识符</td></tr>
-	<tr><td>title</td></td><td>Integer</td><td>审批标题</td></tr>
+	<tr><td>title</td></td><td>String</td><td>审批标题</td></tr>
 	<tr><td>content</td></td><td>String</td><td>富文本审批内容</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
+
 
 
 ### 3.7.6 活动管理
@@ -1547,7 +1553,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/action/release-action</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/action/get-action-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1569,13 +1575,14 @@
 </table>
 
 
+
 #### 3.7.6.3 活动参加人员
 
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/action/release-action</td></tr>
-    <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
+    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/action/get-action-member</td></tr>
+    <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
@@ -1589,6 +1596,7 @@
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
     <tr><td>studentid</td><td colspan=2>学号</td></tr>
 </table>
+
 
 
 ## 3.8 学校管理后台相关接口
