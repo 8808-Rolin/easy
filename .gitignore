@@ -35,3 +35,4 @@ build/
 ### other ###
 *.psd
 *.pdf
+logs/

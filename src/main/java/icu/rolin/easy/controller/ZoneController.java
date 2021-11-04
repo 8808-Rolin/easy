@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ResponseBody
+@CrossOrigin
 @RequestMapping(value = "/api/zone")
 public class ZoneController {
 
