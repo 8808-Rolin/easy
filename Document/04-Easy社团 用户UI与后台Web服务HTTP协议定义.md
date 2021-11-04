@@ -15,112 +15,114 @@
 
 - [Easy社团 用户UI与后台Web服务HTTP协议定义](#easy社团-用户ui与后台web服务http协议定义)
 - [1. 概述](#1-概述)
-    - [1.1 编写目的](#11-编写目的)
-    - [1.2 编写背景](#12-编写背景)
-    - [1.3 更新版本](#13-更新版本)
+  - [1.1 编写目的](#11-编写目的)
+  - [1.2 编写背景](#12-编写背景)
+  - [1.3 更新版本](#13-更新版本)
 - [2. 接口设计规范](#2-接口设计规范)
 - [3. UI与后台Web服务的HTTP协议定义](#3-ui与后台web服务的http协议定义)
-    - [3.1 用户操作相关接口](#31-用户操作相关接口)
-        - [3.1.1 登录/登出](#311-登录登出)
-            - [3.1.1.1 登录](#3111-登录)
-            - [3.1.1.2 登出](#3112-登出)
-        - [3.1.2 注册](#312-注册)
-        - [3.1.3 忘记密码](#313-忘记密码)
-        - [3.1.4 判断学号与手机号码是否唯一](#314-判断学号与手机号码是否唯一)
-        - [3.1.5 通用接口](#315-通用接口)
-            - [3.1.4.1 获取个人信息](#3141-获取个人信息)
-            - [3.1.4.2 图片上传接口](#3142-图片上传接口)
-            - [3.1.4.3 邮件发送接口](#3143-邮件发送接口)
-            - [3.1.4.4 获取社员列表](#3144-获取社员列表)
-            - [3.1.4.5 获取所有社团列表](#3145-获取所有社团列表)
-            - [3.1.4.6 文件上传接口](#3146-文件上传接口)
-    - [3.2 首页相关接口](#32-首页相关接口)
-        - [3.2.1 获取简单的用户信息](#321-获取简单的用户信息)
-        - [3.2.2 获取简要的公告信息](#322-获取简要的公告信息)
-        - [3.2.3 创建社团审批](#323-创建社团审批)
-    - [3.3 论坛页面相关接口](#33-论坛页面相关接口)
-        - [3.3.1 获取用户数据接口](#331-获取用户数据接口)
-        - [3.3.2 获取帖子列表数据接口](#332-获取帖子列表数据接口)
-        - [3.3.3 发表帖子接口](#333-发表帖子接口)
-        - [3.3.4 论坛页面获取相关个人和论坛信息接口](#334-论坛页面获取相关个人和论坛信息接口)
-        - [3.3.5 申请加入社团接口](#335-申请加入社团接口)
-        - [3.3.6 获取社团活动列表接口](#336-获取社团活动列表接口)
-        - [3.3.7 获取活动详细信息接口](#337-获取活动详细信息接口)
-        - [3.3.8 申请参加活动接口](#338-申请参加活动接口)
-    - [3.4 帖子页面相关接口](#34-帖子页面相关接口)
-        - [3.4.1 获取个人信息接口](#341-获取个人信息接口)
-        - [3.4.2 获取帖子与发帖人信息](#342-获取帖子与发帖人信息)
-        - [3.4.3 获取回复和回复人列表](#343-获取回复和回复人列表)
-        - [3.4.4 提交回复](#344-提交回复)
-        - [3.4.5 删除帖子以及回复](#345-删除帖子以及回复)
-        - [3.4.6 修改帖子](#346-修改帖子)
-        - [3.4.7 收藏帖子](#347-收藏帖子)
-    - [3.5 搜索页面相关接口](#35-搜索页面相关接口)
-    - [3.6 个人空间相关接口](#36-个人空间相关接口)
-        - [3.6.1 权限验证](#361-权限验证)
-        - [3.6.2 获取我的（他的）帖子和收藏](#362-获取我的他的帖子和收藏)
-        - [3.6.3 获取我的邮件](#363-获取我的邮件)
-            - [3.6.3.1 清空邮箱](#3631-清空邮箱)
-            - [3.6.3.2 获取邮箱概要数据](#3632-获取邮箱概要数据)
-            - [3.6.3.3 获取邮件内容](#3633-获取邮件内容)
-        - [3.6.4 获取我的个人信息和公告](#364-获取我的个人信息和公告)
-        - [3.6.5 修改公告](#365-修改公告)
-        - [3.6.6 修改个人信息](#366-修改个人信息)
-            - [3.6.6.1 修改昵称](#3661-修改昵称)
-            - [3.6.6.2 修改简介](#3662-修改简介)
-            - [3.6.6.3 修改头像](#3663-修改头像)
-            - [3.6.6.4 修改电子邮箱](#3664-修改电子邮箱)
-            - [3.6.6.5 修改生日](#3665-修改生日)
-    - [3.7 社团管理后台相关接口](#37-社团管理后台相关接口)
-        - [3.7.1 首页相关接口](#371-首页相关接口)
-            - [3.7.1.1 固定展示信息](#3711-固定展示信息)
-            - [3.7.1.2 社团邮箱数据](#3712-社团邮箱数据)
-                - [3.7.1.2.1 显示摘要列表](#37121-显示摘要列表)
-                - [3.7.1.2.2 展示邮件信息](#37122-展示邮件信息)
-            - [3.7.1.3 数据可视化接口](#3713-数据可视化接口)
-                - [3.7.1.3.1 个人活跃度](#37131-个人活跃度)
-                - [3.7.1.3.2 社团每天活跃度](#37132-社团每天活跃度)
-        - [3.7.2 社团成员管理](#372-社团成员管理)
-            - [3.7.2.1 社团成员管理](#3721-社团成员管理)
-                - [3.7.2.1.1 获取社团成员](#37211-获取社团成员)
-                - [3.7.2.1.2 踢出成员](#37212-踢出成员)
-            - [3.7.2.2 审批管理](#3722-审批管理)
-                - [3.7.2.2.1 获取审批列表](#37221-获取审批列表)
-                - [3.7.2.2.2 审批操作](#37222-审批操作)
-        - [3.7.3 论坛公告管理接口](#373-论坛公告管理接口)
-            - [3.7.3.1 获取论坛公告](#3731-获取论坛公告)
-            - [3.7.3.2 发表论坛公告](#3732-发表论坛公告)
-            - [3.7.3.2 删除论坛公告](#3732-删除论坛公告)
-        - [3.7.4 论坛信息修改接口](#374-论坛信息修改接口)
-        - [3.7.5 审批申请](#375-审批申请)
-            - [3.7.5.1 审批清单](#3751-审批清单)
-            - [3.7.5.2 发送审批](#3752-发送审批)
-        - [3.7.6 活动管理](#376-活动管理)
-            - [3.7.6.1 活动发布](#3761-活动发布)
-            - [3.7.6.2 活动管理](#3762-活动管理)
-    - [3.8 学校管理后台相关接口](#38-学校管理后台相关接口)
-        - [3.8.1 首页](#381-首页)
-            - [3.8.1.1 获取用户总数](#3811-获取用户总数)
-            - [3.8.1.2 加入社团的学生占比](#3812-加入社团的学生占比)
-            - [3.8.1.3 获取当前活动列表](#3813-获取当前活动列表)
-            - [3.8.1.4 社团活跃度(数据可视化)](#3814-社团活跃度数据可视化)
-                - [3.8.1.4.1 单个社团活跃度柱状图数据](#38141-单个社团活跃度柱状图数据)
-                - [3.8.1.4.2 整个系统活跃度同比折线图数据](#38142-整个系统活跃度同比折线图数据)
-        - [3.8.2 社团管理](#382-社团管理)
-            - [3.8.2.1 社团信息一览](#3821-社团信息一览)
-            - [3.8.2.2 创建社团审批](#3822-创建社团审批)
-                - [3.8.2.2.1 拉取审批信息](#38221-拉取审批信息)
-                - [3.8.2.2.2 审批](#38222-审批)
-        - [3.8.3 用户信息](#383-用户信息)
-        - [3.8.4 审批批复](#384-审批批复)
-            - [3.8.4.1 拉取审批信息](#3841-拉取审批信息)
-            - [3.8.4.2 审批批复](#3842-审批批复)
-            - [3.8.4.3 拉取活动审批列表](#3843-拉取活动审批列表)
-            - [3.8.4.4 活动审批](#3844-活动审批)
-        - [3.8.5 公共交流区公告管理](#385-公共交流区公告管理)
-            - [3.8.5.1 获取论坛公告](#3851-获取论坛公告)
-            - [3.8.5.2 发表论坛公告](#3852-发表论坛公告)
-            - [3.8.5.2 删除论坛公告](#3852-删除论坛公告)
+  - [3.1 用户操作相关接口](#31-用户操作相关接口)
+    - [3.1.1 登录/登出](#311-登录登出)
+      - [3.1.1.1 登录](#3111-登录)
+      - [3.1.1.2 登出](#3112-登出)
+    - [3.1.2 注册](#312-注册)
+    - [3.1.3 忘记密码](#313-忘记密码)
+    - [3.1.4 判断学号与手机号码是否唯一](#314-判断学号与手机号码是否唯一)
+    - [3.1.5 通用接口](#315-通用接口)
+      - [3.1.4.1 获取个人信息](#3141-获取个人信息)
+      - [3.1.4.2 图片上传接口](#3142-图片上传接口)
+      - [3.1.4.3 邮件发送接口](#3143-邮件发送接口)
+      - [3.1.4.4 获取社员列表](#3144-获取社员列表)
+      - [3.1.4.5 获取所有社团列表](#3145-获取所有社团列表)
+      - [3.1.4.6 文件上传接口](#3146-文件上传接口)
+      - [3.1.4.7 获取所有学院列表](#3147-获取所有学院列表)
+  - [3.2 首页相关接口](#32-首页相关接口)
+    - [3.2.1 获取简单的用户信息](#321-获取简单的用户信息)
+    - [3.2.2 获取简要的公告信息](#322-获取简要的公告信息)
+    - [3.2.3 创建社团审批](#323-创建社团审批)
+  - [3.3 论坛页面相关接口](#33-论坛页面相关接口)
+    - [3.3.1 获取论坛顶部数据接口](#331-获取论坛顶部数据接口)
+    - [3.3.2 获取帖子列表数据接口](#332-获取帖子列表数据接口)
+    - [3.3.3 发表帖子接口](#333-发表帖子接口)
+    - [3.3.4 论坛页面获取相关个人和论坛信息接口](#334-论坛页面获取相关个人和论坛信息接口)
+    - [3.3.5 申请加入社团接口](#335-申请加入社团接口)
+    - [3.3.6 获取社团活动列表接口](#336-获取社团活动列表接口)
+    - [3.3.7 获取活动详细信息接口](#337-获取活动详细信息接口)
+    - [3.3.8 申请参加活动接口](#338-申请参加活动接口)
+  - [3.4 帖子页面相关接口](#34-帖子页面相关接口)
+    - [3.4.1 获取个人信息接口](#341-获取个人信息接口)
+    - [3.4.2 获取帖子与发帖人信息](#342-获取帖子与发帖人信息)
+    - [3.4.3 获取回复和回复人列表](#343-获取回复和回复人列表)
+    - [3.4.4 提交回复](#344-提交回复)
+    - [3.4.5 删除帖子以及回复](#345-删除帖子以及回复)
+    - [3.4.6 修改帖子](#346-修改帖子)
+    - [3.4.7 收藏帖子](#347-收藏帖子)
+  - [3.5 搜索页面相关接口](#35-搜索页面相关接口)
+  - [3.6 个人空间相关接口](#36-个人空间相关接口)
+    - [3.6.1 权限验证](#361-权限验证)
+    - [3.6.2 获取我的（他的）帖子和收藏](#362-获取我的他的帖子和收藏)
+    - [3.6.3 获取我的邮件](#363-获取我的邮件)
+      - [3.6.3.1 清空邮箱](#3631-清空邮箱)
+      - [3.6.3.2 获取邮箱概要数据](#3632-获取邮箱概要数据)
+      - [3.6.3.3 获取邮件内容](#3633-获取邮件内容)
+    - [3.6.4 获取我的个人信息和公告](#364-获取我的个人信息和公告)
+    - [3.6.5 修改公告](#365-修改公告)
+    - [3.6.6 修改个人信息](#366-修改个人信息)
+      - [3.6.6.1 修改昵称](#3661-修改昵称)
+      - [3.6.6.2 修改简介](#3662-修改简介)
+      - [3.6.6.3 修改头像](#3663-修改头像)
+      - [3.6.6.4 修改电子邮箱](#3664-修改电子邮箱)
+      - [3.6.6.5 修改生日](#3665-修改生日)
+  - [3.7 社团管理后台相关接口](#37-社团管理后台相关接口)
+    - [3.7.1 首页相关接口](#371-首页相关接口)
+      - [3.7.1.1 固定展示信息](#3711-固定展示信息)
+      - [3.7.1.2 社团邮箱数据](#3712-社团邮箱数据)
+        - [3.7.1.2.1 显示摘要列表](#37121-显示摘要列表)
+        - [3.7.1.2.2 展示邮件信息](#37122-展示邮件信息)
+      - [3.7.1.3 数据可视化接口](#3713-数据可视化接口)
+        - [3.7.1.3.1 个人活跃度](#37131-个人活跃度)
+        - [3.7.1.3.2 社团每天活跃度](#37132-社团每天活跃度)
+    - [3.7.2 社团成员管理](#372-社团成员管理)
+      - [3.7.2.1 社团成员管理](#3721-社团成员管理)
+        - [3.7.2.1.1 获取社团成员](#37211-获取社团成员)
+        - [3.7.2.1.2 踢出成员](#37212-踢出成员)
+      - [3.7.2.2 入社审批管理](#3722-入社审批管理)
+        - [3.7.2.2.1 获取审批列表](#37221-获取审批列表)
+        - [3.7.2.2.2 审批操作](#37222-审批操作)
+    - [3.7.3 论坛公告管理接口](#373-论坛公告管理接口)
+      - [3.7.3.1 获取论坛公告](#3731-获取论坛公告)
+      - [3.7.3.2 发表论坛公告](#3732-发表论坛公告)
+      - [3.7.3.2 删除论坛公告](#3732-删除论坛公告)
+    - [3.7.4 论坛信息修改接口](#374-论坛信息修改接口)
+    - [3.7.5 审批申请](#375-审批申请)
+      - [3.7.5.1 审批清单](#3751-审批清单)
+      - [3.7.5.2 发送审批](#3752-发送审批)
+    - [3.7.6 活动管理](#376-活动管理)
+      - [3.7.6.1 活动发布](#3761-活动发布)
+      - [3.7.6.2 活动一览](#3762-活动一览)
+      - [3.7.6.3 活动参加人员](#3763-活动参加人员)
+  - [3.8 学校管理后台相关接口](#38-学校管理后台相关接口)
+    - [3.8.1 首页](#381-首页)
+      - [3.8.1.1 获取用户总数](#3811-获取用户总数)
+      - [3.8.1.2 加入社团的学生占比](#3812-加入社团的学生占比)
+      - [3.8.1.3 获取当前活动列表](#3813-获取当前活动列表)
+      - [3.8.1.4 社团活跃度(数据可视化)](#3814-社团活跃度数据可视化)
+        - [3.8.1.4.1 单个社团活跃度柱状图数据](#38141-单个社团活跃度柱状图数据)
+        - [3.8.1.4.2 整个系统活跃度同比折线图数据](#38142-整个系统活跃度同比折线图数据)
+    - [3.8.2 社团管理](#382-社团管理)
+      - [3.8.2.1 社团信息一览](#3821-社团信息一览)
+      - [3.8.2.2 创建社团审批](#3822-创建社团审批)
+        - [3.8.2.2.1 拉取审批信息](#38221-拉取审批信息)
+        - [3.8.2.2.2 审批](#38222-审批)
+    - [3.8.3 用户信息](#383-用户信息)
+    - [3.8.4 审批批复](#384-审批批复)
+      - [3.8.4.1 拉取审批信息](#3841-拉取审批信息)
+      - [3.8.4.2 审批批复](#3842-审批批复)
+      - [3.8.4.3 拉取活动审批列表](#3843-拉取活动审批列表)
+      - [3.8.4.4 活动审批](#3844-活动审批)
+    - [3.8.5 公共交流区公告管理](#385-公共交流区公告管理)
+      - [3.8.5.1 获取论坛公告](#3851-获取论坛公告)
+      - [3.8.5.2 发表论坛公告](#3852-发表论坛公告)
+      - [3.8.5.2 删除论坛公告](#3852-删除论坛公告)
 
 # 1. 概述
 
@@ -191,7 +193,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/user/login</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/user/login</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -214,7 +216,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/user/logout</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/user/logout</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -231,7 +233,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/user/register</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/user/register</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -259,7 +261,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/user/forget-password</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/user/forget-password</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -283,7 +285,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/tool/uni-variable</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/tool/uni-variable</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -304,7 +306,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-common-person-information</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-common-person-information</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -334,7 +336,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/tool/upload-image</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/tool/upload-image</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -352,7 +354,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/tool/send-email</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/tool/send-email</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -378,7 +380,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-member-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-member-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -402,7 +404,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/tool/get-association-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/tool/get-association-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -422,7 +424,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/tool/upload-file</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/tool/upload-file</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">multipart/form-data</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -438,7 +440,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/tool/get-college-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/tool/get-college-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -471,7 +473,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/get-simple-notice</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/get-simple-notice</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -491,7 +493,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/create-ass</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/create-ass</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -523,7 +525,7 @@
 <table  >
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/get-show-data</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/get-show-data</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -547,7 +549,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/get-post-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/get-post-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -575,7 +577,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/release-post</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/release-post</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -602,7 +604,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/get-ass-information</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/get-ass-information</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -630,7 +632,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/join-association</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/join-association</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -650,7 +652,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-action-overview</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-action-overview</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -674,7 +676,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-action-info</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-action-info</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -700,7 +702,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/action/participate</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/action/participate</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -739,7 +741,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/get-post-page-info</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/get-post-page-info</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -770,7 +772,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/get-discuss-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/get-discuss-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -800,7 +802,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/release-discuss</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/release-discuss</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -821,7 +823,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/delete-post-discuss</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/delete-post-discuss</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -841,7 +843,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/modify-post</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/modify-post</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -865,7 +867,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/favoriteProcess</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/favoriteProcess</td></tr>
     <tr><th>请求方法</th><td colspan="2">Get</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -888,7 +890,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/bbs/search</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/search</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -927,7 +929,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/get-zone-status</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/get-zone-status</td></tr>
     <tr><th>请求方法</th><td colspan="2">Get</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -944,7 +946,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/get-post</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/get-post</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -974,7 +976,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/delete-mail</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/delete-mail</td></tr>
     <tr><th>请求方法</th><td colspan="2">Get</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -991,7 +993,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-mails</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-mails</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1015,7 +1017,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-mail-content</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-mail-content</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1034,7 +1036,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/get-information</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/get-information</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1070,7 +1072,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-notice</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-notice</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1094,7 +1096,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-name</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-name</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1114,7 +1116,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-intro</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-intro</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1134,7 +1136,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-profile</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-profile</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1153,7 +1155,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-email</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-email</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1172,7 +1174,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/zone/update-birth</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-birth</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1198,7 +1200,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-fixed-show-info</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-fixed-show-info</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1229,7 +1231,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-ass-mails</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-ass-mails</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1253,7 +1255,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-mail-content</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-mail-content</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1278,7 +1280,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-person-act</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-person-act</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1302,7 +1304,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-daily-act</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-daily-act</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1328,7 +1330,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-member-information-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-member-information-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1358,7 +1360,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/association/remove-user</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/association/remove-user</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1381,7 +1383,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/get-join-apply-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/get-join-apply-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1408,7 +1410,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/set-join-apply-status</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/set-join-apply-status</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1454,7 +1456,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/update-ass-info</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/update-ass-info</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1483,7 +1485,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/apply/get-association-apply-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/apply/get-association-apply-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1509,7 +1511,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/submit-association-apply</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/submit-association-apply</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1532,7 +1534,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/action/release-action</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/action/release-action</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1554,7 +1556,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/action/get-action-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/action/get-action-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1582,7 +1584,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/action/get-action-member</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/action/get-action-member</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1609,7 +1611,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-alluser-number</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-alluser-number</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1628,7 +1630,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-user-per</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-user-per</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1648,7 +1650,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-action-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-action-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1677,7 +1679,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-ass-act</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-ass-act</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1699,7 +1701,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-sys-act</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-sys-act</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1723,7 +1725,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-ass-detail-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-ass-detail-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1748,7 +1750,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/get-create-apply-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/get-create-apply-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1774,7 +1776,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/create-ass-reply</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/create-ass-reply</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1796,7 +1798,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/info/get-all-users</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-all-users</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1826,7 +1828,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/get-ass-apply-list</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/get-ass-apply-list</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1851,7 +1853,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/send-aa-reply</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/send-aa-reply</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1870,7 +1872,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/action/get-act-apply</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/action/get-act-apply</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
@@ -1897,7 +1899,7 @@
 <table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.rolin.icu:11119/api/apply/send-act-reply</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/send-act-reply</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
