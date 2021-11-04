@@ -34,7 +34,7 @@ public class UserController {
             lvo.setToken(token);
             return new ResponseVO(lvo);
         }else {
-            return new ResponseVO(new SimpleVO(1, "用户登陆失败"));
+            return new ResponseVO(new SimpleVO(1, "用户登陆失败,请检查你的账号密码"));
         }
     }
 
