@@ -12,6 +12,10 @@ public class SimpleVO {
     private Integer code;
     private String msg;
 
+    public SimpleVO() {
+
+    }
+
     public Integer getCode() {
         return code;
     }
@@ -27,6 +31,13 @@ public class SimpleVO {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+    public SimpleVO(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+
 }
 
 

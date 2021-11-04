@@ -1,11 +1,14 @@
 package icu.rolin.easy.controller;
 
+import icu.rolin.easy.mapper.UserMapper;
 import icu.rolin.easy.model.PO.SendMailPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
 import icu.rolin.easy.model.VO.AssListVO;
 import icu.rolin.easy.model.VO.CollegeListVO;
 import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
+import icu.rolin.easy.service.ToolService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,9 +18,25 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(value = "/api/tool")
 public class ToolController {
 
+    @Autowired
+    private ToolService toolService;
+
     @GetMapping(value = "/uni-variable")
     public ResponseVO uni_variable(UniVariablePO uv){
-        return new ResponseVO(new SimpleVO());
+
+        Integer key = toolService.varifyAccountUniqueness(uv);
+        if (key == 0){
+            return new ResponseVO(new SimpleVO(0,"均不重复"));
+        }else if (key == 1){
+            return new ResponseVO(new SimpleVO(1,"学号重复"));
+        }else if (key == 2){
+            return new ResponseVO(new SimpleVO(2,"手机号重复"));
+        }else if (key == 3){
+            return new ResponseVO(new SimpleVO(3,"均重复"));
+        }else {
+            return new ResponseVO(new SimpleVO(4,"后端操作数据库出现错误"));
+        }
+
     }
 
     @PostMapping(value = "/upload-image")

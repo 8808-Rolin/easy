@@ -1,10 +1,10 @@
 package icu.rolin.easy.service;
 
-import icu.rolin.easy.interceptor.UserInterceptor;
 import icu.rolin.easy.mapper.UserMapper;
 import icu.rolin.easy.model.PO.ForgetPasswordPO;
 import icu.rolin.easy.model.PO.LoginPO;
 import icu.rolin.easy.model.PO.RegisterPO;
+import icu.rolin.easy.model.PO.UniVariablePO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,6 @@ public class UserService {
             }else {
                 return 0;
             }
-
         }else if (loginPO.getLoginType()==1){
             System.out.println("用户使用手机号登录");
             Integer code = userMapper.varifyLoginByPhone_number(loginPO.getAccount(), loginPO.getPassword());
@@ -40,8 +39,9 @@ public class UserService {
                 return 0;
             }
         }else {
-            return null;
+            return -1;
         }
+
     }
 
     // 用户注册
