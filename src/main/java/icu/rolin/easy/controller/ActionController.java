@@ -31,4 +31,9 @@ public class ActionController {
         return new ResponseVO(new ActionMemberVO());
     }
 
+    @PostMapping(value = "/get-act-apply")
+    public ResponseVO get_action_apply(Integer aid){
+        return new ResponseVO(new GetActionListVO());
+    }
+
 }

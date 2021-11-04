@@ -1,6 +1,6 @@
 package icu.rolin.easy.model.POJO;
 
-public class GetAssUserPOJO {
+public class GetUserPOJO {
     private Integer uid;
     private String username;
     private String realname;

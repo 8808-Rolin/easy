@@ -1,11 +1,11 @@
 package icu.rolin.easy.model.VO;
 
-import icu.rolin.easy.model.POJO.GetAssUserPOJO;
+import icu.rolin.easy.model.POJO.GetUserPOJO;
 
-public class GetAssMembersVO {
+public class GetUsersVO {
     private Integer code;
     private String msg;
-    private GetAssUserPOJO[] user;
+    private GetUserPOJO[] user;
 
     public Integer getCode() {
         return code;
@@ -23,11 +23,11 @@ public class GetAssMembersVO {
         this.msg = msg;
     }
 
-    public GetAssUserPOJO[] getUser() {
+    public GetUserPOJO[] getUser() {
         return user;
     }
 
-    public void setUser(GetAssUserPOJO[] user) {
+    public void setUser(GetUserPOJO[] user) {
         this.user = user;
     }
 }

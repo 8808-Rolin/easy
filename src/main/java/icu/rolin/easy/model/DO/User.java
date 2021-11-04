@@ -1,5 +1,7 @@
 package icu.rolin.easy.model.DO;
 
+import com.alibaba.fastjson.JSON;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -20,6 +22,11 @@ public class User {
     private String intro;
     private Timestamp create_time;
     private Timestamp update_time;
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 
     public Integer getId() {
         return id;

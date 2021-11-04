@@ -1,16 +1,16 @@
 package icu.rolin.easy.model.POJO;
 
 public class DataViewPOJO {
-    private Integer uid;
+    private Integer id;
     private String name;
     private Float num;
 
     public Integer getUid() {
-        return uid;
+        return id;
     }
 
-    public void setUid(Integer uid) {
-        this.uid = uid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

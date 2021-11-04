@@ -60,9 +60,18 @@ public class InfoController {
         return new ResponseVO(new DailyActionVO());
     }
 
+    @GetMapping(value = "/get-ass-act")
+    public ResponseVO get_ass_act(){
+        return new ResponseVO(new PersonActionVO());
+    }
+    @GetMapping(value = "/get-sys-act")
+    public ResponseVO get_system_active(){
+        return new ResponseVO(new DailyActionVO());
+    }
+
     @PostMapping(value = "/get-member-information-list")
     public ResponseVO get_member_list_ass(Integer aid){
-        return new ResponseVO(new GetAssMembersVO());
+        return new ResponseVO(new GetUsersVO());
     }
 
     @PostMapping(value = "/remove-user")
@@ -73,5 +82,35 @@ public class InfoController {
     @PostMapping(value = "/update-ass-info")
     public ResponseVO update_ass_info(AssInfoUpdatePO aiu){
         return new ResponseVO(new SimpleVO());
+    }
+
+    @GetMapping(value = "/get-alluser-number")
+    public ResponseVO get_user_number(){
+        return new ResponseVO(new SimpleVO());
+    }
+
+    @GetMapping(value = "/get-user-per")
+    public ResponseVO get_user_per(){
+        return new ResponseVO(new GetUserPerVO());
+    }
+
+    @GetMapping(value = "/get-action-list")
+    public ResponseVO get_action_list(@RequestParam(value = "requestType")Integer rType,@RequestParam(value = "statusType") Integer sType){
+        return new ResponseVO(new GetActionListVO());
+    }
+
+    @PostMapping(value = "/create-ass-reply")
+    public ResponseVO create_ass_reply(Integer caid,Integer status){
+        return new ResponseVO(new SimpleVO());
+    }
+
+    @GetMapping(value = "/get-ass-detail-list")
+    public ResponseVO get_ass_detail(){
+        return new ResponseVO(new AssDetailListVO());
+    }
+
+    @PostMapping(value = "/get-all-users")
+    public ResponseVO get_all_user(){
+        return new ResponseVO(new GetUsersVO());
     }
 }
