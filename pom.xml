@@ -94,6 +94,13 @@
 			<version>3.18.2</version>
 		</dependency>
 
+		<!--Mybatis缓存包 2021-11-04	-->
+		<dependency>
+			<groupId>org.mybatis.caches</groupId>
+			<artifactId>mybatis-redis</artifactId>
+			<version>1.0.0-beta2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

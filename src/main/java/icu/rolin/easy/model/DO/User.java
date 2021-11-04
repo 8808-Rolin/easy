@@ -1,11 +1,14 @@
 package icu.rolin.easy.model.DO;
 
 import com.alibaba.fastjson.JSON;
+import org.springframework.data.annotation.Id;
 
+import javax.annotation.Generated;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-public class User {
+public class User implements Serializable {
     private Integer id;
     private String username;
     private String realname;

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.ArrayList;
 
 @Mapper
-public interface UserTableMapper {
+public interface UserMapper {
 
     @Select("SELECT * FROM user")
     ArrayList<User> findAll();

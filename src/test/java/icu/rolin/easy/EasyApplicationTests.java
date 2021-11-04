@@ -1,6 +1,6 @@
 package icu.rolin.easy;
 
-import icu.rolin.easy.mapper.UserTableMapper;
+import icu.rolin.easy.mapper.UserMapper;
 import icu.rolin.easy.model.DO.User;
 import icu.rolin.easy.model.VO.AssListVO;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ class EasyApplicationTests {
 
 
 	@Autowired
-	UserTableMapper utm;
+    UserMapper utm;
 	@Test
 	void jdbcTest(){
 		ArrayList<User> users = utm.findAll();
