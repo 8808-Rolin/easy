@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import icu.rolin.easy.utils.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ import static icu.rolin.easy.utils.TransformCurrentTimeUtil.returnCurrentTime;
 
 public class UserInterceptor implements HandlerInterceptor {
 
-    private static final String TOKEN_SECRET = "easy"; //密钥
+
     private final static Logger logger = LoggerFactory.getLogger(UserInterceptor.class);
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) {
@@ -53,7 +54,7 @@ public class UserInterceptor implements HandlerInterceptor {
             return false;
         }
         try {
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(TOKEN_SECRET))
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(Constant.TOKEN_SECRET))
                     .withIssuer("auth0").build();
             DecodedJWT jwt = verifier.verify(token);
             DateFormat expiration = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

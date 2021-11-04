@@ -19,7 +19,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         /**
          * 拦截器按照顺序执行
          */
-        registry.addInterceptor(startUserInterceptor()).addPathPatterns("/**").excludePathPatterns("/user/login");
+        registry.addInterceptor(startUserInterceptor()).addPathPatterns("/**")
+                .excludePathPatterns("/api/user/login","/api/user/register","/api/tool/uni-variable");
         super.addInterceptors(registry);
     }
 

@@ -4,7 +4,7 @@ import icu.rolin.easy.mapper.UserMapper;
 import icu.rolin.easy.model.PO.ForgetPasswordPO;
 import icu.rolin.easy.model.PO.LoginPO;
 import icu.rolin.easy.model.PO.RegisterPO;
-import icu.rolin.easy.model.PO.UniVariablePO;
+import icu.rolin.easy.utils.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,56 +18,54 @@ public class UserService {
     private final static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     // 核验登录
-    public Integer varifyLogin(LoginPO loginPO){
+    public boolean verifyLogin(LoginPO loginPO){
 
-        if (loginPO.getLoginType()==0){
-            System.out.println("用户使用学号登录");
-            Integer code = userMapper.varifyLoginByStudent_number(loginPO.getAccount(), loginPO.getPassword());
-            if (code != null){
-                System.out.println("检索到用户存在");
-                return 1;
-            }else {
-                return 0;
-            }
-        }else if (loginPO.getLoginType()==1){
-            System.out.println("用户使用手机号登录");
-            Integer code = userMapper.varifyLoginByPhone_number(loginPO.getAccount(), loginPO.getPassword());
-            if (code != null){
-                System.out.println("检索到用户存在");
-                return 1;
-            }else {
-                return 0;
-            }
+        if (loginPO.getLoginType()==0) {
+            return userMapper.verifyLoginByStudent_number(loginPO.getAccount(), loginPO.getPassword()) == 1;
+        }else if (loginPO.getLoginType()==1) {
+            return userMapper.verifyLoginByPhone_number(loginPO.getAccount(), loginPO.getPassword()) == 1;
         }else {
-            return -1;
+            logger.warn("登陆参数错误");
+            return false;
         }
+    }
+
+    //获取用户UID
+    public int getUserID(LoginPO lpo){
+        Integer uid = -1;
+        if (lpo.getLoginType() == 0)
+            uid = userMapper.findIdByNumber(lpo.getAccount());
+        else
+            uid = userMapper.findIdByPhone(lpo.getAccount());
+
+        if (uid == null) uid = -1;
+        return uid;
+    }
+
+    //获取Token
+    public String generateToken(LoginPO lpo,int uid){
+        return TokenUtil.sign(uid,lpo.getPassword());
 
     }
 
     // 用户注册
-    public Integer userRegister(RegisterPO registerPO){
-
+    public boolean userRegister(RegisterPO registerPO){
         Integer code = userMapper.insertUser(registerPO.getRealName(), registerPO.getUserName(), registerPO.getStudentID(), registerPO.getCollege(), registerPO.getPassword(), registerPO.getEmail(), registerPO.getPhone(), registerPO.getSex(), registerPO.getBirth(), registerPO.getHeadImage());
-        if (code != 0){
-            System.out.println("成功插入"+registerPO.toString());
-            return 1;
-        }else {
-            return 0;
+        if (code == null) {
+            logger.error("用户注册失败，数据库返回空结果集");
+            code = -1;
         }
-
+        return code == 1;
     }
 
     // 用户忘记密码
-    public Integer userForgetPassword(ForgetPasswordPO fp){
-
+    public boolean userForgetPassword(ForgetPasswordPO fp){
         Integer code = userMapper.updatePassword(fp.getPassword(), fp.getStudentID(), fp.getPhone(), fp.getEmail());
-        if (code != 0){
-            System.out.println("成功更改密码为"+fp.getPassword());
-            return 1;
-        }else {
-            return 0;
+        if (code == null){
+            logger.warn("忘记密码功能出错，null");
+            code = 0;
         }
-
+        return code == 1;
     }
 
 }

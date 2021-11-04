@@ -1,6 +1,5 @@
 package icu.rolin.easy.controller;
 
-import icu.rolin.easy.mapper.UserMapper;
 import icu.rolin.easy.model.PO.SendMailPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
 import icu.rolin.easy.model.VO.AssListVO;
@@ -23,8 +22,8 @@ public class ToolController {
 
     @GetMapping(value = "/uni-variable")
     public ResponseVO uni_variable(UniVariablePO uv){
+        int key = toolService.verifyAccountUniqueness(uv);
 
-        Integer key = toolService.varifyAccountUniqueness(uv);
         if (key == 0){
             return new ResponseVO(new SimpleVO(0,"均不重复"));
         }else if (key == 1){

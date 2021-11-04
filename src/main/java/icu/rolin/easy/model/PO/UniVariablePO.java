@@ -1,5 +1,7 @@
 package icu.rolin.easy.model.PO;
 
+import com.alibaba.fastjson.JSON;
+
 public class UniVariablePO {
     private String studentID;
     private String phone;
@@ -18,5 +20,10 @@ public class UniVariablePO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 }
