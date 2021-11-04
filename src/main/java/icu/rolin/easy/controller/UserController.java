@@ -55,8 +55,15 @@ public class UserController {
 
     @PostMapping(value = "/forget-password")
     public ResponseVO forget_password(ForgetPasswordPO fp){
-        return new ResponseVO(new SimpleVO());
-    }
 
+        Integer key = userService.userForgetPassword(fp);
+        if (key == 1){
+            return new ResponseVO(new SimpleVO());
+        }else {
+            logger.error("用户忘记密码...修改新密码错误");
+            return new ResponseVO(500,"你自己的邮箱学号电话都能输错是吧？早日重开吧，别来了");
+        }
+
+    }
 
 }

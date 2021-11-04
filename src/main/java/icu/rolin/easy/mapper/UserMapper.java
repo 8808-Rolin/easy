@@ -4,6 +4,7 @@ import icu.rolin.easy.model.DO.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.ArrayList;
 
@@ -24,5 +25,8 @@ public interface UserMapper {
 
     @Insert("INSERT INTO user (realname,username,student_number,college_id,password,email,phone,sex,birth,headImage) VALUES (#{realname},#{username},#{student_number},#{college_id},#{password},#{email},#{phone},#{sex},#{birth},#{headImage})")
     Integer insertUser(String realname,String username,String student_number,Integer college_id,String password,String email,String phone,Integer sex,String birth,String headImage);
+
+    @Update("UPDATE user set password = #{password} where student_number = #{student_number} and phone = #{phone} and email = #{email}")
+    Integer updatePassword(String password,String student_number,String phone,String email);
 
 }

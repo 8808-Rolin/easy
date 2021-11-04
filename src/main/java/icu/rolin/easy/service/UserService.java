@@ -2,6 +2,7 @@ package icu.rolin.easy.service;
 
 import icu.rolin.easy.interceptor.UserInterceptor;
 import icu.rolin.easy.mapper.UserMapper;
+import icu.rolin.easy.model.PO.ForgetPasswordPO;
 import icu.rolin.easy.model.PO.LoginPO;
 import icu.rolin.easy.model.PO.RegisterPO;
 import org.slf4j.Logger;
@@ -47,8 +48,21 @@ public class UserService {
     public Integer userRegister(RegisterPO registerPO){
 
         Integer code = userMapper.insertUser(registerPO.getRealName(), registerPO.getUserName(), registerPO.getStudentID(), registerPO.getCollege(), registerPO.getPassword(), registerPO.getEmail(), registerPO.getPhone(), registerPO.getSex(), registerPO.getBirth(), registerPO.getHeadImage());
-        if (code != null){
+        if (code != 0){
             System.out.println("成功插入"+registerPO.toString());
+            return 1;
+        }else {
+            return 0;
+        }
+
+    }
+
+    // 用户忘记密码
+    public Integer userForgetPassword(ForgetPasswordPO fp){
+
+        Integer code = userMapper.updatePassword(fp.getPassword(), fp.getStudentID(), fp.getPhone(), fp.getEmail());
+        if (code != 0){
+            System.out.println("成功更改密码为"+fp.getPassword());
             return 1;
         }else {
             return 0;
