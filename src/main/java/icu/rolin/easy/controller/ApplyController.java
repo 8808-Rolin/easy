@@ -3,14 +3,12 @@ package icu.rolin.easy.controller;
 import icu.rolin.easy.model.PO.CreateAssPO;
 import icu.rolin.easy.model.PO.SendApplyPO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
-import icu.rolin.easy.model.VO.GetAssApplyVO;
-import icu.rolin.easy.model.VO.GetJoinApplyVO;
-import icu.rolin.easy.model.VO.ResponseVO;
-import icu.rolin.easy.model.VO.SimpleVO;
+import icu.rolin.easy.model.VO.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ResponseBody
+@CrossOrigin
 @RequestMapping(value = "/api/apply")
 public class ApplyController {
 
@@ -44,6 +42,23 @@ public class ApplyController {
         return new ResponseVO(new SimpleVO());
     }
 
+    @GetMapping(value = "/get-create-apply-list")
+    public ResponseVO get_create_apply_list(){
+        return new ResponseVO(new CreateAssPO());
+    }
 
+    @PostMapping(value = "/send-act-reply")
+    public ResponseVO send_act_reply(Integer actid,Integer status){
+        return new ResponseVO(new SimpleVO());
+    }
+
+    @PostMapping(value = "/send-aa-reply")
+    public ResponseVO send_action_apply_reply(Integer aaid,Integer status){
+        return new ResponseVO(new SimpleVO());
+    }
+    @PostMapping(value = "/get-ass-apply-list")
+    public ResponseVO get_ass_apply_list(){
+        return new ResponseVO(new GetApplyListVO());
+    }
 
 }

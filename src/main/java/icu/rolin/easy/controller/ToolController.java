@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @ResponseBody
+@CrossOrigin
 @RequestMapping(value = "/api/tool")
 public class ToolController {
 

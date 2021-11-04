@@ -1288,10 +1288,11 @@
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为10</td></tr>
     <tr><th>data.data[]</td><th colspan=2>数据体</td></tr>
-    <tr><td>uid</td><td colspan=2>用户UID</td></tr>
+    <tr><td>id</td><td colspan=2>用户UID</td></tr>
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
     <tr><td>num</td><td colspan=2>数值(0-1直接的小数)</td></tr>
 </table>
+
 
 
 ##### 3.7.1.3.2 社团每天活跃度
@@ -1617,7 +1618,9 @@
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
     <tr><td>code</td><td colspan=2>失败值为“-1”，成功则返回用户数量</td></tr>
+	<tr><td>msg</td><td colspan=2>描述信息</td></tr>
 </table>
+
 
 
 #### 3.8.1.2 加入社团的学生占比
@@ -1634,8 +1637,9 @@
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
     <tr><td>joins</td><td colspan=2>该字段返回加入社团学生的人数</td></tr>
-	<tr><td>alls</td><td colspan=2>字段返回全部学生的数量</td></tr>
+	<tr><td>all</td><td colspan=2>字段返回全部学生的数量</td></tr>
 </table>
+
 
 #### 3.8.1.3 获取当前活动列表
 
@@ -1658,9 +1662,10 @@
  	<tr><th>data.action[]</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>actid</td><td colspan=2>活动唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>活动标题</td></tr>
-    <tr><td>date</td><td colspan=2>活动日期</td></tr>
+    <tr><td>startTime</td></td><td colspan=2>活动开始日期</td></tr>
     <tr><td>status</td><td colspan=2>活动状态，是一个整数值</td></tr>
 </table>
+
 
 
 #### 3.8.1.4 社团活跃度(数据可视化)
@@ -1682,10 +1687,11 @@
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为10</td></tr>
     <tr><th>data.data[]</td><th colspan=2>数据体</td></tr>
-    <tr><td>aid</td><td colspan=2>社团UID</td></tr>
+    <tr><td>id</td><td colspan=2>社团UID</td></tr>
     <tr><td>name</td><td colspan=2>社团名称</td></tr>
-    <tr><td>actper</td><td colspan=2>数值(0-1直接的小数)</td></tr>
+    <tr><td>num</td><td colspan=2>数值(0-1直接的小数)</td></tr>
 </table>
+
 
 
 ##### 3.8.1.4.2 整个系统活跃度同比折线图数据
@@ -1777,9 +1783,10 @@
     <tr><td>status</td><td>Integer</td><td>状态：0：不通过，1：通过</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
-    <tr><td>caid</td><td colspan=2>成功返回一个caid => create association ID</td></tr>
+	<tr><td>code</td><td colspan=2>失败返回-1，成功返回一个caid</td></tr>
+    <tr><td>msg</td><td colspan=2>描述信息</td></tr>
 </table>
+
 
 
 ### 3.8.3 用户信息
@@ -1804,11 +1811,12 @@
     <tr><td>userName</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realName</td><td colspan=2>用户真实姓名</td></tr>
     <tr><td>studentID</td><td colspan=2>学号或教工号</td></tr>
-    <tr><td>org</td><td colspan=2>用户所属学院</td></tr>
+    <tr><td>college</td><td colspan=2>用户所属学院</td></tr>
     <tr><td>intro</td><td colspan=2>用户简介</td></tr>
 	<tr><td>permisson</td><td colspan=2>用户身份</td></tr>
 	<tr><td>birth</td><td colspan=2>用户生日</td></tr>
 </table>
+
 
 
 ### 3.8.4 审批批复
@@ -1875,12 +1883,13 @@
  	<tr><th>data.action[]</td><th colspan=2>活动列表</td></tr>
 	<tr><td>actaid</td><td colspan=2>活动审批唯一ID</td></tr>
 	<tr><td>aid</td><td colspan=2>举办活动的论坛id</td></tr>
-	<tr><td>aname</td><td colspan=2>举办活动的论坛名字</td></tr>
-    <tr><td>name</td><td colspan=2>活动名称</td></tr>
+	<tr><td>assname</td><td colspan=2>举办活动的论坛名字</td></tr>
+    <tr><td>title</td><td colspan=2>活动名称</td></tr>
     <tr><td>content</td><td colspan=2>活动申请内容</td></tr>
     <tr><td>startTime</td><td colspan=2>开始时间</td></tr>
 	<tr><td>endTime</td><td colspan=2>结束时间</td></tr>
 </table>
+
 
 
 #### 3.8.4.4 活动审批

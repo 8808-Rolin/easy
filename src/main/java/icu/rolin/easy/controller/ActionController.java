@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ResponseBody
+@CrossOrigin
 @RequestMapping(value = "/api/action")
 public class ActionController {
 
@@ -29,6 +30,11 @@ public class ActionController {
     @GetMapping(value = "/get-action-member")
     public ResponseVO get_action_member(Integer aid){
         return new ResponseVO(new ActionMemberVO());
+    }
+
+    @PostMapping(value = "/get-act-apply")
+    public ResponseVO get_action_apply(Integer aid){
+        return new ResponseVO(new GetActionListVO());
     }
 
 }

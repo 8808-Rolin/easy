@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ResponseBody
+@CrossOrigin
 @RequestMapping(value = "/api/user")
 public class UserController {
 
     @PostMapping(value = "/login")
     public ResponseVO login(LoginPO loginPO){
+
+
         return new ResponseVO(new LoginPO());
     }
 

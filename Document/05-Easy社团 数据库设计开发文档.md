@@ -186,11 +186,12 @@ apply_content |审批内容表，是通用社团审批表的从表 | | 14 | appl
     <tr><td>社团名称</td><td>name</td><td>varchar;NN </td><td></td></tr>
     <tr><td>社团头像</td><td>logo</td><td>text;NN </td><td>Base64编码字符串</td></tr>
     <tr><td>社团简介</td><td>intro</td><td>varchar;NN </td><td></td></tr>
-    <tr><td>所属组织</td><td>parent_orgarization</td><td>varchar;NN </td><td></td></tr>
+    <tr><td>所属组织</td><td>parent_organization</td><td>varchar;NN </td><td></td></tr>
     <tr><td>是否通过审批</td><td>is_approved</td><td>unsigned int;NN </td><td>0为未通过，1为已通过</td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
+
 
 #### 3.2.2.4 协会成员表(association_user)
 
