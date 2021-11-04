@@ -3,6 +3,7 @@ package icu.rolin.easy.service;
 import icu.rolin.easy.interceptor.UserInterceptor;
 import icu.rolin.easy.mapper.UserMapper;
 import icu.rolin.easy.model.PO.LoginPO;
+import icu.rolin.easy.model.PO.RegisterPO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
     private final static Logger logger = LoggerFactory.getLogger(UserService.class);
+
     // 核验登录
     public Integer varifyLogin(LoginPO loginPO){
 
@@ -39,6 +41,19 @@ public class UserService {
         }else {
             return null;
         }
+    }
+
+    // 用户注册
+    public Integer userRegister(RegisterPO registerPO){
+
+        Integer code = userMapper.insertUser(registerPO.getRealName(), registerPO.getUserName(), registerPO.getStudentID(), registerPO.getCollege(), registerPO.getPassword(), registerPO.getEmail(), registerPO.getPhone(), registerPO.getSex(), registerPO.getBirth(), registerPO.getHeadImage());
+        if (code != null){
+            System.out.println("成功插入"+registerPO.toString());
+            return 1;
+        }else {
+            return 0;
+        }
 
     }
+
 }

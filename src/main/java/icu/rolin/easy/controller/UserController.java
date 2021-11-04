@@ -42,7 +42,15 @@ public class UserController {
 
     @PostMapping(value = "/register")
     public ResponseVO register(RegisterPO registerPO){
-        return new ResponseVO(new SimpleVO());
+
+        Integer key = userService.userRegister(registerPO);
+        if (key == 1){
+            return new ResponseVO(new SimpleVO());
+        }else {
+            logger.error("用户注册...插入数据失败");
+            return new ResponseVO(500,"注册都能注歪来，让他早日ramake！");
+        }
+
     }
 
     @PostMapping(value = "/forget-password")

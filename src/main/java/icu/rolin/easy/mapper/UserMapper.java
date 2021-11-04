@@ -1,6 +1,7 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.User;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -20,4 +21,8 @@ public interface UserMapper {
 
     @Select("SELECT count(*) FROM user WHERE phone = #{account} and password = #{password}")
     Integer varifyLoginByPhone_number(String account,String password);
+
+    @Insert("INSERT INTO user (realname,username,student_number,college_id,password,email,phone,sex,birth,headImage) VALUES (#{realname},#{username},#{student_number},#{college_id},#{password},#{email},#{phone},#{sex},#{birth},#{headImage})")
+    Integer insertUser(String realname,String username,String student_number,Integer college_id,String password,String email,String phone,Integer sex,String birth,String headImage);
+
 }
