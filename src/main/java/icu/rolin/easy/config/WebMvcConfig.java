@@ -4,6 +4,7 @@ import icu.rolin.easy.interceptor.UserInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 @Configuration
@@ -20,8 +21,15 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
          * 拦截器按照顺序执行
          */
         registry.addInterceptor(startUserInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/api/user/login","/api/user/register","/api/tool/uni-variable");
+                .excludePathPatterns("/api/user/login","/api/user/register","/api/tool/uni-variable","/**/**/upload-image","/**/images/**");
         super.addInterceptors(registry);
     }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/**").addResourceLocations("file:C://Users/Administrator/Desktop/ProjectJooLum/easy/src/main/resources/static/images/");
+        super.addResourceHandlers(registry);
+    }
+
 
 }

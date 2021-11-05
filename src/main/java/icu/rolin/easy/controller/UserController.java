@@ -40,6 +40,7 @@ public class UserController {
 
     @PostMapping(value = "/register")
     public ResponseVO register(RegisterPO registerPO){
+
         boolean status = userService.userRegister(registerPO);
         if (status){
             return new ResponseVO(new SimpleVO(0,"注册成功"));

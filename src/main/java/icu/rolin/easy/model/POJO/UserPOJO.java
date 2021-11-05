@@ -64,4 +64,14 @@ public class UserPOJO {
     public void setHeadImage(String headImage) {
         this.headImage = headImage;
     }
+
+    public UserPOJO(String userName, String realName, String studentID, String college, String intro, Integer level, String headImage) {
+        this.userName = userName;
+        this.realName = realName;
+        this.studentID = studentID;
+        this.college = college;
+        this.intro = intro;
+        this.level = level;
+        this.headImage = headImage;
+    }
 }

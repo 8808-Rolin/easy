@@ -7,6 +7,12 @@ public class UserRespVO {
     private String msg;
     private UserPOJO user;
 
+    public UserRespVO(Integer code, String msg, UserPOJO user) {
+        this.code = code;
+        this.msg = msg;
+        this.user = user;
+    }
+
     public Integer getCode() {
         return code;
     }
@@ -30,4 +36,5 @@ public class UserRespVO {
     public void setUser(UserPOJO user) {
         this.user = user;
     }
+
 }
