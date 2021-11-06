@@ -132,6 +132,8 @@
 
 ### 3.2.1 数据库表功能
 
+
+
 本系统基于MySQL 8.0 ,数据库名为 EASY_DB，由user、association等是十几个表构成，其功能如下表所示： | 序号 | 表 |功能描述 | | ---- | ---- |:--:  | | 1 | user
 |用户表，包含用户信息以及用户空间数据 | | 2 | association |社团表，包含社团信息 | | 3 | post |帖子表，包含帖子信息 | | 4 | comment |评论表 | | 5 | post_content
 |帖子内容表，是帖子表的从表 | | 6 | favorite_table |用户收藏表 | | 7 | mail |邮件数据表 | | 8 | action |活动纪录表 | | 9 | join_action |活动参与人员表 | |

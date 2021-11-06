@@ -17,6 +17,9 @@ public interface UserMapper {
     @Select("SELECT * FROM user WHERE id = #{id}")
     User findById(Integer id);
 
+    @Select("SELECT username FROM user WHERE id = #{id}")
+    String getNameById(Integer id);
+
     @Select("SELECT count(*) FROM user WHERE student_number = #{account} and password = #{password}")
     Integer verifyLoginByStudent_number(String account, String password);
 
@@ -37,7 +40,6 @@ public interface UserMapper {
 
     @Select("SELECT count(*) FROM user WHERE student_number = #{student_number} or phone = #{phone}")
     Integer verifyAccount(String student_number, String phone);
-
 
     @Select("SELECT count(student_number) FROM user WHERE student_number = #{student_number}")
     Integer verifyStudent_number(String student_number);
