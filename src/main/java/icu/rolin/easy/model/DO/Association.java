@@ -1,8 +1,9 @@
 package icu.rolin.easy.model.DO;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Association {
+public class Association implements Serializable {
     private Integer id;
     private Integer leader_id;
     private String name;

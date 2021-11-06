@@ -2,7 +2,10 @@ package icu.rolin.easy.controller;
 
 import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
+import icu.rolin.easy.model.POJO.UserPOJO;
 import icu.rolin.easy.model.VO.*;
+import icu.rolin.easy.service.InfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,9 +14,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/info")
 public class InfoController {
 
+    @Autowired
+    private InfoService infoService;
+
     @PostMapping(value = "/get-common-person-information")
-    public ResponseVO get_common_person_information( Integer uid){
-        return new ResponseVO(new UserRespVO());
+    public ResponseVO get_common_person_information(Integer uid){
+
+        UserPOJO userPOJO = infoService.getPersonInformation(uid);
+        if (userPOJO == null){
+            return new ResponseVO(new SimpleVO(1,"获取用户信息失败"));
+        }else {
+            return new ResponseVO(new UserRespVO(0,"",userPOJO));
+        }
+
     }
 
     @GetMapping(value = "/get-member-list")

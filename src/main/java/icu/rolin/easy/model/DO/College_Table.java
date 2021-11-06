@@ -1,8 +1,9 @@
 package icu.rolin.easy.model.DO;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class College_Table {
+public class College_Table implements Serializable {
     private Integer id;
     private String college_name;
     private Timestamp create_time;

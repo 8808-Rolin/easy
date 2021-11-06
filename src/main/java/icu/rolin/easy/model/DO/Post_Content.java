@@ -1,8 +1,9 @@
 package icu.rolin.easy.model.DO;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Post_Content {
+public class Post_Content implements Serializable {
     private Integer id;
     private Integer p_id;
     private String content;

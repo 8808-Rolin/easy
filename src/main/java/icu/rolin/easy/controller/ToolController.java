@@ -40,7 +40,13 @@ public class ToolController {
 
     @PostMapping(value = "/upload-image")
     public ResponseVO upload_image(String imageBASE64){
-        return new ResponseVO(new SimpleVO());
+        String path = toolService.base64ToImage(imageBASE64);
+        if (path == null){
+            return new ResponseVO(new SimpleVO(1,"图片上传失败"));
+        }else {
+            return new ResponseVO(new SimpleVO(0,"/images/"+path));
+        }
+
     }
 
     @PostMapping(value = "/upload-file")

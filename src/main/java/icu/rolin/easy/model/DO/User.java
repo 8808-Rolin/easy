@@ -12,8 +12,8 @@ public class User implements Serializable {
     private Integer id;
     private String username;
     private String realname;
-    private String student_id;
-    private Integer college;
+    private String student_number;
+    private Integer college_id;
     private String email;
     private Integer sex;
     private Date birth;
@@ -28,7 +28,24 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return JSON.toJSONString(this);
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", realname='" + realname + '\'' +
+                ", student_number='" + student_number + '\'' +
+                ", college_id=" + college_id +
+                ", email='" + email + '\'' +
+                ", sex=" + sex +
+                ", birth=" + birth +
+                ", is_open_zone=" + is_open_zone +
+                ", level=" + level +
+                ", user_avatar='" + user_avatar + '\'' +
+                ", post_number=" + post_number +
+                ", notice='" + notice + '\'' +
+                ", intro='" + intro + '\'' +
+                ", create_time=" + create_time +
+                ", update_time=" + update_time +
+                '}';
     }
 
     public Integer getId() {
@@ -55,20 +72,20 @@ public class User implements Serializable {
         this.realname = realname;
     }
 
-    public String getStudent_id() {
-        return student_id;
+    public String getStudent_number() {
+        return student_number;
     }
 
-    public void setStudent_id(String student_id) {
-        this.student_id = student_id;
+    public void setStudent_number(String student_number) {
+        this.student_number = student_number;
     }
 
-    public Integer getCollege() {
-        return college;
+    public Integer getCollege_id() {
+        return college_id;
     }
 
-    public void setCollege(Integer college) {
-        this.college = college;
+    public void setCollege_id(Integer college_id) {
+        this.college_id = college_id;
     }
 
     public String getEmail() {

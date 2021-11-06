@@ -1,8 +1,9 @@
 package icu.rolin.easy.model.DO;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Favorite_Table {
+public class Favorite_Table implements Serializable {
     private Integer id;
     private Integer p_id;
     private Integer u_id;

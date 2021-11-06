@@ -1,8 +1,9 @@
 package icu.rolin.easy.model.DO;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Join_Action {
+public class Join_Action implements Serializable {
     private Integer id;
     private Integer act_id;
     private Integer u_id;

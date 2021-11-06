@@ -2,10 +2,17 @@ package icu.rolin.easy.service;
 
 import icu.rolin.easy.mapper.UserMapper;
 import icu.rolin.easy.model.PO.UniVariablePO;
+import icu.rolin.easy.utils.Base64ToImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @Service
 public class ToolService {
@@ -40,4 +47,36 @@ public class ToolService {
 
     }
 
+    //定义上传图片保存路径
+    @Value("${web.static.path}")
+    private String path;
+    // base64转存图片返回连接
+    public String base64ToImage(String imageBASE64)  {
+        //将base64 转换成 MultipartFile
+        MultipartFile file = Base64ToImageUtil.base64ToMultipart(imageBASE64);
+        System.out.println("file:"+file);
+        //图片名称
+        String fileName = file.getOriginalFilename();
+
+        //获取图片的后缀名
+        String[] suffixName = fileName.split(";");
+        //生成新的图片名称
+        String newImgName = UUID.randomUUID() + suffixName[0];
+        File filepath = new File(path, newImgName);
+        // 判断路径是否存在，如果不存在就创建一个
+        if (!filepath.getParentFile().exists()) {
+            filepath.getParentFile().mkdirs();
+        }
+        try {
+            // 写入文件
+            file.transferTo(new File(path + File.separator + newImgName));
+            logger.info("文件上传成功，上传路径为： " + path + newImgName);
+            return newImgName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.info("文件上传失败");
+            return null;
+        }
+
+    }
 }

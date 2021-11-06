@@ -4,10 +4,11 @@ package icu.rolin.easy.model.DO;
 
 
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
-public class Action {
+public class Action implements Serializable {
     private Integer id;
     private Integer a_id;
     private String title;

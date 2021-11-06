@@ -2,12 +2,17 @@ package icu.rolin.easy.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Date;
 
 public class TokenUtil {
 
-    private static final long EXPIRED_TIME = 1*60*1000; //有效时长为一天
-    private static final String TOKEN_SECRET = "easy"; //密钥
+    @Value("${web.token.token_time}")
+    private static long EXPIRED_TIME;
+
+    @Value("${web.token.token}")
+    private static String TOKEN_SECRET;
 
     public static String sign(Integer uid,String password){
         String token = null;

@@ -1,8 +1,9 @@
 package icu.rolin.easy.model.DO;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Mail {
+public class Mail implements Serializable {
     private Integer id;
     private Integer from_id;
     private Integer to_id;

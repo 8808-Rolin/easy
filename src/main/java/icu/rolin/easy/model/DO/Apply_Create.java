@@ -1,9 +1,10 @@
 package icu.rolin.easy.model.DO;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-public class Apply_Create {
+public class Apply_Create implements Serializable {
     private Integer id;
     private Integer u_id;
     private String name;
