@@ -2,6 +2,7 @@ package icu.rolin.easy.controller;
 
 import icu.rolin.easy.model.PO.SendMailPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
+import icu.rolin.easy.model.POJO.CollegePOJO;
 import icu.rolin.easy.model.VO.AssListVO;
 import icu.rolin.easy.model.VO.CollegeListVO;
 import icu.rolin.easy.model.VO.ResponseVO;
@@ -66,6 +67,16 @@ public class ToolController {
 
     @GetMapping(value = "/get-college-list")
     public ResponseVO get_colleges(){
-        return new ResponseVO(new CollegeListVO());
+        CollegeListVO collegeListVO = new CollegeListVO();
+        collegeListVO.setCode(2);
+        CollegePOJO[] ps = new CollegePOJO[2];
+        ps[0] = new CollegePOJO();
+        ps[1] = new CollegePOJO();
+        ps[0].setCoid(1);
+        ps[1].setCoid(2);
+        ps[0].setName("男女比例1:12学院");
+        ps[1].setName("男女比例100:2学院");
+        collegeListVO.setCollege(ps);
+        return new ResponseVO(collegeListVO);
     }
 }

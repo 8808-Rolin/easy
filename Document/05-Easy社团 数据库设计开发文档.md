@@ -75,16 +75,32 @@
 为了节省篇幅，开发文档中将使用一些英文缩写来替代单词的完整写法，还有一些专用名词，为了读者能够更加直观的读懂文档，我们将在该节描述文档中出现的一些术语定义。
 
 - PK ：主键约束 Primary Key
+
 - UK ：唯一约束 Unique Key
+
 - FK ：外键约束 foreign key
+
 - AI ：自增约束 AUTO INCREMENT
+
 - NN：非空约束 not null
+
 - DF ：默认 default
+
 - DB ：数据库 Database
+
 - DBMS：数据库管理系统 Database Management System
+
 - SQL：结构化查询语言 Structured Query Language
+
 - ORM：对象关系映射 Object Relational Mapping
+
 - E-R、ER：实体-联系 Entity Relationship Diagram
+
+## 1.5 更新历史
+
+| 更新时间   | 更新章节       | 更新内容                              |
+| ---------- | -------------- | ------------------------------------- |
+| 2021-11-06 | 社团表、用户表 | 头像修改为相对路径URL，不再使用Base64 |
 
 # 2. 外部设计
 
@@ -158,12 +174,13 @@ apply_content |审批内容表，是通用社团审批表的从表 | | 14 | appl
     <tr><td>生日日期</td><td>birth</td><td>Date;NN </td><td>年月日</td></tr>
     <tr><td>是否开放空间</td><td>is_open_zone</td><td>unsigned int;NN;DF 1 </td><td></td></tr>
     <tr><td>权限等级</td><td>level</td><td>unsigned int;NN </td><td>用户的权限，0为普通用户，1社团学生，2为学校管理员</td></tr>
-    <tr><td>用户头像</td><td>user_avatar</td><td>text;NN </td><td>Base64编码</td></tr>
+    <tr><td>用户头像</td><td>user_avatar</td><td>varchar;NN </td><td>一个相对路径url</td></tr>
     <tr><td>发帖数量</td><td>post_number</td><td>unsigned int;NN </td><td></td></tr>
     <tr><td>空间公告</td><td>notice</td><td>varchar(); </td><td></td></tr>
     <tr><td>个人简介</td><td>intro</td><td>varchar() </td><td></td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr></table>
+
 #### 3.2.2.2 学院ID对应表(college_table)
 
 <table>
@@ -184,13 +201,14 @@ apply_content |审批内容表，是通用社团审批表的从表 | | 14 | appl
     <tr><td>唯一标识符</td><td>id</td><td>unsigned int;PK;UK;AI;NN </td><td></td></tr>
     <tr><td>申请人用户ID</td><td>u_id</td><td>unsigned int;NN </td><td>对应User.id</td></tr>
     <tr><td>社团名称</td><td>name</td><td>varchar;NN </td><td></td></tr>
-    <tr><td>社团头像</td><td>logo</td><td>text;NN </td><td>Base64编码字符串</td></tr>
+    <tr><td>社团头像</td><td>logo</td><td>varchar;NN </td><td>相对URL</td></tr>
     <tr><td>社团简介</td><td>intro</td><td>varchar;NN </td><td></td></tr>
     <tr><td>所属组织</td><td>parent_organization</td><td>varchar;NN </td><td></td></tr>
     <tr><td>是否通过审批</td><td>is_approved</td><td>unsigned int;NN </td><td>0为未通过，1为已通过</td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
+
 
 
 #### 3.2.2.4 协会成员表(association_user)

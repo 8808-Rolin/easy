@@ -1,14 +1,13 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
 
 @Mapper
+@CacheNamespace(implementation = RedisCache.class)
 public interface UserMapper {
 
     @Select("SELECT * FROM user")

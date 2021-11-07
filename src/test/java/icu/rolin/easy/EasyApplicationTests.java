@@ -6,6 +6,8 @@ import icu.rolin.easy.model.VO.AssListVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.ArrayList;
 
@@ -18,8 +20,11 @@ class EasyApplicationTests {
 
 	@Test
 	void classTest(){
-		AssListVO al = new AssListVO();
-		al.setCode(200);
+		JedisPoolConfig config = new JedisPoolConfig();
+		config.setMaxTotal(10);
+		config.setMaxIdle(8);
+		JedisPool jedisPool = new JedisPool(config,"easy.30202.co",6379);
+
 	}
 
 
