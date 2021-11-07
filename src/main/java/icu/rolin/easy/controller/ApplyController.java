@@ -8,6 +8,8 @@ import icu.rolin.easy.service.ApplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @ResponseBody
 @CrossOrigin
@@ -19,13 +21,11 @@ public class ApplyController {
 
     @PostMapping(value = "/create-ass")
     public ResponseVO create_ass(CreateAssPO cap){
-        boolean key = applyService.creatAssociation(cap);
-        if (key){
-            return new ResponseVO(new SimpleVO(0,applyService.getCAID()));
-        }else {
-            return new ResponseVO(new SimpleVO(1,"申请社团失败"));
-        }
-
+        Map<Integer,Integer> res = applyService.createAssociation(cap);
+        if (res.get(1) == 1) //成功
+            return new ResponseVO(new SimpleVO(res.get(2),"申请成功,code字段是caid"));
+        else
+            return new ResponseVO(new SimpleVO(-1,"申请社团失败"));
     }
 
     @PostMapping(value = "/join-association")

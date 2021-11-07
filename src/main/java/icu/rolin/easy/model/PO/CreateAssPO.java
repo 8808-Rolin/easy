@@ -6,7 +6,7 @@ public class CreateAssPO {
     private String note;
     private String assprofile;
     private Integer uid;
-    private Integer org;
+    private String org;
 
     public CreateAssPO() {
     }
@@ -51,11 +51,11 @@ public class CreateAssPO {
         this.uid = uid;
     }
 
-    public Integer getOrg() {
+    public String getOrg() {
         return org;
     }
 
-    public void setOrg(Integer org) {
+    public void setOrg(String org) {
         this.org = org;
     }
 

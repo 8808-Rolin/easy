@@ -486,7 +486,7 @@
 这个接口能够通过Token(在Cookie中)和uid获得一些必要的用户信息，例如**个人简介(默认为空)，头像，昵称，姓名，学号等**
 接口具体设计见 - [3.1.4.1 获取个人信息](#3141-获取个人信息)
 
-### 3.2.2 获取简要的公告信息
+### 3.2.2 获取简要的公告信息（Finish）
 
 首页可以获取一些简单的公共公告信息展示在页面上，因为首页只需要展示简略的公告，因此此处应当获取简要版的信息
 
@@ -512,7 +512,7 @@
 </table>
 
 
-### 3.2.3 创建社团审批
+### 3.2.3 创建社团审批 （Finish）
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -525,14 +525,15 @@
     <tr><td>assname</td><td>String</td><td>社团名字</td></tr>
     <tr><td>assintro</td><td>String</td><td>社团简介</td></tr>
 	<tr><td>note</td><td>String</td><td>申请备注</td></tr>
-    <tr><td>assprofile</td><td>String</td><td>社团头像，BASE64编码字符串</td></tr>
+    <tr><td>assprofile</td><td>String</td><td>社团头像URL</td></tr>
     <tr><td>uid</td><td>Integer</td><td>申请人UID</td></tr>
-    <tr><td>org</td><td>Integer</td><td>社团所属组织</td></tr>
+    <tr><td>org</td><td>String</td><td>社团所属组织</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>失败返回-1，成功返回一个caid => create association ID</td></tr>
-    <tr><td>msg</td><td colspan=2></td></tr>
+	<tr><td>msg</td><td colspan=2></td></tr>
 </table>
+
 
 
 ## 3.3 论坛页面相关接口
@@ -542,7 +543,7 @@
 
 **这里是包括了公共论坛页面以及社团论坛页面的接口**
 
-### 3.3.1 获取论坛顶部数据接口
+### 3.3.1 获取论坛顶部数据接口（Finish）
 
 该接口用以获取用户数据，加入的社团以及学校所有的社团也在此接口一并获取 获取用户数据的接口见：- [3.1.4.1 获取个人信息](#3141-获取个人信息)
 
@@ -557,7 +558,7 @@
     <tr><td>uid</td><td>Integer</td><td>id值，是用户的唯一标识符</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
+    <tr><td>code</td><td colspan=2>-1获取失败，0没有获取到数据，正整数值：数据数量(是当前学校社团总数)</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
     <tr><th>data.ass[]</td><th colspan=2>result为0时返回如下社团信息数组</td></tr>
     <tr><td>assName</td><td colspan=2>社团名称</td></tr>
@@ -565,6 +566,7 @@
     <tr><td>isJoin</td><td colspan=2>0为未加入，1为已加入</td></tr>
     <tr><td>assImage</td><td colspan=2>社团Logo，如果isJoin字段为1，则读取该字段</td></tr>
 </table>
+
 
 
 ### 3.3.2 获取帖子列表数据接口

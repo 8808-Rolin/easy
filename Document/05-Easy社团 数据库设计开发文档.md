@@ -338,22 +338,23 @@ apply_content |审批内容表，是通用社团审批表的从表 | | 14 | appl
 </table>
 
 
-#### 3.2.2.12 帖子数据表
+#### 3.2.2.12 帖子表 (Post)
 
 <table>
     <tr><th>表名</th><td colspan='3'>post</td></tr>
     <tr><th>表描述</th><td colspan='3'>帖子数据表</td></tr>
     <tr><th>中文描述</th><th>字段名</th><th>类型以及精度</th><th>备注</th></tr>
     <tr><td>唯一标识符</td><td>id</td><td>unsigned int;PK;UK;AI;NN </td><td></td></tr>
-    <tr><td>社团id</td><td>a_id</td><td>unsigned int;NN </td><td>对应association</td></tr>
+    <tr><td>社团id</td><td>a_id</td><td>unsigned int;NN </td><td>对应association,为0时是公共交流区</td></tr>
     <tr><td>用户id</td><td>u_id</td><td>unsigned int;NN </td><td></td></tr>
     <tr><td>标题</td><td>title</td><td>varchar;NN </td><td></td></tr>
     <tr><td>内容id</td><td>content_id</td><td>unsigned int;NN </td><td>对应post_content.id</td></tr>
     <tr><td>标签</td><td>tags</td><td>varchar; </td><td></td></tr>
-    <tr><td>帖子类型</td><td>post_type</td><td>unsigned int;NN </td><td>！()</td></tr>
+    <tr><td>帖子类型</td><td>post_type</td><td>unsigned int;NN </td><td>当帖子类型为0时是系统帖子</td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
+
 
 #### 3.2.2.13 评论表 (comments)
 

@@ -10,10 +10,19 @@ public class Apply_Create implements Serializable {
     private String name;
     private String logo;
     private String intro;
+    private String note;
     private String parent_organization;
     private Integer is_approved;
     private Timestamp create_time;
     private Timestamp update_time;
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 
     public Integer getId() {
         return id;

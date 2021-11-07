@@ -9,6 +9,7 @@ import icu.rolin.easy.model.DO.Post;
 import icu.rolin.easy.model.POJO.ShowDataAssPOJO;
 import icu.rolin.easy.model.POJO.SimpleNoticePOJO;
 import icu.rolin.easy.model.VO.SimpleNoticeVO;
+import icu.rolin.easy.utils.common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,39 +28,46 @@ public class BBSService {
     private AssociationMapper associationMapper;
     private final static Logger logger = LoggerFactory.getLogger(BBSService.class);
 
-    public SimpleNoticeVO showNotices(){
-        ArrayList<Post> posts = postMapper.getAllPosts();
+    /**
+     * 获取公告交流区的公告
+     * @return 返回一个SimpleNoticePOJO数组
+     */
+    public SimpleNoticePOJO[] showNotices(){
+        ArrayList<Post> posts = postMapper.findPostByPostType(0);
+        if(posts.size() == 0) return null;
+
         SimpleNoticePOJO[] simpleNoticePOJOS = new SimpleNoticePOJO[posts.size()];
         for (int i = 0;i<posts.size();i++){
             simpleNoticePOJOS[i].setTitle(posts.get(i).getTitle());
-            simpleNoticePOJOS[i].setDate(posts.get(i).getCreate_time().toString());
+            simpleNoticePOJOS[i].setDate(common.convertTimestamp2Date(posts.get(i).getCreate_time(),"yyyy-MM-dd"));
             simpleNoticePOJOS[i].setPid(posts.get(i).getId());
         }
-        return new SimpleNoticeVO(posts.size(),simpleNoticePOJOS);
+        return simpleNoticePOJOS;
     }
 
-    public ShowDataAssPOJO[] showDatas(Integer uid){
-        ArrayList<Association_User> association_users = associationUserMapper.getAllAssociation_users();
-        ArrayList<Association> associations = associationMapper.getAllAssociation();
-        ArrayList<Integer> aids = new ArrayList<>();
-        ShowDataAssPOJO[] showDataAssPOJOS = new ShowDataAssPOJO[associations.size()];
-        for (int i=0;i<association_users.size();i++){
-            if (association_users.get(i).getU_id()==uid){
-                aids.set(i, association_users.get(i).getA_id());
-                if (aids.get(i) == associations.get(i).getId()){
-                    showDataAssPOJOS[i].setAssName(associations.get(i).getName());
-                    showDataAssPOJOS[i].setAssImage(associations.get(i).getLogo());
-                    showDataAssPOJOS[i].setAid(associations.get(i).getId());
-                    showDataAssPOJOS[i].setIsJoin(1);
-                }else {
-                    showDataAssPOJOS[i].setAssName(associations.get(i).getName());
-                    showDataAssPOJOS[i].setAssImage(associations.get(i).getLogo());
-                    showDataAssPOJOS[i].setAid(associations.get(i).getId());
-                    showDataAssPOJOS[i].setIsJoin(0);
-                }
+
+    /**
+     * 用以所有社团信息、用户加入信息业务处理
+     * @param uid 传入一个UID
+     * @return  返回一个ShowDataAssPOJO数组
+     */
+    public ShowDataAssPOJO[] showDatum(Integer uid){
+        ArrayList<Association> associations = associationMapper.findAllAssociation();
+        if(associations.size() == 0) return null;
+        ShowDataAssPOJO[] sdaPOJOs = new ShowDataAssPOJO[associations.size()];
+        for (int i = 0; i < associations.size(); i++) {
+            sdaPOJOs[i].setAid(associations.get(i).getId());
+            sdaPOJOs[i].setAssImage(associations.get(i).getLogo());
+            sdaPOJOs[i].setAssName(associations.get(i).getName());
+            //判断用户是否加入该社团
+            Integer result = associationUserMapper.getUserIsJoinAssociation(sdaPOJOs[i].getAid(),uid);
+            if (result > 1 || result < 0) {
+                logger.error("获取用户是否参加社团数据失败，可能是数据库出现了不唯一性，请检查数据库\n数据处理结果Result："+result);
+                return null;
             }
+            sdaPOJOs[i].setIsJoin(result);
         }
-        return showDataAssPOJOS;
+        return sdaPOJOs;
     }
 
 }

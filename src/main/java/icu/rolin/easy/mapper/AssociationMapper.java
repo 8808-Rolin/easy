@@ -19,5 +19,9 @@ public interface AssociationMapper {
     @Select("SELECT COUNT(*) FROM association WHERE id=#{id}")
     Integer findAssIsExist(Integer id);
 
+    //获取所有的社团信息
+    @Select("SELECT * FROM association")
+    ArrayList<Association> findAllAssociation();
+
 
 }

@@ -3,6 +3,7 @@ package icu.rolin.easy.controller;
 import com.rabbitmq.client.AMQP;
 import icu.rolin.easy.model.PO.*;
 import icu.rolin.easy.model.POJO.ShowDataAssPOJO;
+import icu.rolin.easy.model.POJO.SimpleNoticePOJO;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.BBSService;
 import org.apache.ibatis.annotations.Insert;
@@ -20,14 +21,24 @@ public class BBSController {
 
     @GetMapping(value = "/get-simple-notice")
     public ResponseVO get_simple_notices(){
-        return new ResponseVO(bbsService.showNotices());
+        SimpleNoticePOJO[] sn = bbsService.showNotices();
+        SimpleNoticeVO snvo = new SimpleNoticeVO();
+        if (sn == null) {
+            snvo.setCode(0);
+            snvo.setNotice(null);
+            return new ResponseVO("没有找到公告数据",snvo);
+        }
+        snvo.setCode(sn.length);
+        snvo.setNotice(sn);
+        return new ResponseVO(snvo);
     }
 
+    // 3.3.1 获取论坛顶部数据
     @PostMapping(value = "/get-show-data")
     public ResponseVO get_show_data(Integer uid){
-        ShowDataAssPOJO[] showDataAssPOJOS = bbsService.showDatas(uid);
-        if (showDataAssPOJOS != null) return new ResponseVO(new ShowDataVO(0,"",showDataAssPOJOS));
-        return new ResponseVO(new ShowDataVO(-1,"获取失败",null));
+        ShowDataAssPOJO[] showDataAssPOJOS = bbsService.showDatum(uid);
+        if (showDataAssPOJOS == null) return new ResponseVO(new ShowDataVO(0,"获取失败,可能是没有数据",null));
+        return new ResponseVO(new ShowDataVO(showDataAssPOJOS.length,"获取成功",showDataAssPOJOS));
     }
 
     @GetMapping(value = "/get-post-list")
