@@ -151,6 +151,7 @@
 | 2021-11-03 | 3.7.4 修改论坛信息 | 订正请求参数类型，订正请求URL |
 | 2021-11-06 | 用户、社团相关头像接口 | 均采用URL模式而不使用Base64 |
 | 2021-11-07 | 新增下载文件接口 3.1.4.8 | 下载文件接口 |
+| 2021-11-07 | 3.1.1.2 登出 | 废弃该接口 |
 
 
 
@@ -189,7 +190,7 @@
 
 ### 3.1.1 登录/登出
 
-#### 3.1.1.1 登录
+#### 3.1.1.1 登录（Finish）
 
 对应UI界面文档中2.1节中的登录界面，也就是图UI界面文档中2.2 的登录界面。该界面对用户的身份进行后台Web验证。
 <table  >
@@ -212,7 +213,7 @@
 </table>
 
 
-#### 3.1.1.2 登出
+#### 3.1.1.2 登出 (Remove)
 
 登出是用户安全退出系统的途径，可以防止用户信息泄露。在此情况下，可使用如下协议进行登出请求。
 <table  >
@@ -229,7 +230,7 @@
     <tr><td colspan=3>  无  </td></tr>
 </table>
 
-### 3.1.2 注册
+### 3.1.2 注册 (Finish)
 
 注册是学生使用该系统的必要途径，因此在注册时需要提供学生所有的信息，当有新用户注册时，可以使用如下协议进行注册请求：
 <table  >
@@ -257,7 +258,7 @@
 </table>
 
 
-### 3.1.3 忘记密码
+### 3.1.3 忘记密码 (Finish)
 
 用户一旦忘记密码，即可以通过该接口找回密码，找回密码需要学号、手机号以及邮箱号同时一致时方能够找回
 <table  >
@@ -279,7 +280,7 @@
 </table>
 
 
-### 3.1.4 判断学号与手机号码是否唯一
+### 3.1.4 判断学号与手机号码是否唯一 (Finish)
 
 在注册时，由于学号与手机号码在数据库中的值是唯一的，因此可以在用户输入完学号与手机号码之后，进行一次判断，提前告知用户学号与手机号是否被注册了，降低用户的试错成本。
 
@@ -302,7 +303,7 @@
 
 ### 3.1.5 通用接口
 
-#### 3.1.4.1 获取个人信息
+#### 3.1.4.1 获取个人信息 (Finish)
 
 该接口用于各个页面获取登录用户的个人信息，由于经常重复使用，因此单独成节。具体的接口描述如下
 <table  >
@@ -329,7 +330,7 @@
 </table>
 
 
-#### 3.1.4.2 图片上传接口
+#### 3.1.4.2 图片上传接口  (Finish)
 
 由于在发布帖子和一些其他的操作需要用到图片时，需要调用该接口，将图片转为BASE64上传到云端，通过服务器转码保存到云端，再返回一个URL给前端，节省数据库开销。
 
@@ -351,7 +352,7 @@
 </table>
 
 
-#### 3.1.4.3 邮件发送接口
+#### 3.1.4.3 邮件发送接口  (Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -361,7 +362,7 @@
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
- 	<tr><td>isSystem</td><td>Integer</td><td>是否是系统发送，0为是系统发送，1为系统发送</td></tr>
+ 	<tr><td>isSystem</td><td>Integer</td><td>是否是系统发送，0为是用户发送，1为系统发送</td></tr>
 	<tr><td>mailType</td><td>Integer</td><td>邮件类型，0：发送给用户，1：发送给社团</td></tr>
     <tr><td>fromuid</td><td>Integer</td><td>ID值，发送者UID(isSystem为1时无需该字段)</td></tr>
 	<tr><td>touid</td><td>Integer</td><td>ID值，收件人UID（mailType为1时为aid）</td></tr>
@@ -372,6 +373,7 @@
 	<tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回一个mid</td></tr>
     <tr><td>msg</td><td colspan=2>描述信息</td></tr>
 </table>
+
 
 
 
@@ -401,7 +403,7 @@
 
 
 
-#### 3.1.4.5 获取所有社团列表
+#### 3.1.4.5 获取所有社团列表(Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -413,13 +415,14 @@
     <tr><th>无</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
+	<tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
 	<tr><th>data.ass[]</td><th colspan=2>社团信息</td></tr>
     <tr><td>aid</td><td colspan=2>社团uid</td></tr>
 	<tr><td>name</td><td colspan=2>社团名称</td></tr>
 </table>
 
-#### 3.1.4.6 文件上传接口
+
+#### 3.1.4.6 文件上传接口 (Finish)
 
 用途用法如3.1.4.2节相似，不再赘述，同样返回一个URL链接
 
@@ -437,7 +440,7 @@
     <tr><td>code</td><td colspan=2>结果代码：0，转码成功 1，转码失败 </td></tr>
     <tr><td>msg</td><td colspan=2>如果code为0，则返回文件的URL地址，如果code为1，则返回错误信息</td></tr>
 </table>
-#### 3.1.4.7 获取所有学院列表
+#### 3.1.4.7 获取所有学院列表 (Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -449,7 +452,7 @@
     <tr><th>无</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>result</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
+	<tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
 	<tr><th>data.college[]</td><th colspan=2>社团信息</td></tr>
     <tr><td>coid</td><td colspan=2>学院ID，coid</td></tr>
 	<tr><td>name</td><td colspan=2>学院名称</td></tr> 3.
@@ -457,7 +460,8 @@
 
 
 
-#### 3.1.4.8 下载文件接口
+
+#### 3.1.4.8 下载文件接口 (Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>

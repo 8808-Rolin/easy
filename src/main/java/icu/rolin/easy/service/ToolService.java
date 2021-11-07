@@ -1,11 +1,18 @@
 package icu.rolin.easy.service;
 
+import com.alibaba.fastjson.JSON;
+import icu.rolin.easy.mapper.AssociationMapper;
+import icu.rolin.easy.mapper.CollegeTableMapper;
 import icu.rolin.easy.mapper.MailMapper;
 import icu.rolin.easy.mapper.UserMapper;
+import icu.rolin.easy.model.DO.Association;
+import icu.rolin.easy.model.DO.College_Table;
 import icu.rolin.easy.model.PO.SendMailPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
+import icu.rolin.easy.model.POJO.AssOverviewPOJO;
 import icu.rolin.easy.model.POJO.CollegePOJO;
 import icu.rolin.easy.model.VO.CollegeListVO;
+import icu.rolin.easy.model.VO.SimpleVO;
 import icu.rolin.easy.utils.Base64ToImageUtil;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -22,15 +29,22 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
 public class ToolService {
-
+    
+    // 注入Mapper
     @Autowired
     private UserMapper userMapper;
     @Autowired
     private MailMapper mailMapper;
+    @Autowired
+    private CollegeTableMapper collegeTableMapper;
+    @Autowired
+    private AssociationMapper am;
+
     private final static Logger logger = LoggerFactory.getLogger(ToolService.class);
     // 判断用户学号与手机号是否唯一
     public int verifyAccountUniqueness(UniVariablePO uv){
@@ -142,13 +156,42 @@ public class ToolService {
 
     }
 
-    public boolean sendEmail(SendMailPO sm){
-        Integer code = mailMapper.insertMail(sm.getFromuid(), sm.getTouid(), sm.getTitle(), sm.getContent(), sm.getIsSystem(), sm.getMailType());
-        if (code == null){
-            logger.error("邮件写入失败，数据库返回空集！");
-            code = -1;
+    /**
+     * 由系统发送邮件给用户，该右键无需注明发送发送者
+     * @param sm 邮件参数对象(该参数没有from_uid选项)
+     * @return 返回一个boolean值，是当前业务的状态
+     */
+    public SimpleVO sendEmailWithSystem(SendMailPO sm){
+        SimpleVO svo = new SimpleVO();
+        Integer code = mailMapper.insertMailWithSystem(sm.getTouid(), sm.getTitle(), sm.getContent(), sm.getMailType());
+        logger.error("发送邮件数据库返回码："+code.toString());
+        if(code == 1){
+            svo.setCode(mailMapper.getMaxMid());
+            svo.setMsg("系统发送邮件成功");
+        }else{
+            svo.setCode(-1);
+            svo.setMsg("发送邮件失败");
         }
-        return code == 1;
+        return svo;
+    }
+
+    /**
+     * 由用户发送邮件给用户，该邮件需要注明发送者和接收者的id
+     * @param sm 邮件参数对象
+     * @return 返回一个boolean值，是当前业务的状态
+     */
+    public SimpleVO sendEmailWithUser(SendMailPO sm){
+        SimpleVO svo = new SimpleVO();
+        Integer code = mailMapper.insertMailWithUser(sm.getFromuid(), sm.getTouid(), sm.getTitle(), sm.getContent(),sm.getMailType());
+        logger.error("发送邮件数据库返回码："+code.toString());
+        if(code == 1){
+            svo.setCode(mailMapper.getMaxMid());
+            svo.setMsg("用户发送邮件成功");
+        }else{
+            svo.setCode(-1);
+            svo.setMsg("发送邮件失败");
+        }
+        return svo;
     }
 
     public String getUserNameById(Integer uid){
@@ -159,12 +202,44 @@ public class ToolService {
             return userName;
         }
     }
-
+    
     // 获取学院列表的业务方法
-    public CollegeListVO getCollegeList(){
+    public CollegeListVO getCollegeList()  {
         CollegeListVO cvo = new CollegeListVO();
+        ArrayList<College_Table> ctList = collegeTableMapper.findAll();
+        CollegePOJO[] cps = new CollegePOJO[ctList.size()];
+        if (ctList == null){
+            cvo.setCode(-1);
+            cvo.setCollege(null);
+            return cvo;
+        }
 
-        CollegePOJO[] cps = new CollegePOJO[1];
+        for (int i = 0; i < ctList.size(); i++) {
+            cps[i] = new CollegePOJO();
+            cps[i].setName(ctList.get(i).getCollege_name());
+            cps[i].setCoid(ctList.get(i).getId());
+        }
+        cvo.setCode(ctList.size());
+        cvo.setCollege(cps);
+        return cvo;
     }
+
+
+    /**
+     * 获取所有社团列表，展示简单的数据
+     * @return 返回一个AssOverviewPOJO数组
+     */
+    public AssOverviewPOJO[] get_association_list(){
+        ArrayList<Association>  as= am.getAssOverview();
+        if(as == null) return null;
+        AssOverviewPOJO[] aos = new AssOverviewPOJO[as.size()];
+        for (int i = 0; i < as.size(); i++) {
+            aos[i] = new AssOverviewPOJO();
+            aos[i].setAid(as.get(i).getId());
+            aos[i].setName(as.get(i).getName());
+        }
+        return aos;
+    }
+
 
 }

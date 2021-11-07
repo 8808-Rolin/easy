@@ -35,7 +35,7 @@ public class InfoService {
             User userDO = userMapper.findById(uid);
             System.out.println(userDO.toString());
 
-            College_Table college_table = collegeTableMapper.getCollegeById(userDO.getCollege_id());
+            College_Table college_table = collegeTableMapper.findCollegeById(userDO.getCollege_id());
             System.out.println(college_table);
             UserPOJO userPOJO = new UserPOJO(userDO.getUsername(), userDO.getRealname(), userDO.getStudent_number(), college_table.getCollege_name(), userDO.getIntro(), userDO.getLevel(), userDO.getUser_avatar());
 

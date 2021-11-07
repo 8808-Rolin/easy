@@ -98,9 +98,10 @@
 
 ## 1.5 更新历史
 
-| 更新时间   | 更新章节       | 更新内容                              |
-| ---------- | -------------- | ------------------------------------- |
-| 2021-11-06 | 社团表、用户表 | 头像修改为相对路径URL，不再使用Base64 |
+| 更新时间   | 更新章节           | 更新内容                              |
+| ---------- | ------------------ | ------------------------------------- |
+| 2021-11-06 | 社团表、用户表     | 头像修改为相对路径URL，不再使用Base64 |
+| 2021-11-07 | 3.2.2.3 创建社团表 | 修订 新增note字段                     |
 
 # 2. 外部设计
 
@@ -205,11 +206,13 @@ apply_content |审批内容表，是通用社团审批表的从表 | | 14 | appl
     <tr><td>社团名称</td><td>name</td><td>varchar;NN </td><td></td></tr>
     <tr><td>社团头像</td><td>logo</td><td>varchar;NN </td><td>相对URL</td></tr>
     <tr><td>社团简介</td><td>intro</td><td>varchar;NN </td><td></td></tr>
+    <tr><td>申请备注</td><td>note</td><td>varchar;NN </td><td></td></tr>
     <tr><td>所属组织</td><td>parent_organization</td><td>varchar;NN </td><td></td></tr>
     <tr><td>是否通过审批</td><td>is_approved</td><td>unsigned int;NN </td><td>0为未通过，1为已通过</td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
+
 
 
 
@@ -276,16 +279,18 @@ apply_content |审批内容表，是通用社团审批表的从表 | | 14 | appl
     <tr><th>表描述</th><td colspan='3'>用户邮箱表</td></tr>
     <tr><th>中文描述</th><th>字段名</th><th>类型以及精度</th><th>备注</th></tr>
     <tr><td>唯一标识符</td><td>id</td><td>unsigned int;PK;UK;AI;NN </td><td></td></tr>
-    <tr><td>发送人id</td><td>from_id</td><td>unsigned int;NN </td><td>对应user.id</td></tr>
+    <tr><td>发送人id</td><td>from_id</td><td>unsigned int;可空 </td><td>对应user.id</td></tr>
     <tr><td>收件人id</td><td>to_id</td><td>unsigned int;NN </td><td>当mail_type为1时这里是社团aid</td></tr>
     <tr><td>邮件标题</td><td>title</td><td>varchar;NN </td><td></td></tr>
     <tr><td>邮件内容</td><td>content</td><td>varchar;NN </td><td></td></tr>
-    <tr><td>是否已读</td><td>is_read</td><td>unsigned int;NN </td><td></td></tr>
+    <tr><td>是否已读</td><td>is_read</td><td>unsigned int;NN;DF 0 </td><td></td></tr>
     <tr><td>是否系统邮件</td><td>is_system</td><td>unsigned int;NN </td><td></td></tr>
     <tr><td>邮件类型</td><td>mail_type</td><td>unsigned int;NN </td><td>0为个人邮件，1为社团邮件</td></tr>
 	<tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
+
+
 
 #### 3.2.2.9 参加活动表
 
@@ -325,12 +330,13 @@ apply_content |审批内容表，是通用社团审批表的从表 | | 14 | appl
     <tr><td>唯一标识符</td><td>id</td><td>unsigned int;PK;UK;AI;NN </td><td></td></tr>
     <tr><td>协会负责人id</td><td>leader_id</td><td>unsigned int;NN </td><td>对应user.id</td></tr>
     <tr><td>协会名</td><td>name</td><td>varchar;NN </td><td></td></tr>
-    <tr><td>logo</td><td>logo</td><td>text;NN </td><td>社团头像是一个Base64</td></tr>
+    <tr><td>logo</td><td>logo</td><td>varchar;NN </td><td>URL</td></tr>
     <tr><td>简介</td><td>intro</td><td>varchar;NN </td><td></td></tr>
     <tr><td>上属组织</td><td>parent_organization</td><td>varchar;NN </td><td></td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
+
 
 #### 3.2.2.12 帖子数据表
 
@@ -437,6 +443,7 @@ CREATE TABLE apply_create (
   `name` VARCHAR(30) NOT NULL COMMENT '社团名字',
   `logo` TEXT COMMENT 'base64编码的社团头像',
   `intro` VARCHAR(255) NOT NULL COMMENT '社团简介',
+  `note` text NOT NULL COMMENT '申请备注',
   `parent_organization` VARCHAR(25) NOT NULL COMMENT '上级组织',
   `is_approved` INT UNSIGNED NOT NULL,
   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

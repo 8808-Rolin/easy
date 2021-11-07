@@ -1,7 +1,9 @@
 package icu.rolin.easy.controller;
 
+import com.sun.org.apache.xml.internal.resolver.readers.ExtendedXMLCatalogReader;
 import icu.rolin.easy.model.PO.SendMailPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
+import icu.rolin.easy.model.POJO.AssOverviewPOJO;
 import icu.rolin.easy.model.POJO.CollegePOJO;
 import icu.rolin.easy.model.VO.AssListVO;
 import icu.rolin.easy.model.VO.CollegeListVO;
@@ -20,8 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(value = "/api/tool")
 public class ToolController {
 
+    //Service注入
     @Autowired
     private ToolService toolService;
+
+
 
     @GetMapping(value = "/uni-variable")
     public ResponseVO uni_variable(UniVariablePO uv){
@@ -78,33 +83,37 @@ public class ToolController {
 
     @PostMapping(value = "/send-email")
     public ResponseVO send_mail(SendMailPO sm){
-        boolean key = toolService.sendEmail(sm);
-        if (key){
-            return new ResponseVO(new SimpleVO(0,"邮件发送成功"));
-        }else {
-            return new ResponseVO(new SimpleVO(-1,"邮件发送失败"));
-        }
+        if(sm.getIsSystem() == 0 && sm.getFromuid() != null) //用户
+            return new ResponseVO(toolService.sendEmailWithUser(sm));
+        else if(sm.getIsSystem() == 1)
+            return new ResponseVO(toolService.sendEmailWithSystem(sm));
+        else
+            return new ResponseVO(202,"请求参数错误！",new SimpleVO(-1,"请求参数错误！"));
+
     }
 
     @GetMapping(value = "/get-association-list")
     public ResponseVO get_association_list(){
-        return new ResponseVO(new AssListVO());
+        AssOverviewPOJO[] aos = toolService.get_association_list();
+        AssListVO alvo = new AssListVO();
+        if (aos == null){
+            alvo.setCode(0);
+            alvo.setAss(null);
+            return new ResponseVO("没有找到对呀的数据，或服务器出错",alvo);
+        }else{
+            alvo.setCode(aos.length);
+            alvo.setAss(aos);
+            return new ResponseVO(alvo);
+        }
     }
 
     @GetMapping(value = "/get-college-list")
     public ResponseVO get_colleges(){
-
-
+        ResponseVO rvo = new ResponseVO();
         CollegeListVO collegeListVO = new CollegeListVO();
-        collegeListVO.setCode(2);
-        CollegePOJO[] ps = new CollegePOJO[2];
-        ps[0] = new CollegePOJO();
-        ps[1] = new CollegePOJO();
-        ps[0].setCoid(1);
-        ps[1].setCoid(2);
-        ps[0].setName("男女比例1:12学院");
-        ps[1].setName("男女比例100:2学院");
-        collegeListVO.setCollege(ps);
-        return new ResponseVO(collegeListVO);
+        rvo.setData(toolService.getCollegeList());
+        rvo.setStatus(200);
+        rvo.setMessage("");
+        return rvo.update();
     }
 }

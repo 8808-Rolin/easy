@@ -15,9 +15,10 @@ public interface CollegeTableMapper {
 
     // 通过学院ID查询到学院信息
     @Select("SELECT * FROM college_table WHERE id = #{id}")
-    College_Table getCollegeById(Integer id);
+    College_Table findCollegeById(Integer id);
 
     //查询所有的学院
-    ArrayList<College_Table> getCollege();
+    @Select("SELECT * FROM college_table")
+    ArrayList<College_Table> findAll();
 
 }
