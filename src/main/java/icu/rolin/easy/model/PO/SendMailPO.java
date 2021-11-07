@@ -3,7 +3,7 @@ package icu.rolin.easy.model.PO;
 public class SendMailPO {
     private Integer isSystem;
     private Integer mailType;
-    private Integer formuid;
+    private Integer fromuid;
     private Integer touid;
     private String title;
     private String content;
@@ -24,12 +24,12 @@ public class SendMailPO {
         this.mailType = mailType;
     }
 
-    public Integer getFormuid() {
-        return formuid;
+    public Integer getFromuid() {
+        return fromuid;
     }
 
-    public void setFormuid(Integer formuid) {
-        this.formuid = formuid;
+    public void setFromuid(Integer fromuid) {
+        this.fromuid = fromuid;
     }
 
     public Integer getTouid() {

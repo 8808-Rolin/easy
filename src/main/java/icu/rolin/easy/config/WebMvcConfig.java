@@ -30,6 +30,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                         "/api/tool/uni-variable",
                         "/api/user/forget-password",
                         "/**/**/upload-image",
+                        "/files/**",
                         "/images/**",
                         "/favicon.ico"
                 );
@@ -41,7 +42,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
-        registry.addResourceHandler("/images/**").addResourceLocations(
+        registry.addResourceHandler("files/**","images/**").addResourceLocations(
                 "file:"+staticPath);
     }
 

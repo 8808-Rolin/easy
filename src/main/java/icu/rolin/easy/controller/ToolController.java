@@ -7,8 +7,10 @@ import icu.rolin.easy.model.VO.AssListVO;
 import icu.rolin.easy.model.VO.CollegeListVO;
 import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
+import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.ToolService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,12 +54,36 @@ public class ToolController {
 
     @PostMapping(value = "/upload-file")
     public ResponseVO upload_file(@RequestParam("file") MultipartFile file){
-        return new ResponseVO(new SimpleVO());
+        String fileName = toolService.uploadFile(file);
+        if (fileName == null){
+            return new ResponseVO(new SimpleVO(1,"文件上传失败"));
+        }else {
+            return new ResponseVO(new SimpleVO(0,fileName));
+        }
+    }
+
+    // 新增文件下载功能，原文档没有，请补回
+    @PostMapping(value = "/download-file")
+    public ResponseEntity<byte[]> download_file(String fileName, Integer uid){
+        ResponseEntity<byte[]> file = toolService.downloadFile(fileName);
+        String userName = toolService.getUserNameById(uid);
+        if (file != null){
+            System.out.println("用户名为："+userName+"，正在下载名为："+fileName+"的文件...");
+            return file;
+        }else {
+            System.out.println("用户名为："+userName+"，无法成功下载名为："+fileName+"的文件...");
+            return null;
+        }
     }
 
     @PostMapping(value = "/send-email")
     public ResponseVO send_mail(SendMailPO sm){
-        return new ResponseVO(new SimpleVO());
+        boolean key = toolService.sendEmail(sm);
+        if (key){
+            return new ResponseVO(new SimpleVO(0,"邮件发送成功"));
+        }else {
+            return new ResponseVO(new SimpleVO(-1,"邮件发送失败"));
+        }
     }
 
     @GetMapping(value = "/get-association-list")

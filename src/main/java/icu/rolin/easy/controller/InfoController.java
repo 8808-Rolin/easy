@@ -2,6 +2,7 @@ package icu.rolin.easy.controller;
 
 import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
+import icu.rolin.easy.model.POJO.AssMemberPOJO;
 import icu.rolin.easy.model.POJO.UserPOJO;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.InfoService;
@@ -31,6 +32,8 @@ public class InfoController {
 
     @GetMapping(value = "/get-member-list")
     public ResponseVO get_members(Integer aid){
+//        AssMemberPOJO[] mebers = infoService.findUserByAID(aid);
+//          停工
         return new ResponseVO(new AssMembersRespVO());
     }
 
