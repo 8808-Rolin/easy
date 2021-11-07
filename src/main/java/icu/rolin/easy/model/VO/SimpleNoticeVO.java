@@ -10,6 +10,11 @@ public class SimpleNoticeVO {
         return code;
     }
 
+    public SimpleNoticeVO(Integer code, SimpleNoticePOJO[] notice) {
+        this.code = code;
+        this.notice = notice;
+    }
+
     public void setCode(Integer code) {
         this.code = code;
     }

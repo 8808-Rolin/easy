@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @CacheNamespace(implementation = RedisCache.class)
 public interface AssociationUserMapper {
 
-    @Select("SELECT * FROM association_user WHERE id = #{aid}")
-    ArrayList<Association_User> findAllMembersByAID(Integer aid);
+    @Select("SELECT * FROM association_user")
+    ArrayList<Association_User> getAllAssociation_users();
 
 }

@@ -8,6 +8,9 @@ public class CreateAssPO {
     private Integer uid;
     private Integer org;
 
+    public CreateAssPO() {
+    }
+
     public String getAssname() {
         return assname;
     }
@@ -54,5 +57,26 @@ public class CreateAssPO {
 
     public void setOrg(Integer org) {
         this.org = org;
+    }
+
+    public CreateAssPO(String assname, String assintro, String note, String assprofile, Integer uid, Integer org) {
+        this.assname = assname;
+        this.assintro = assintro;
+        this.note = note;
+        this.assprofile = assprofile;
+        this.uid = uid;
+        this.org = org;
+    }
+
+    @Override
+    public String toString() {
+        return "CreateAssPO{" +
+                "assname='" + assname + '\'' +
+                ", assintro='" + assintro + '\'' +
+                ", note='" + note + '\'' +
+                ", assprofile='" + assprofile + '\'' +
+                ", uid=" + uid +
+                ", org=" + org +
+                '}';
     }
 }

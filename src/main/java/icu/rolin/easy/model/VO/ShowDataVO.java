@@ -7,6 +7,12 @@ public class ShowDataVO {
     private String msg;
     private ShowDataAssPOJO[] ass;
 
+    public ShowDataVO(Integer code, String msg, ShowDataAssPOJO[] ass) {
+        this.code = code;
+        this.msg = msg;
+        this.ass = ass;
+    }
+
     public Integer getCode() {
         return code;
     }
