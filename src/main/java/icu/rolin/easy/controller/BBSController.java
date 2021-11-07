@@ -2,8 +2,11 @@ package icu.rolin.easy.controller;
 
 import com.rabbitmq.client.AMQP;
 import icu.rolin.easy.model.PO.*;
+import icu.rolin.easy.model.POJO.ShowDataAssPOJO;
 import icu.rolin.easy.model.VO.*;
+import icu.rolin.easy.service.BBSService;
 import org.apache.ibatis.annotations.Insert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,14 +15,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/bbs")
 public class BBSController {
 
+    @Autowired
+    private BBSService bbsService;
+
     @GetMapping(value = "/get-simple-notice")
     public ResponseVO get_simple_notices(){
-        return new ResponseVO(new SimpleNoticeVO());
+        return new ResponseVO(bbsService.showNotices());
     }
 
     @PostMapping(value = "/get-show-data")
     public ResponseVO get_show_data(Integer uid){
-        return new ResponseVO(new ShowDataVO());
+        ShowDataAssPOJO[] showDataAssPOJOS = bbsService.showDatas(uid);
+        if (showDataAssPOJOS != null) return new ResponseVO(new ShowDataVO(0,"",showDataAssPOJOS));
+        return new ResponseVO(new ShowDataVO(-1,"获取失败",null));
     }
 
     @GetMapping(value = "/get-post-list")

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 @CacheNamespace(implementation = RedisCache.class)
 public interface AssociationMapper {
 
-    //获取UID和名字数据的社团信息
     @Select("SELECT id,name FROM association")
     ArrayList<Association> getAssOverview();
 

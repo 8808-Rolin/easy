@@ -4,6 +4,8 @@ import icu.rolin.easy.model.PO.CreateAssPO;
 import icu.rolin.easy.model.PO.SendApplyPO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.VO.*;
+import icu.rolin.easy.service.ApplyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,9 +14,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/apply")
 public class ApplyController {
 
+    @Autowired
+    private ApplyService applyService;
+
     @PostMapping(value = "/create-ass")
     public ResponseVO create_ass(CreateAssPO cap){
-        return new ResponseVO(new SimpleVO());
+        boolean key = applyService.creatAssociation(cap);
+        if (key){
+            return new ResponseVO(new SimpleVO(0,applyService.getCAID()));
+        }else {
+            return new ResponseVO(new SimpleVO(1,"申请社团失败"));
+        }
+
     }
 
     @PostMapping(value = "/join-association")
