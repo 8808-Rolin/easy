@@ -66,6 +66,37 @@
 # 项目规范
 
 ## 命名规范
+### Service层、Dao层
+1. 获取单个或多个对象的方法用get做前缀 
+  - getObject
+  - getObjectById
+  - getObjectByUkey
+  - getObjectProperty
+  - getObjectPropertyList
+2. 获取多个对象的方法用list做前缀（不含分页）
+  - listAll
+  - listAllBy
+  - listAllByXXX
+3. 获取统计值的方法用count做前缀 
+  - count
+  - countBy
+  - countByXXX
+4. 插入的方法用save做前缀
+  - saveObject
+  - saveObjectList
+5. 删除的方法用remove（推荐）或delete做前缀
+  - removeObject
+  - removeObjectById
+  - removeObjectList
+6. 修改的方法用update做前缀
+  - updateObject
+  - updateObjectList
+7. 查询的方法用find做前缀（含分页）
+  - findAll
+  - findBy
+  - findByXXX
+  - findByCondition
+  - findByConditionWithPage
 
 ## 代码规范
 

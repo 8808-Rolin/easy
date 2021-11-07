@@ -62,7 +62,7 @@ public class ToolController {
         }
     }
 
-    // 新增文件下载功能，原文档没有，请补回
+
     @PostMapping(value = "/download-file")
     public ResponseEntity<byte[]> download_file(String fileName, Integer uid){
         ResponseEntity<byte[]> file = toolService.downloadFile(fileName);
@@ -93,6 +93,8 @@ public class ToolController {
 
     @GetMapping(value = "/get-college-list")
     public ResponseVO get_colleges(){
+
+
         CollegeListVO collegeListVO = new CollegeListVO();
         collegeListVO.setCode(2);
         CollegePOJO[] ps = new CollegePOJO[2];

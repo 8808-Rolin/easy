@@ -4,6 +4,8 @@ import icu.rolin.easy.mapper.MailMapper;
 import icu.rolin.easy.mapper.UserMapper;
 import icu.rolin.easy.model.PO.SendMailPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
+import icu.rolin.easy.model.POJO.CollegePOJO;
+import icu.rolin.easy.model.VO.CollegeListVO;
 import icu.rolin.easy.utils.Base64ToImageUtil;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -156,6 +158,13 @@ public class ToolService {
         }else {
             return userName;
         }
+    }
+
+    // 获取学院列表的业务方法
+    public CollegeListVO getCollegeList(){
+        CollegeListVO cvo = new CollegeListVO();
+
+        CollegePOJO[] cps = new CollegePOJO[1];
     }
 
 }

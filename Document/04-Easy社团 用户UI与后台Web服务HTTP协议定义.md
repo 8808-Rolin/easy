@@ -150,6 +150,7 @@
 | 2021-11-03 | 3.6.5 修改公告 | 将newContent字段修改为newProfile字段 |
 | 2021-11-03 | 3.7.4 修改论坛信息 | 订正请求参数类型，订正请求URL |
 | 2021-11-06 | 用户、社团相关头像接口 | 均采用URL模式而不使用Base64 |
+| 2021-11-07 | 新增下载文件接口 3.1.4.8 | 下载文件接口 |
 
 
 
@@ -451,8 +452,26 @@
 	<tr><td>result</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
 	<tr><th>data.college[]</td><th colspan=2>社团信息</td></tr>
     <tr><td>coid</td><td colspan=2>学院ID，coid</td></tr>
-	<tr><td>name</td><td colspan=2>学院名称</td></tr>
+	<tr><td>name</td><td colspan=2>学院名称</td></tr> 3.
 </table>
+
+
+
+#### 3.1.4.8 下载文件接口
+
+<table>
+    <tr><th colspan="3">请求</th></tr>
+    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/tool//download-file</td></tr>
+    <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
+    <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
+    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><td>fileName</td><td>String</td><td>预下载的文件名字</td></tr>
+    <tr><td>uid</td><td>Integer</td><td>下载者的UID</td></tr>
+    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>file</td><th colspan=2>文件实体</td></tr>
+</table>
+
 
 ## 3.2 首页相关接口
 
