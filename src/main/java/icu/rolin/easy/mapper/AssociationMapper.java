@@ -14,6 +14,11 @@ public interface AssociationMapper {
 
     //获取UID和名字数据的社团信息
     @Select("SELECT id,name FROM association")
-    public ArrayList<Association> getAssOverview();
+    ArrayList<Association> getAssOverview();
+
+    //获取一个社团是否存在存在返回 1 不存在返回0
+    @Select("SELECT COUNT(*) FROM association WHERE id=#{id}")
+    Integer findAssIsExist(Integer id);
+
 
 }

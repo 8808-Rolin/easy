@@ -13,6 +13,9 @@ public interface UserMapper {
     @Select("SELECT * FROM user")
     ArrayList<User> findAll();
 
+    @Select("SELECT id,username,realname,student_number FROM user WHERE id = #{id}")
+    User findSomeById(Integer id);
+
     @Select("SELECT * FROM user WHERE id = #{id}")
     User findById(Integer id);
 

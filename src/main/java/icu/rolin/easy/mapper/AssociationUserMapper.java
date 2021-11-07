@@ -13,6 +13,6 @@ import java.util.ArrayList;
 public interface AssociationUserMapper {
 
     @Select("SELECT * FROM association_user WHERE id = #{aid}")
-    ArrayList<Association_User> findAllMembersByAID(Integer aid);
+    public ArrayList<Association_User> findAllMembersByAID(Integer aid);
 
 }

@@ -1,5 +1,6 @@
 package icu.rolin.easy.service;
 
+import icu.rolin.easy.mapper.AssociationMapper;
 import icu.rolin.easy.mapper.AssociationUserMapper;
 import icu.rolin.easy.mapper.CollegeTableMapper;
 import icu.rolin.easy.mapper.UserMapper;
@@ -25,6 +26,9 @@ public class InfoService {
     private CollegeTableMapper collegeTableMapper;
     @Autowired
     private AssociationUserMapper associationUserMapper;
+    @Autowired
+    private AssociationMapper am;
+
     private final static Logger logger = LoggerFactory.getLogger(InfoService.class);
 
     public UserPOJO getPersonInformation(Integer uid){
@@ -37,22 +41,51 @@ public class InfoService {
 
             College_Table college_table = collegeTableMapper.findCollegeById(userDO.getCollege_id());
             System.out.println(college_table);
-            UserPOJO userPOJO = new UserPOJO(userDO.getUsername(), userDO.getRealname(), userDO.getStudent_number(), college_table.getCollege_name(), userDO.getIntro(), userDO.getLevel(), userDO.getUser_avatar());
-
+            UserPOJO userPOJO = new UserPOJO(
+                    userDO.getUsername(),
+                    userDO.getRealname(),
+                    userDO.getStudent_number(),
+                    college_table.getCollege_name(),
+                    userDO.getIntro(),
+                    userDO.getLevel(),
+                    userDO.getUser_avatar());
             return userPOJO;
         }
     }
-//
-//    public AssMemberPOJO[] findUserByAID(Integer aid){
-//        if (aid == null){
-//            logger.error("用户aid缺失");
-//            return null;
-//        }else {
-//            ArrayList<Association_User> association_users = associationUserMapper.findAllMembersByAID(aid);
-//            ArrayList<UserPOJO> userPOJOS = userMapper.findById(association_users.)
-//
-//            return
-//        }
-//    }
+
+
+    /**
+     * 该接口是获取简单的社员信息，用以选择社员
+     * @param aid 传入一个社团ID值，用以获取该社团的成员
+     * @return 返回一个列表，供Controller包装
+     */
+    public AssMemberPOJO[] getAssMemberList (Integer aid){
+        ArrayList<Association_User> aau = associationUserMapper.findAllMembersByAID(aid);
+        AssMemberPOJO[] amps = new AssMemberPOJO[aau.size()];
+        for (int i = 0; i < aau.size(); i++) {
+            amps[i] = new AssMemberPOJO();
+            amps[i].setUid(aau.get(i).getU_id());
+            User user = userMapper.findSomeById(amps[i].getUid());
+            if(user == null) {
+                amps[i].setUsername("该用户不存在");
+                amps[i].setRealname("该用户不存在");
+                amps[i].setStudentid("-1");
+            }else{
+                amps[i].setUsername(user.getUsername());
+                amps[i].setRealname(user.getRealname());
+                amps[i].setStudentid(user.getRealname());
+            }
+        }
+        return amps;
+    }
+
+    /**
+     * 判断一个社团ID是否存在对于社团
+     * @param aid 传入一个aid作为判据
+     * @return  返回一个布尔值，真表示存在，否表示不存在
+     */
+    public boolean getAssIsExist(Integer aid){
+        return am.findAssIsExist(aid) == 1;
+    }
 
 }

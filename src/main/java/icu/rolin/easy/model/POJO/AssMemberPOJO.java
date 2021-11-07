@@ -30,12 +30,6 @@ public class AssMemberPOJO {
         this.realname = realname;
     }
 
-    public AssMemberPOJO(Integer uid, String username, String realname, String studentid) {
-        this.uid = uid;
-        this.username = username;
-        this.realname = realname;
-        this.studentid = studentid;
-    }
 
     public String getStudentid() {
         return studentid;

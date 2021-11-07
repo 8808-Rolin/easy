@@ -1,5 +1,6 @@
 package icu.rolin.easy.controller;
 
+import com.alibaba.fastjson.JSON;
 import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.AssMemberPOJO;
@@ -32,9 +33,19 @@ public class InfoController {
 
     @GetMapping(value = "/get-member-list")
     public ResponseVO get_members(Integer aid){
-//        AssMemberPOJO[] mebers = infoService.findUserByAID(aid);
-//          停工
-        return new ResponseVO(new AssMembersRespVO());
+        AssMemberPOJO[] amps = infoService.getAssMemberList(aid);
+        AssMembersRespVO amrvo = new AssMembersRespVO();
+        if (aid == null) return new ResponseVO(202,"参数错误",null);
+
+        if (!infoService.getAssIsExist(aid)){
+            amrvo.setCode(0);
+            amrvo.setMembers(null);
+            return new ResponseVO("获取信息失败,该社团不存在",amrvo);
+        }
+        System.out.println(JSON.toJSONString(amps));
+        amrvo.setCode(amps.length);
+        amrvo.setMembers(amps);
+        return new ResponseVO("获取成功",amrvo);
     }
 
     @PostMapping(value = "/get-action-overview")
