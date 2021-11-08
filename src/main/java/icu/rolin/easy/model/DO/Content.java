@@ -3,9 +3,8 @@ package icu.rolin.easy.model.DO;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Post_Content implements Serializable {
+public class Content implements Serializable {
     private Integer id;
-    private Integer p_id;
     private String content;
     private Timestamp create_time;
     private Timestamp update_time;
@@ -18,13 +17,6 @@ public class Post_Content implements Serializable {
         this.id = id;
     }
 
-    public Integer getP_id() {
-        return p_id;
-    }
-
-    public void setP_id(Integer p_id) {
-        this.p_id = p_id;
-    }
 
     public String getContent() {
         return content;

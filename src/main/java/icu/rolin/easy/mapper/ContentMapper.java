@@ -6,5 +6,5 @@ import org.mybatis.caches.redis.RedisCache;
 
 @Mapper
 @CacheNamespace(implementation = RedisCache.class)
-public interface ApplyContentMapper {
+public interface ContentMapper {
 }
