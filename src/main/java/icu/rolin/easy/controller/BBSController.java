@@ -9,6 +9,7 @@ import icu.rolin.easy.model.POJO.SimpleNoticePOJO;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.BBSService;
 import icu.rolin.easy.service.UserService;
+import icu.rolin.easy.utils.common;
 import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,11 +47,19 @@ public class BBSController {
         return new ResponseVO(new ShowDataVO(showDataAssPOJOS.length,"获取成功",showDataAssPOJOS));
     }
 
+    // 给注册用户以及非注册用户获取帖子列表使用，能够得到帖子数据的基本概要，需要传入一个页面参数，该参数可空，空则为第一页
     @GetMapping(value = "/get-post-list")
     public ResponseVO get_post_list(GetPostsPO gppo){
-        PostsPOJO[] postsPOJOS = bbsService.showPosts(gppo);
-        if (postsPOJOS == null) return new ResponseVO("没有帖子",new GetPostListVO(0,null));
-        return new ResponseVO(new GetPostListVO(postsPOJOS.length,postsPOJOS));
+        Integer page = gppo.getPage();
+        Integer limit = gppo.getLimit();
+        if (page == null||page == 0) page = 1;
+        if(limit == null||limit == 0) limit =10;
+        PostsPOJO[] postsPOJOS = bbsService.getPosts(gppo);
+
+
+        if (postsPOJOS == null || postsPOJOS.length==0)
+            return new ResponseVO("没有帖子,可能是参数错误或者真就没有帖子",new GetPostListVO(0,null));
+        return new ResponseVO(new GetPostListVO(postsPOJOS.length, common.getPageLimitPost(postsPOJOS,page,limit)));
     }
 
     @PostMapping("/release-post")
