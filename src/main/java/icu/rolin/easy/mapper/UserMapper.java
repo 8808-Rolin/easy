@@ -22,6 +22,9 @@ public interface UserMapper {
     @Select("SELECT username FROM user WHERE id = #{id}")
     String getNameById(Integer id);
 
+    @Select("SELECT level FROM user WHERE id = #{id}")
+    Integer getLevelById(Integer id);
+
     @Select("SELECT count(*) FROM user WHERE student_number = #{account} and password = #{password}")
     Integer verifyLoginByStudent_number(String account, String password);
 

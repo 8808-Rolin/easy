@@ -51,4 +51,19 @@ public class common {
         return simpleDateFormat.format(new Date(time));
     }
 
+    public static Integer transPostType(String postType){
+        Integer result = 1;
+        switch (postType){
+            case "系统公告":
+                result =0;
+                break;
+            case "交流贴":
+                result = 1;
+                break;
+            default:
+                result = 2;
+        }
+        return result;
+    }
+
 }

@@ -10,7 +10,7 @@ public class Post implements Serializable {
     private String title;
     private Integer content_id;
     private String tags;
-    private Integer post_type;
+    private String post_type;
     private Timestamp create_time;
     private Timestamp update_time;
 
@@ -62,11 +62,11 @@ public class Post implements Serializable {
         this.tags = tags;
     }
 
-    public Integer getPost_type() {
+    public String getPost_type() {
         return post_type;
     }
 
-    public void setPost_type(Integer post_type) {
+    public void setPost_type(String post_type) {
         this.post_type = post_type;
     }
 

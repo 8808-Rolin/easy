@@ -7,6 +7,14 @@ public class GetAssInfoAssPOJO {
     private String assOrg;
     private String assHead;
 
+    public GetAssInfoAssPOJO(String assName, String assIntro, String assImage, String assOrg, String assHead) {
+        this.assName = assName;
+        this.assIntro = assIntro;
+        this.assImage = assImage;
+        this.assOrg = assOrg;
+        this.assHead = assHead;
+    }
+
     public String getAssName() {
         return assName;
     }

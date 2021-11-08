@@ -68,5 +68,9 @@ public class UserService {
         return code == 1;
     }
 
+    //返回用户权限等级
+    public Integer getTheLevelById(Integer id){
+        return userMapper.getLevelById(id);
+    }
 
 }
