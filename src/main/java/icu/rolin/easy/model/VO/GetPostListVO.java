@@ -21,4 +21,9 @@ public class GetPostListVO {
     public void setPosts(PostsPOJO[] posts) {
         this.posts = posts;
     }
+
+    public GetPostListVO(Integer code, PostsPOJO[] posts) {
+        this.code = code;
+        this.posts = posts;
+    }
 }

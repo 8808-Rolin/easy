@@ -23,5 +23,9 @@ public interface AssociationMapper {
     @Select("SELECT * FROM association")
     ArrayList<Association> findAllAssociation();
 
+    //根据社团id获取当前社团的所有信息
+    @Select("SELECT * FROM association WHERE id = #{id}")
+    Association findAssociationById(Integer id);
+
 
 }

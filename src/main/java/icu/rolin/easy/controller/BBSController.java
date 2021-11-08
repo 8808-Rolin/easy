@@ -2,10 +2,13 @@ package icu.rolin.easy.controller;
 
 import com.rabbitmq.client.AMQP;
 import icu.rolin.easy.model.PO.*;
+import icu.rolin.easy.model.POJO.GetAssInfoAssPOJO;
+import icu.rolin.easy.model.POJO.PostsPOJO;
 import icu.rolin.easy.model.POJO.ShowDataAssPOJO;
 import icu.rolin.easy.model.POJO.SimpleNoticePOJO;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.BBSService;
+import icu.rolin.easy.service.UserService;
 import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,8 @@ public class BBSController {
 
     @Autowired
     private BBSService bbsService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping(value = "/get-simple-notice")
     public ResponseVO get_simple_notices(){
@@ -43,17 +48,26 @@ public class BBSController {
 
     @GetMapping(value = "/get-post-list")
     public ResponseVO get_post_list(GetPostsPO gppo){
-        return new ResponseVO(new GetPostListVO());
+        PostsPOJO[] postsPOJOS = bbsService.showPosts(gppo);
+        if (postsPOJOS == null) return new ResponseVO("没有帖子",new GetPostListVO(0,null));
+        return new ResponseVO(new GetPostListVO(postsPOJOS.length,postsPOJOS));
     }
 
     @PostMapping("/release-post")
     public ResponseVO release_post(ReleasePostPO rppo){
-        return new ResponseVO(new SimpleVO());
+        boolean key = bbsService.publishPost(rppo);
+        if (key) return new ResponseVO(new SimpleVO(bbsService.getTheLatestP_id(),"成功发表一篇帖子"));
+        return new ResponseVO(new SimpleVO(-1,"可能由于请求丢失数据，至使无法成功插入数据库..."));
     }
 
+
+    //-1代表无任何权限,是黑户
     @PostMapping("/get-ass-information")
     public ResponseVO get_ass_info(UserAssNotePO ua){
-        return new ResponseVO(new GetAssInfoVO());
+        GetAssInfoAssPOJO getAssInfoAssPOJO = bbsService.getAssInformation(ua);
+        int permissonCode = userService.getTheLevelById(ua.getUid());
+        if (getAssInfoAssPOJO != null && permissonCode != -1) return new ResponseVO(new GetAssInfoVO(0,"获取社团信息成功", permissonCode, getAssInfoAssPOJO));
+        return new ResponseVO(new GetAssInfoVO(1,"缺失权限状态码和社团信息！",-1,null));
     }
 
     @PostMapping(value = "/get-post-page-info")
