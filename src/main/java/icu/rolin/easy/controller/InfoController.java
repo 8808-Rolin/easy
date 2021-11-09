@@ -7,7 +7,7 @@ import icu.rolin.easy.model.POJO.AssMemberPOJO;
 import icu.rolin.easy.model.POJO.PersonActionPOJO;
 import icu.rolin.easy.model.POJO.UserPOJO;
 import icu.rolin.easy.model.VO.*;
-import icu.rolin.easy.service.InfoService;
+import icu.rolin.easy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +16,22 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping(value = "/api/info")
 public class InfoController {
-
+    //注入五个Service
     @Autowired
-    private InfoService infoService;
+    IncreaseService is;
+    @Autowired
+    DeleteService ds;
+    @Autowired
+    UpdateService us;
+    @Autowired
+    SelectService ss;
+
+
 
     @PostMapping(value = "/get-common-person-information")
     public ResponseVO get_common_person_information(Integer uid){
 
-        UserPOJO userPOJO = infoService.getPersonInformation(uid);
+        UserPOJO userPOJO = ss.getPersonInformation(uid);
         if (userPOJO == null){
             return new ResponseVO(new SimpleVO(1,"获取用户信息失败"));
         }else {
@@ -34,11 +42,11 @@ public class InfoController {
 
     @GetMapping(value = "/get-member-list")
     public ResponseVO get_members(Integer aid){
-        AssMemberPOJO[] amps = infoService.getAssMemberList(aid);
+        AssMemberPOJO[] amps = ss.getAssMemberList(aid);
         AssMembersRespVO amrvo = new AssMembersRespVO();
         if (aid == null) return new ResponseVO(202,"参数错误",null);
 
-        if (!infoService.getAssIsExist(aid)){
+        if (!ss.getAssIsExist(aid)){
             amrvo.setCode(0);
             amrvo.setMembers(null);
             return new ResponseVO("获取信息失败,该社团不存在",amrvo);
@@ -52,16 +60,16 @@ public class InfoController {
     //获取社团展示列表
     @PostMapping(value = "/get-action-overview")
     public ResponseVO get_action_overview(UserAssNotePO ua){
-        PersonActionPOJO[] personActionPOJOS = infoService.getActionOverview(ua);
+        PersonActionPOJO[] personActionPOJOS = ss.getActionOverview(ua);
        if (personActionPOJOS==null || personActionPOJOS.length==0 )
             return new ResponseVO(new GetActionOverviewVO(0,"该社团暂无任何活动",personActionPOJOS));
        return new ResponseVO(new GetActionOverviewVO(personActionPOJOS.length, "获取活动列表成功",personActionPOJOS));
     }
 
-    //这个方法写的有点逆天,根据需求修改吧
+    //3.3.7 获取活动详细信息接口
     @PostMapping(value = "/get-action-info")
     public ResponseVO get_action_info(Integer uid,Integer actid){
-        return new ResponseVO(infoService.getDetailedActionInformation(uid,actid));
+        return new ResponseVO(ss.getDetailedActionInformation(uid,actid));
     }
 
     @GetMapping(value = "/delete-mail")

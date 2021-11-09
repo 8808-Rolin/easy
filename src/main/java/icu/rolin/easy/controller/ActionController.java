@@ -5,7 +5,7 @@ import icu.rolin.easy.model.VO.ActionMemberVO;
 import icu.rolin.easy.model.VO.GetActionListVO;
 import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
-import icu.rolin.easy.service.ActionService;
+import icu.rolin.easy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,15 +14,26 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping(value = "/api/action")
 public class ActionController {
-
+    //注入五个Service
     @Autowired
-    private ActionService actionService;
+    IncreaseService is;
+    @Autowired
+    DeleteService ds;
+    @Autowired
+    UpdateService us;
+    @Autowired
+    SelectService ss;
 
+
+
+    // 申请参加活动接口
+    // TODO: 2021/11/9 将添加一个逻辑判断，若用户为加入活动所在社团则会申请失败 
     @PostMapping(value = "/participate")
     public ResponseVO participate_action (Integer uid,Integer actid){
-        boolean key = actionService.participateAction(uid,actid);
+        
+        boolean key = is.participateAction(uid,actid);
         if (key) return new ResponseVO(new SimpleVO(0,"申请成功"));
-        return new ResponseVO(new SimpleVO(1,"申请提交失败，请检查数据传输准确性！"));
+        return new ResponseVO(new SimpleVO(1,"申请提交失败，请检查数据传输准确性,也有可能是用户已经参加了该活动"));
     }
 
     @PostMapping(value = "/release-action")

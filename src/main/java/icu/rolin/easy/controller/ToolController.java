@@ -4,14 +4,13 @@ package icu.rolin.easy.controller;
 import icu.rolin.easy.model.PO.SendMailPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
 import icu.rolin.easy.model.POJO.AssOverviewPOJO;
-import icu.rolin.easy.model.POJO.CollegePOJO;
 import icu.rolin.easy.model.VO.AssListVO;
 import icu.rolin.easy.model.VO.CollegeListVO;
 import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
-import icu.rolin.easy.model.VO.*;
-import icu.rolin.easy.service.ToolService;
-import icu.rolin.easy.utils.common;
+import icu.rolin.easy.service.*;
+import icu.rolin.easy.utils.Common;
+import icu.rolin.easy.utils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +21,23 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin
 @RequestMapping(value = "/api/tool")
 public class ToolController {
-
-    //Service注入
+    //注入五个Service
     @Autowired
-    private ToolService toolService;
+    IncreaseService is;
+    @Autowired
+    DeleteService ds;
+    @Autowired
+    UpdateService us;
+    @Autowired
+    SelectService ss;
+
+
 
 
 
     @GetMapping(value = "/uni-variable")
     public ResponseVO uni_variable(UniVariablePO uv){
-        int key = toolService.verifyAccountUniqueness(uv);
+        int key = ss.verifyAccountUniqueness(uv);
 
         if (key == 0){
             return new ResponseVO(new SimpleVO(0,"均不重复"));
@@ -49,7 +55,7 @@ public class ToolController {
 
     @PostMapping(value = "/upload-image")
     public ResponseVO upload_image(String imageBASE64){
-        String path = toolService.base64ToImage(imageBASE64);
+        String path = ServiceUtils.base64ToImage(imageBASE64);
         if (path == null){
             return new ResponseVO(new SimpleVO(1,"图片上传失败"));
         }else {
@@ -60,7 +66,7 @@ public class ToolController {
 
     @PostMapping(value = "/upload-file")
     public ResponseVO upload_file(@RequestParam("file") MultipartFile file){
-        String fileName = toolService.uploadFile(file);
+        String fileName = ServiceUtils.uploadFile(file);
         if (fileName == null){
             return new ResponseVO(new SimpleVO(1,"文件上传失败"));
         }else {
@@ -71,8 +77,8 @@ public class ToolController {
 
     @PostMapping(value = "/download-file")
     public ResponseEntity<byte[]> download_file(String fileName, Integer uid){
-        ResponseEntity<byte[]> file = toolService.downloadFile(fileName);
-        String userName = toolService.getUserNameById(uid);
+        ResponseEntity<byte[]> file = ServiceUtils.downloadFile(fileName);
+        String userName = ss.getUserNameById(uid);
         if (file != null){
             System.out.println("用户名为："+userName+"，正在下载名为："+fileName+"的文件...");
             return file;
@@ -85,9 +91,9 @@ public class ToolController {
     @PostMapping(value = "/send-email")
     public ResponseVO send_mail(SendMailPO sm){
         if(sm.getIsSystem() == 0 && sm.getFromuid() != null) //用户
-            return new ResponseVO(toolService.sendEmailWithUser(sm));
+            return new ResponseVO(is.sendEmailWithUser(sm));
         else if(sm.getIsSystem() == 1)
-            return new ResponseVO(toolService.sendEmailWithSystem(sm));
+            return new ResponseVO(is.sendEmailWithSystem(sm));
         else
             return new ResponseVO(202,"请求参数错误！",new SimpleVO(-1,"请求参数错误！"));
 
@@ -95,7 +101,7 @@ public class ToolController {
 
     @GetMapping(value = "/get-association-list")
     public ResponseVO get_association_list(){
-        AssOverviewPOJO[] aos = toolService.get_association_list();
+        AssOverviewPOJO[] aos = ss.get_association_list();
         AssListVO alvo = new AssListVO();
         if (aos == null){
             alvo.setCode(0);
@@ -112,7 +118,7 @@ public class ToolController {
     public ResponseVO get_colleges(){
         ResponseVO rvo = new ResponseVO();
         CollegeListVO collegeListVO = new CollegeListVO();
-        rvo.setData(toolService.getCollegeList());
+        rvo.setData(ss.getCollegeList());
         rvo.setStatus(200);
         rvo.setMessage("");
         return rvo.update();
@@ -120,9 +126,9 @@ public class ToolController {
 
     @GetMapping(value = "/get-post-type")
     public ResponseVO get_post_type(){
-        String[] postTypes= new String[common.POST_TYPE.size()];
+        String[] postTypes= new String[Common.POST_TYPE.size()];
         int i = 0;
-        for (String s : common.POST_TYPE.values()) {
+        for (String s : Common.POST_TYPE.values()) {
             postTypes[i] = s;
             i++;
         }

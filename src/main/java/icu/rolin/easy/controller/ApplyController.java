@@ -4,7 +4,7 @@ import icu.rolin.easy.model.PO.CreateAssPO;
 import icu.rolin.easy.model.PO.SendApplyPO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.VO.*;
-import icu.rolin.easy.service.ApplyService;
+import icu.rolin.easy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +15,21 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping(value = "/api/apply")
 public class ApplyController {
-
+    //注入五个Service
     @Autowired
-    private ApplyService applyService;
+    IncreaseService is;
+    @Autowired
+    DeleteService ds;
+    @Autowired
+    UpdateService us;
+    @Autowired
+    SelectService ss;
+
+
 
     @PostMapping(value = "/create-ass")
     public ResponseVO create_ass(CreateAssPO cap){
-        Map<Integer,Integer> res = applyService.createAssociation(cap);
+        Map<Integer,Integer> res = is.createAssociation(cap);
         if (res.get(1) == 1) //成功
             return new ResponseVO(new SimpleVO(res.get(2),"申请成功,code字段是caid"));
         else
@@ -31,7 +39,7 @@ public class ApplyController {
     //非成员社团用户可以在社团页面申请加入社团，该接口需要提供一个uid、aid、以及申请备注放能够提交成功
     @PostMapping(value = "/join-association")
     public ResponseVO join_ass(UserAssNotePO uan){
-        boolean key = applyService.applyJoinAssociation(uan);
+        boolean key = is.applyJoinAssociation(uan);
         if (key) return new ResponseVO(new SimpleVO(0,"申请成功提交"));
         return new ResponseVO(new SimpleVO(1,"申请提交失败，请检查数据传输准确性！"));
     }

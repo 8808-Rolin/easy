@@ -6,9 +6,8 @@ import icu.rolin.easy.model.PO.RegisterPO;
 import icu.rolin.easy.model.VO.LoginVO;
 import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
-import icu.rolin.easy.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import icu.rolin.easy.service.*;
+import icu.rolin.easy.utils.ServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,16 +16,23 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping(value = "/api/user")
 public class UserController {
-
+    //注入五个Service
     @Autowired
-    private UserService userService;
+    IncreaseService is;
+    @Autowired
+    DeleteService ds;
+    @Autowired
+    UpdateService us;
+    @Autowired
+    SelectService ss;
+
 
     @PostMapping(value = "/login")
     public ResponseVO login(LoginPO loginPO){
-        boolean status = userService.verifyLogin(loginPO);// 此处使用key作为验证返回码，区分service的code
+        boolean status = ss.verifyLogin(loginPO);// 此处使用key作为验证返回码，区分service的code
         if (status) {
-            int uid = userService.getUserID(loginPO);
-            String token = userService.generateToken(loginPO,uid);
+            int uid = ss.getUserID(loginPO);
+            String token = ServiceUtils.generateToken(loginPO,uid);
             LoginVO lvo  = new LoginVO();
             lvo.setCode(0);
             lvo.setMsg("用户登陆成功");
@@ -41,7 +47,7 @@ public class UserController {
     @PostMapping(value = "/register")
     public ResponseVO register(RegisterPO registerPO){
 
-        boolean status = userService.userRegister(registerPO);
+        boolean status = is.userRegister(registerPO);
         if (status){
             return new ResponseVO(new SimpleVO(0,"注册成功"));
         }else {
@@ -50,10 +56,11 @@ public class UserController {
 
     }
 
+
     @PostMapping(value = "/forget-password")
     public ResponseVO forget_password(ForgetPasswordPO fp){
 
-        boolean key = userService.userForgetPassword(fp);
+        boolean key = us.userForgetPassword(fp);
         if (key){
             return new ResponseVO(new SimpleVO(0,"修改密码成功"));
         }else {

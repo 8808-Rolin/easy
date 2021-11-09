@@ -2,7 +2,7 @@ package icu.rolin.easy.model.VO;
 
 
 import com.alibaba.fastjson.JSON;
-import icu.rolin.easy.utils.common;
+import icu.rolin.easy.utils.Common;
 
 /**
  * 通用返回对象的外壳，用来生成响应信息体
@@ -24,25 +24,25 @@ public class ResponseVO {
     public ResponseVO(Object data){
         this.status = 200;
         this.message = "";
-        this.timestamp = common.getTimestamp();
+        this.timestamp = Common.getTimestamp();
         this.data = data;
     }
     public ResponseVO(String tip, Object data){
         this.status = 200;
         this.message = tip;
-        this.timestamp = common.getTimestamp();
+        this.timestamp = Common.getTimestamp();
         this.data = data;
     }
     public ResponseVO(int status, Object data){
         this.status = status;
         this.message = "";
-        this.timestamp = common.getTimestamp();
+        this.timestamp = Common.getTimestamp();
         this.data = data;
     }
     public ResponseVO(int status, String tip, Object data){
         this.status = status;
         this.message = tip;
-        this.timestamp = common.getTimestamp();
+        this.timestamp = Common.getTimestamp();
         this.data = data;
     }
 
@@ -51,7 +51,7 @@ public class ResponseVO {
      * @return 更新时间戳后的对象
      */
     public ResponseVO update(){
-        this.timestamp = common.getTimestamp();
+        this.timestamp = Common.getTimestamp();
         return this;
     }
 

@@ -40,6 +40,11 @@
     - apply模块
     - tool模块
 - Service：业务层，接收来自上一层的请求，经过业务处理后将数据返回给Controller层
+  - IncreaseService:增操作业务类
+  - DeleteService：删操作业务类
+  - UpdateService： 改操作业务类
+  - SelectService：查操作业务类
+  - 非数据库操作方法均放在Utils包中
 - Mapper：映射层，对数据库进行原子操作，并将结果返回给Service层
 - Model：模型层，项目对象的最小单位
     - DO：(Database-Object)数据库映射对象，一个DO的数据结构对应着库中表的结构，表中的一条记录就是一个DO对象，除了get，set之外没有别的方法
@@ -48,6 +53,7 @@
     - BO：(Business Object) 业务对象，处理业务时所使用到的对象
     - POJO：(Plain Ordinary Java Object) 普通最小Java对象，不归属于其他类的模型在这
 - utils
+
 
 # 项目规范
 

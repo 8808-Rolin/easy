@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class common {
+public class Common {
 
     /**
      * 帖子类型以及帖子类型代号直接的对应关系，是一个Map键值对形式
@@ -113,6 +113,7 @@ public class common {
         }
         return newObjs;
     }
+
 
 
 }

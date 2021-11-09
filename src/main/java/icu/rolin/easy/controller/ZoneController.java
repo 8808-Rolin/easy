@@ -6,6 +6,8 @@ import icu.rolin.easy.model.VO.GetInformationVO;
 import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
 import icu.rolin.easy.model.VO.ZonePostVO;
+import icu.rolin.easy.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +15,16 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping(value = "/api/zone")
 public class ZoneController {
+    //注入五个Service
+    @Autowired
+    IncreaseService is;
+    @Autowired
+    DeleteService ds;
+    @Autowired
+    UpdateService us;
+    @Autowired
+    SelectService ss;
+
 
     @GetMapping(value = "/get-zone-status")
     public ResponseVO get_status(Integer muid){

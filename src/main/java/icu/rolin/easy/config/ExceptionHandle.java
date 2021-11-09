@@ -1,15 +1,12 @@
 package icu.rolin.easy.config;
 
 import icu.rolin.easy.model.VO.ResponseVO;
-import icu.rolin.easy.utils.common;
+import icu.rolin.easy.utils.Common;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Rolin
@@ -31,7 +28,7 @@ public class ExceptionHandle {
         ResponseVO responseVO = new ResponseVO();
         responseVO.setStatus(500);
         responseVO.setData(null);
-        responseVO.setMessage(common.formatException(e));
+        responseVO.setMessage(Common.formatException(e));
         e.printStackTrace();
         return responseVO.update();
     }

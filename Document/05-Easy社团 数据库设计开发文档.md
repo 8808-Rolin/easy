@@ -755,7 +755,7 @@ INSERT INTO apply_commond(a_id,title,content_id) VALUES (4,"我想要举办社�
 INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (1,"举办Lovelive1",8,"2021-06-27 18:00:00","2021-12-08 12:00:00",1,"第四实训楼 C209");
 INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (2,"举办Lovelive2",9,"2021-12-27 18:00:00","2021-12-30 13:00:00",0,"第一教学楼 1109");
 INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (3,"举办Lovelive3",10,"2021-11-27 18:00:00","2021-12-08 12:00:00",0,"43栋楼下");
-INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (3,"举办Lovelive4",11,"2021-11-27 18:00:00","2021-12-08 12:00:00",1);
+INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (3,"举办Lovelive4",11,"2021-11-27 18:00:00","2021-12-08 12:00:00",1,"x");
 ```
 
 #### 4.3.1.11 参加活动表
