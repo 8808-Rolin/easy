@@ -1,8 +1,10 @@
 package icu.rolin.easy.service;
 
 import icu.rolin.easy.mapper.ApplyCreateMapper;
+import icu.rolin.easy.mapper.ApplyJoinAssociationMapper;
 import icu.rolin.easy.model.DO.Apply_Create;
 import icu.rolin.easy.model.PO.CreateAssPO;
+import icu.rolin.easy.model.PO.UserAssNotePO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ public class ApplyService {
 
     @Autowired
     private ApplyCreateMapper applyCreateMapper;
+    @Autowired
+    private ApplyJoinAssociationMapper applyJoinAssociationMapper;
     private final static Logger logger = LoggerFactory.getLogger(ApplyService.class);
 
 

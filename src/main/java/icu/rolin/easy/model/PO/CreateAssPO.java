@@ -59,7 +59,7 @@ public class CreateAssPO {
         this.org = org;
     }
 
-    public CreateAssPO(String assname, String assintro, String note, String assprofile, Integer uid, Integer org) {
+    public CreateAssPO(String assname, String assintro, String note, String assprofile, Integer uid, String org) {
         this.assname = assname;
         this.assintro = assintro;
         this.note = note;

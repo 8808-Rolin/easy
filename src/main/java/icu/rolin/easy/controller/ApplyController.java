@@ -30,6 +30,7 @@ public class ApplyController {
 
     @PostMapping(value = "/join-association")
     public ResponseVO join_ass(UserAssNotePO uan){
+
         return new ResponseVO(new SimpleVO());
     }
 

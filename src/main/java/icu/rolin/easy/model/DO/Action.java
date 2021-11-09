@@ -12,7 +12,7 @@ public class Action implements Serializable {
     private Integer id;
     private Integer a_id;
     private String title;
-    private String content;
+    private String content_id;
     private Timestamp start_time;
     private Timestamp end_time;
     private Integer is_approved;
@@ -43,12 +43,12 @@ public class Action implements Serializable {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getContent_id() {
+        return content_id;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContent_id(String content_id) {
+        this.content_id = content_id;
     }
 
     public Timestamp getStart_time() {
