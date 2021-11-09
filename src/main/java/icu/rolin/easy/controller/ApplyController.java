@@ -30,8 +30,9 @@ public class ApplyController {
 
     @PostMapping(value = "/join-association")
     public ResponseVO join_ass(UserAssNotePO uan){
-
-        return new ResponseVO(new SimpleVO());
+        boolean key = applyService.applyJoinAssociation(uan);
+        if (key) return new ResponseVO(new SimpleVO(0,"申请成功提交"));
+        return new ResponseVO(new SimpleVO(1,"申请提交失败，请检查数据传输准确性！"));
     }
 
     @PostMapping(value = "/get-join-apply-list")

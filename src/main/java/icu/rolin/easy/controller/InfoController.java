@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.AssMemberPOJO;
+import icu.rolin.easy.model.POJO.PersonActionPOJO;
 import icu.rolin.easy.model.POJO.UserPOJO;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.InfoService;
@@ -50,12 +51,19 @@ public class InfoController {
 
     @PostMapping(value = "/get-action-overview")
     public ResponseVO get_action_overview(UserAssNotePO ua){
-        return new ResponseVO(new GetActionOverviewVO());
+        PersonActionPOJO[] personActionPOJOS = infoService.getActionOverview(ua);
+        if (personActionPOJOS == null) {
+            return new ResponseVO(new GetActionOverviewVO(-1,"获取失败",null));
+        }else if (personActionPOJOS.length==0){
+            return new ResponseVO(new GetActionOverviewVO(0,"该社团暂无任何活动",personActionPOJOS));
+        }
+        return new ResponseVO(new GetActionOverviewVO(personActionPOJOS.length, "获取活动列表陈工",personActionPOJOS));
     }
 
+    //这个方法写的有点逆天,根据需求修改吧
     @PostMapping(value = "/get-action-info")
     public ResponseVO get_action_info(Integer uid,Integer actid){
-        return new ResponseVO(new GetActionInfoVO());
+        return new ResponseVO(infoService.getDetailedActionInformation(uid,actid));
     }
 
     @GetMapping(value = "/delete-mail")

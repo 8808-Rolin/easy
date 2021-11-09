@@ -11,6 +11,7 @@ import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.ToolService;
+import icu.rolin.easy.utils.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -115,5 +116,16 @@ public class ToolController {
         rvo.setStatus(200);
         rvo.setMessage("");
         return rvo.update();
+    }
+
+    @GetMapping(value = "/get-post-type")
+    public ResponseVO get_post_type(){
+        String[] postTypes= new String[common.POST_TYPE.size()];
+        int i = 0;
+        for (String s : common.POST_TYPE.values()) {
+            postTypes[i] = s;
+            i++;
+        }
+        return new ResponseVO(postTypes);
     }
 }

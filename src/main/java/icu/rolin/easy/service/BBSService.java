@@ -3,6 +3,7 @@ package icu.rolin.easy.service;
 import icu.rolin.easy.mapper.*;
 import icu.rolin.easy.model.DO.Association;
 import icu.rolin.easy.model.DO.Association_User;
+import icu.rolin.easy.model.DO.Comments;
 import icu.rolin.easy.model.DO.Post;
 import icu.rolin.easy.model.PO.GetPostsPO;
 import icu.rolin.easy.model.PO.ReleasePostPO;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 @Service
 public class BBSService {
@@ -79,25 +82,59 @@ public class BBSService {
         return sdaPOJOs;
     }
 
+
+
     /**
-     * @author :JooLum
-     * 可能还存在些许的关联问题，辛苦检查
+     * 根据用户需求返回对应的类型的帖子
+     * @author Joolum
+     * @param gppo 传入一个参数对象
+     * @return 返回一个PostsPOJO数组
      */
-    public PostsPOJO[] showPosts(GetPostsPO gppo){
-        ArrayList<Post> posts = postMapper.findPostsByA_id(gppo.getAid(),gppo.getType());
-        if (posts.size() == 0) return null;
-        PostsPOJO[] postsPOJOS = new PostsPOJO[posts.size()];
-        for (int i=0;i<posts.size();i++){
-            postsPOJOS[i].setPid(posts.get(i).getId());
-            postsPOJOS[i].setPostType(posts.get(i).getPost_type());
-            postsPOJOS[i].setPostTitle(posts.get(i).getTitle());
-            postsPOJOS[i].setPostAuthor(userMapper.getNameById(posts.get(i).getU_id()));
-            postsPOJOS[i].setReplies(commentsMapper.getCommentQuantitesByP_id(posts.get(i).getId()));
-            postsPOJOS[i].setReplyTime(commentsMapper.getTheLatestComment().toString());
-            postsPOJOS[i].setReleaseTime(posts.get(i).getCreate_time().toString());
+    public PostsPOJO[] getPosts(GetPostsPO gppo){
+        //获取该论坛的所有非公告帖子
+        ArrayList<Post> posts;
+        if (gppo.getType() == 1){
+            posts = postMapper.findPostsByAidType(gppo.getAid(),0);
+        }else if(gppo.getType() == 2){
+            posts = postMapper.findPostsByAidExType(gppo.getAid(),0);
+        }else{
+            return null;
         }
-        return postsPOJOS;
-    }
+
+        if (posts.size() == 0 || posts == null) return null;
+        PostsPOJO[] ps = new PostsPOJO[posts.size()];
+        //注值
+        for (int i = 0; i < posts.size(); i++) {
+            Integer id = posts.get(i).getId();
+            ps[i] = new PostsPOJO();
+            ps[i].setPid(id);
+            ps[i].setPostType(common.POST_TYPE.get(posts.get(i).getPost_type()));
+            ps[i].setPostTitle(posts.get(i).getTitle());
+            ps[i].setPostAuthor(userMapper.getNameById(posts.get(i).getU_id()));
+            Comments last = commentsMapper.getLastCommentWithPost(id);
+            if (last != null)
+                ps[i].setReplyTime(common.convertTimestamp2Date(last.getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+            else
+                ps[i].setReplyTime(common.convertTimestamp2Date(posts.get(i).getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+            ps[i].setReleaseTime(common.convertTimestamp2Date(posts.get(i).getCreate_time(),"yyyy-MM-dd"));
+            ps[i].setReplies(commentsMapper.countCommentsByPid(id));
+        }
+        //排序
+        Arrays.sort(ps, new Comparator<PostsPOJO>() {
+            @Override
+            public int compare(PostsPOJO o1, PostsPOJO o2) {
+                Long o1Stamp = common.date2Stamp(o1.getReplyTime(),"yyyy-MM-dd HH:mm:ss");
+                Long o2Stamp = common.date2Stamp(o2.getReplyTime(),"yyyy-MM-dd HH:mm:ss");
+                Long res = o1Stamp - o2Stamp;
+                if (res > 0)    return 1;
+                else if (res < 0)   return -1;
+                return 0;
+            }
+        });
+        return ps;
+
+    };
+
 
     /**
      * @author :JooLum
@@ -110,7 +147,7 @@ public class BBSService {
     public boolean publishPost(ReleasePostPO rppo){
         Integer contentCode = contentMapper.insertPost_content(rppo.getContent());
         Integer contentId = contentMapper.getTheLatestID();
-        int postType = common.transPostType(rppo.getPostType());
+        int postType = 0;
         if (contentCode == null || contentId == null || postType == 2 ) {
             logger.error("前端发帖请求，缺失相关发送数据...");
             return false;

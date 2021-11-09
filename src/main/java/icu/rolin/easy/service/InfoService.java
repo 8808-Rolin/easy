@@ -1,15 +1,13 @@
 package icu.rolin.easy.service;
 
-import icu.rolin.easy.mapper.AssociationMapper;
-import icu.rolin.easy.mapper.AssociationUserMapper;
-import icu.rolin.easy.mapper.CollegeTableMapper;
-import icu.rolin.easy.mapper.UserMapper;
-import icu.rolin.easy.model.DO.Association_User;
-import icu.rolin.easy.model.DO.College_Table;
-import icu.rolin.easy.model.DO.User;
+import icu.rolin.easy.mapper.*;
+import icu.rolin.easy.model.DO.*;
+import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.AssMemberPOJO;
 import icu.rolin.easy.model.POJO.CollegePOJO;
+import icu.rolin.easy.model.POJO.PersonActionPOJO;
 import icu.rolin.easy.model.POJO.UserPOJO;
+import icu.rolin.easy.model.VO.GetActionInfoVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,12 @@ public class InfoService {
     private AssociationUserMapper associationUserMapper;
     @Autowired
     private AssociationMapper am;
+    @Autowired
+    private ActionMapper actionMapper;
+    @Autowired
+    private JoinActionMapper joinActionMapper;
+    @Autowired
+    private ContentMapper contentMapper;
 
     private final static Logger logger = LoggerFactory.getLogger(InfoService.class);
 
@@ -77,6 +81,71 @@ public class InfoService {
             }
         }
         return amps;
+    }
+
+    /**
+     * attendCode 的判定或许存在bug..
+     * 方法判定或许还存在缺失..
+     */
+
+    public PersonActionPOJO[] getActionOverview(UserAssNotePO ua){
+        ArrayList<Action> actions = actionMapper.findAssActionsByA_id(ua.getAid());
+        if (actions.size()==0) {
+            return new PersonActionPOJO[actions.size()];
+        }else if (actions == null){
+            return null;
+        }
+        PersonActionPOJO[] personActionPOJOS = new PersonActionPOJO[actions.size()];
+        Integer attendCode = joinActionMapper.verifyUserJoinActionById(ua.getAid(), ua.getUid());
+        if (attendCode==null) attendCode = 0;
+        else attendCode = 1;
+        for (int i=0;i<actions.size();i++){
+            personActionPOJOS[i].setActid(actions.get(i).getA_id());
+            personActionPOJOS[i].setTitle(actions.get(i).getTitle());
+            personActionPOJOS[i].setDate(actions.get(i).getStart_time().toString());
+            personActionPOJOS[i].setIsAttend(attendCode);
+        }
+        return personActionPOJOS;
+    }
+    /**
+     * 活动的详细信息JooLum觉得无需再做判定
+     *此处通过二步核验来决定用户参加活动的权限
+     * 1. 先核验用户是否是该社团的
+     * 2. 若是,则进行权限核验,若不是则返回无权限码
+     */
+    public GetActionInfoVO getDetailedActionInformation(Integer uid, Integer actid){
+        GetActionInfoVO getActionInfoVO = new GetActionInfoVO();
+        Action actionInfo = actionMapper.getDetailedAssActioonByAcId(actid);
+        Content content = contentMapper.getContentByID(actionInfo.getContent_id());
+        Integer status;
+        Integer isJoinAssCode = associationUserMapper.getUserIsJoinAssociation(actionInfo.getA_id(),uid);
+        if (isJoinAssCode == 0){
+            status = 1;
+        }else if (isJoinAssCode == 1){
+            status = joinActionMapper.verifyUserJoinActionById(actid,uid);
+            if (status == null){
+                getActionInfoVO.setCode(0);
+                getActionInfoVO.setMsg("获取成功");
+                getActionInfoVO.setTitle(actionInfo.getTitle());
+                getActionInfoVO.setContent(content.getContent());
+                getActionInfoVO.setReleaseDate(actionInfo.getCreate_time().toString());
+                getActionInfoVO.setStartDate(actionInfo.getStart_time().toString());
+                getActionInfoVO.setOverDate(actionInfo.getEnd_time().toString());
+                getActionInfoVO.setPosition(actionInfo.getPosition());
+                getActionInfoVO.setStatus(0);
+            }
+            getActionInfoVO.setCode(0);
+            getActionInfoVO.setMsg("获取成功");
+            getActionInfoVO.setTitle(actionInfo.getTitle());
+            getActionInfoVO.setContent(content.getContent());
+            getActionInfoVO.setReleaseDate(actionInfo.getCreate_time().toString());
+            getActionInfoVO.setStartDate(actionInfo.getStart_time().toString());
+            getActionInfoVO.setOverDate(actionInfo.getEnd_time().toString());
+            getActionInfoVO.setPosition(actionInfo.getPosition());
+            getActionInfoVO.setStatus(2);
+        }
+
+        return getActionInfoVO;
     }
 
     /**

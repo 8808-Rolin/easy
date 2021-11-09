@@ -4,6 +4,15 @@ public class GetPostsPO {
     private Integer aid;
     private Integer type;
     private Integer page;
+    private Integer limit;
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
 
     public Integer getAid() {
         return aid;

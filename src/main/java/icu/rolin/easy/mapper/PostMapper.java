@@ -19,8 +19,11 @@ public interface PostMapper {
     @Select("SELECT * FROM post WHERE post_type = #{postType}")
     ArrayList<Post> findPostByPostType(Integer postType);
 
-    @Select("SELECT * FROM post WHERE a_id = #{aid} and post_type = #{postType}")
-    ArrayList<Post> findPostsByA_id(Integer aid,Integer postType);
+    @Select("SELECT * FROM post WHERE a_id = #{aid} and post_type = #{post_type}")
+    ArrayList<Post> findPostsByAidType(Integer aid,Integer post_type);
+
+    @Select("SELECT * FROM post WHERE a_id = #{aid} and post_type != #{post_type} ")
+    ArrayList<Post> findPostsByAidExType(Integer aid,Integer post_type);
 
     @Insert("INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES(#{a_id},#{u_id},#{title},#{content_id},#{tags},#{post_type})")
     Integer insertPost(Integer a_id, Integer u_id, String title, Integer content_id, String tags, Integer post_type);

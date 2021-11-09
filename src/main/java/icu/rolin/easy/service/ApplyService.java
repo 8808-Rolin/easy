@@ -52,6 +52,15 @@ public class ApplyService {
         }
     }
 
+    public boolean applyJoinAssociation(UserAssNotePO uan){
+        Integer code = applyJoinAssociationMapper.insertJoinAssForm(uan.getUid(),uan.getAid(),uan.getNote());
+        if (code == null){
+            logger.warn("申请嘉然协会表插入失败，请检查数据准确性");
+            code = 0;
+        }
+        return code == 1;
+    }
+
     public int getCAID(){
         return applyCreateMapper.getLastInsertId();
     }

@@ -7,6 +7,12 @@ public class GetActionOverviewVO {
     private String msg;
     private PersonActionPOJO[] action;
 
+    public GetActionOverviewVO(Integer code, String msg, PersonActionPOJO[] action) {
+        this.code = code;
+        this.msg = msg;
+        this.action = action;
+    }
+
     public Integer getCode() {
         return code;
     }

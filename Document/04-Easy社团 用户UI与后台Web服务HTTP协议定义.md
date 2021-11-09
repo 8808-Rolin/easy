@@ -152,6 +152,7 @@
 | 2021-11-06 | 用户、社团相关头像接口 | 均采用URL模式而不使用Base64 |
 | 2021-11-07 | 新增下载文件接口 3.1.4.8 | 下载文件接口 |
 | 2021-11-07 | 3.1.1.2 登出 | 废弃该接口 |
+| 2021-11-09 | 新增 3.1.4.9 | 获取帖子类型列表 |
 
 
 
@@ -455,8 +456,9 @@
 	<tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
 	<tr><th>data.college[]</td><th colspan=2>社团信息</td></tr>
     <tr><td>coid</td><td colspan=2>学院ID，coid</td></tr>
-	<tr><td>name</td><td colspan=2>学院名称</td></tr> 3.
+	<tr><td>name</td><td colspan=2>学院名称</td></tr>
 </table>
+
 
 
 
@@ -475,13 +477,27 @@
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>file</td><th colspan=2>文件实体</td></tr>
 </table>
+#### 3.1.4.9 获取总的帖子类型（Finish）
+
+<table>
+    <tr><th colspan="3">请求</th></tr>
+    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/tool/get-post-type</td></tr>
+    <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
+    <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
+    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th>无</th></tr>
+    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>data[]</td><th colspan=2>帖子类型数组</td></tr>
+</table>
+
 
 
 ## 3.2 首页相关接口
 
 首页用来展示一些系统公告，是针对UI界面设计中2.1所设计的接口文档，首页需要获取简单的用户信息以及系统公告内容。
 
-### 3.2.1 获取简单的用户信息
+### 3.2.1 获取简单的用户信息（Finish）
 
 这个接口能够通过Token(在Cookie中)和uid获得一些必要的用户信息，例如**个人简介(默认为空)，头像，昵称，姓名，学号等**
 接口具体设计见 - [3.1.4.1 获取个人信息](#3141-获取个人信息)
@@ -569,7 +585,7 @@
 
 
 
-### 3.3.2 获取帖子列表数据接口
+### 3.3.2 获取帖子列表数据接口（Finish）
 
 该接口用以给注册用户以及非注册用户获取帖子列表使用，能够得到帖子数据的基本概要，需要传入一个页面参数，该参数可空，空则为第一页，该接口设计具体如下：
 <table>
@@ -581,8 +597,10 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
     <tr><td>aid</td><td>Integer</td><td>一个整数值，等于社团的aid,公共交流板块值为0</td></tr>
-	<tr><td>type</td><td>Integer</td><td>可空，一个帖子类型值，默认是空或者0，表示获取全部帖子，1表示公告类型的帖子</td></tr>
-    <tr><td>page</td><td>Integer</td><td>可空，页面值</td></tr>
+	<tr><td>type</td><td>Integer</td><td>不可空，需要什么类型的帖子，默认为
+        1->公告帖子，2->普通帖子</td></tr>
+    <tr><td>page</td><td>Integer</td><td>可空，页面值，默认为1,公告不需要page以及limit</td></tr>
+	<tr><td>limit</td><td>Integer</td><td>可空，每页展示几页，默认为10，公告不需要page以及limit</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
     <tr><td>code</td><td colspan=2>一个整数值，返回所有帖子的总数量</td></tr>

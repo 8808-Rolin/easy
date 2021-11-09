@@ -5,6 +5,8 @@ import icu.rolin.easy.model.VO.ActionMemberVO;
 import icu.rolin.easy.model.VO.GetActionListVO;
 import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
+import icu.rolin.easy.service.ActionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,9 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/action")
 public class ActionController {
 
+    @Autowired
+    private ActionService actionService;
+
     @PostMapping(value = "/participate")
     public ResponseVO participate_action (Integer uid,Integer actid){
-        return new ResponseVO(new SimpleVO());
+        boolean key = actionService.participateAction(uid,actid);
+        if (key) return new ResponseVO(new SimpleVO(0,"申请成功"));
+        return new ResponseVO(new SimpleVO(1,"申请提交失败，请检查数据传输准确性！"));
     }
 
     @PostMapping(value = "/release-action")

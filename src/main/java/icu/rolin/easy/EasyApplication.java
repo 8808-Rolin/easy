@@ -8,10 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @SpringBootApplication
 public class EasyApplication {
-
-
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(EasyApplication.class, args);
 	}
