@@ -4,7 +4,16 @@ public class PersonActionPOJO {
     private Integer actid;
     private String title;
     private String date;
+    private String position;
     private Integer isAttend;
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
     public Integer getActid() {
         return actid;

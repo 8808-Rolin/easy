@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public interface ActionMapper {
 
     @Select("SELECT * FROM action WHERE a_id = #{aid}")
-    ArrayList<Action> findAssActionsByA_id(Integer aid);
+    ArrayList<Action> findByA_id(Integer aid);
 
     @Select("SELECT * FROM action WHERE id = #{id}")
     Action getDetailedAssActioonByAcId(Integer id);

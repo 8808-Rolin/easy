@@ -53,12 +53,9 @@ public class InfoController {
     @PostMapping(value = "/get-action-overview")
     public ResponseVO get_action_overview(UserAssNotePO ua){
         PersonActionPOJO[] personActionPOJOS = infoService.getActionOverview(ua);
-        if (personActionPOJOS == null) {
-            return new ResponseVO(new GetActionOverviewVO(-1,"获取失败",null));
-        }else if (personActionPOJOS.length==0){
+       if (personActionPOJOS==null || personActionPOJOS.length==0 )
             return new ResponseVO(new GetActionOverviewVO(0,"该社团暂无任何活动",personActionPOJOS));
-        }
-        return new ResponseVO(new GetActionOverviewVO(personActionPOJOS.length, "获取活动列表陈工",personActionPOJOS));
+       return new ResponseVO(new GetActionOverviewVO(personActionPOJOS.length, "获取活动列表成功",personActionPOJOS));
     }
 
     //这个方法写的有点逆天,根据需求修改吧

@@ -13,7 +13,7 @@ public interface JoinActionMapper {
     @Insert("INSERT INTO join_action (act_id,u_id) VALUES(#{acid},#{uid})")
     Integer insertJoinActionForm(Integer acid,Integer uid);
 
-    @Select("SELECT u_id FROM join_action WHERE act_id = #{acid} and u_id = #{uid}")
+    @Select("SELECT COUNT(u_id) FROM join_action WHERE act_id = #{acid} and u_id = #{uid}")
     Integer verifyUserJoinActionById(Integer acid,Integer uid);
 
 }

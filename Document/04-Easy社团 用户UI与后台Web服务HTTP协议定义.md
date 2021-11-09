@@ -692,7 +692,7 @@
 </table>
 
 
-### 3.3.6 获取社团活动列表接口(Modify)
+### 3.3.6 获取社团活动列表接口(Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>

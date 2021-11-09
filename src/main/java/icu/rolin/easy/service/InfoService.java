@@ -8,6 +8,7 @@ import icu.rolin.easy.model.POJO.CollegePOJO;
 import icu.rolin.easy.model.POJO.PersonActionPOJO;
 import icu.rolin.easy.model.POJO.UserPOJO;
 import icu.rolin.easy.model.VO.GetActionInfoVO;
+import icu.rolin.easy.utils.common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,26 +84,27 @@ public class InfoService {
         return amps;
     }
 
-    /**
-     * attendCode 的判定或许存在bug..
-     * 方法判定或许还存在缺失..
-     */
 
+    /**
+     * @author Joolum
+     * @update-time 2021年11月9日 18点12分
+     * @param ua 传入一个Uid以及Aid的包装对象
+     * @return 返回一个PersonActionPOJO,错误或无数据返回null
+     */
     public PersonActionPOJO[] getActionOverview(UserAssNotePO ua){
-        ArrayList<Action> actions = actionMapper.findAssActionsByA_id(ua.getAid());
-        if (actions.size()==0) {
-            return new PersonActionPOJO[actions.size()];
-        }else if (actions == null){
-            return null;
-        }
+        // 获取该社团的所有活动
+        ArrayList<Action> actions = actionMapper.findByA_id(ua.getAid());
+        if(actions == null || actions.size()==0) return null;
+        // 创建对象数组
         PersonActionPOJO[] personActionPOJOS = new PersonActionPOJO[actions.size()];
-        Integer attendCode = joinActionMapper.verifyUserJoinActionById(ua.getAid(), ua.getUid());
-        if (attendCode==null) attendCode = 0;
-        else attendCode = 1;
+        //注值
         for (int i=0;i<actions.size();i++){
-            personActionPOJOS[i].setActid(actions.get(i).getA_id());
+            personActionPOJOS[i] = new PersonActionPOJO();
+            personActionPOJOS[i].setActid(actions.get(i).getId());
             personActionPOJOS[i].setTitle(actions.get(i).getTitle());
-            personActionPOJOS[i].setDate(actions.get(i).getStart_time().toString());
+            personActionPOJOS[i].setPosition(actions.get(i).getPosition());
+            personActionPOJOS[i].setDate(common.convertTimestamp2Date(actions.get(i).getStart_time(),"yyyy-MM-dd"));
+            Integer attendCode = joinActionMapper.verifyUserJoinActionById(actions.get(i).getId(), ua.getUid());
             personActionPOJOS[i].setIsAttend(attendCode);
         }
         return personActionPOJOS;
