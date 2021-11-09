@@ -1,5 +1,6 @@
 package icu.rolin.easy.mapper;
 
+import icu.rolin.easy.model.DO.Content;
 import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,4 +15,8 @@ public interface ContentMapper {
 
     @Select("SELECT max(id) FROM content")
     Integer getTheLatestID();
+
+    @Select("SELECT * FROM content WHERE id = #{id}")
+    Content getContentByID(Integer id);
+
 }

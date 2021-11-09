@@ -1,9 +1,4 @@
 package icu.rolin.easy.model.DO;
-
-
-
-
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -13,11 +8,20 @@ public class Action implements Serializable {
     private Integer a_id;
     private String title;
     private Integer content_id;
+    private String position;
     private Timestamp start_time;
     private Timestamp end_time;
     private Integer is_approved;
     private Timestamp create_time;
     private Timestamp update_time;
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
     public Integer getId() {
         return id;
@@ -90,4 +94,5 @@ public class Action implements Serializable {
     public void setUpdate_time(Timestamp update_time) {
         this.update_time = update_time;
     }
+
 }
