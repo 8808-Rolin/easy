@@ -49,6 +49,7 @@ public class InfoController {
         return new ResponseVO("获取成功",amrvo);
     }
 
+    //获取社团展示列表
     @PostMapping(value = "/get-action-overview")
     public ResponseVO get_action_overview(UserAssNotePO ua){
         PersonActionPOJO[] personActionPOJOS = infoService.getActionOverview(ua);

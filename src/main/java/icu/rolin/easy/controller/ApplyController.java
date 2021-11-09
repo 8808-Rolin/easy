@@ -28,6 +28,7 @@ public class ApplyController {
             return new ResponseVO(new SimpleVO(-1,"申请社团失败"));
     }
 
+    //非成员社团用户可以在社团页面申请加入社团，该接口需要提供一个uid、aid、以及申请备注放能够提交成功
     @PostMapping(value = "/join-association")
     public ResponseVO join_ass(UserAssNotePO uan){
         boolean key = applyService.applyJoinAssociation(uan);

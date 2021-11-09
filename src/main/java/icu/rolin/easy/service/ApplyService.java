@@ -52,6 +52,12 @@ public class ApplyService {
         }
     }
 
+    /**
+     * 用户申请加入社团时触发该业务
+     * @author Joolum
+     * @param uan 传入一个对象参数 Uid、Aid以及Note
+     * @return 返回一个布尔值,表示提交申请是否成功
+     */
     public boolean applyJoinAssociation(UserAssNotePO uan){
         Integer code = applyJoinAssociationMapper.insertJoinAssForm(uan.getUid(),uan.getAid(),uan.getNote());
         if (code == null){
