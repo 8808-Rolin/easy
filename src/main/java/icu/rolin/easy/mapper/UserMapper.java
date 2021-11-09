@@ -52,4 +52,7 @@ public interface UserMapper {
     @Select("SELECT count(phone) FROM user WHERE phone = #{phone}")
     Integer verifyPhone(String phone);
 
+    @Select("SELECT level FROM user WHERE id = #{id}")
+    Integer findLevelById(Integer id);
+
 }

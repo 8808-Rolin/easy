@@ -8,12 +8,7 @@ public class GetAssInfoVO {
     private Integer permissionCode;
     private GetAssInfoAssPOJO ass;
 
-    public GetAssInfoVO(Integer code, String msg, Integer permissionCode, GetAssInfoAssPOJO ass) {
-        this.code = code;
-        this.msg = msg;
-        this.permissionCode = permissionCode;
-        this.ass = ass;
-    }
+
 
     public Integer getCode() {
         return code;

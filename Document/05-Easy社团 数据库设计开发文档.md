@@ -103,6 +103,7 @@
 | 2021-11-06 | 社团表、用户表     | 头像修改为相对路径URL，不再使用Base64 |
 | 2021-11-07 | 3.2.2.3 创建社团表 | 修订 新增note字段                     |
 | 2021-11-08 | 3.2.2.7 申请内容表 | 移除该表，将其合并成内容表content     |
+| 2021-11-09 | 3.2.2.10 活动表    | 新增position字段，记录活动举办地点    |
 
 # 2. 外部设计
 
@@ -321,12 +322,14 @@
     <tr><td>社团id</td><td>a_id</td><td>unsigned int;NN </td><td>对应association.id</td></tr>
     <tr><td>活动标题</td><td>title</td><td>varchar(120);NN </td><td></td></tr>
     <tr><td>活动内容ID</td><td>content_id</td><td>unsign int;NN </td><td>富文本字符串</td></tr>
+    <tr><td>position</td><td>position</td><td>unsign int;NN </td><td>举办活动的地点</td></tr>
     <tr><td>开始时间</td><td>start_time</td><td>DATETIME;NN </td><td></td></tr>
     <tr><td>结束时间</td><td>end_time</td><td>DATETIME;NN </td><td></td></tr>
 	<tr><td>是否通过</td><td>is_approved</td><td>unsigned int;NN;DF 0 </td><td>0为否，1为真</td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
+
 
 
 #### 3.2.2.11 社团表
@@ -528,6 +531,7 @@ CREATE TABLE action(
   `start_time` DATETIME NOT NULL,
   `end_time` DATETIME NOT NULL,
   `is_approved` INT UNSIGNED DEFAULT 0 NOT NULL,
+   `position` VARCHAR(30) NOT NULL DEFAULT '操场',
   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `update_time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -748,10 +752,10 @@ INSERT INTO apply_commond(a_id,title,content_id) VALUES (4,"我想要举办社�
 ```
 #### 4.3.1.10 活动表数据
 ```sql
-INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved) VALUES (1,"举办Lovelive1",8,"2021-06-27 18:00:00","2021-12-08 12:00:00",1);
-INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved) VALUES (2,"举办Lovelive2",9,"2021-12-27 18:00:00","2021-12-30 13:00:00",0);
-INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved) VALUES (3,"举办Lovelive3",10,"2021-11-27 18:00:00","2021-12-08 12:00:00",0);
-INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved) VALUES (3,"举办Lovelive4",11,"2021-11-27 18:00:00","2021-12-08 12:00:00",1);
+INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (1,"举办Lovelive1",8,"2021-06-27 18:00:00","2021-12-08 12:00:00",1,"第四实训楼 C209");
+INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (2,"举办Lovelive2",9,"2021-12-27 18:00:00","2021-12-30 13:00:00",0,"第一教学楼 1109");
+INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (3,"举办Lovelive3",10,"2021-11-27 18:00:00","2021-12-08 12:00:00",0,"43栋楼下");
+INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (3,"举办Lovelive4",11,"2021-11-27 18:00:00","2021-12-08 12:00:00",1);
 ```
 
 #### 4.3.1.11 参加活动表

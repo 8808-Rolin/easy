@@ -615,7 +615,7 @@
 </table>
 
 
-### 3.3.3 发表帖子接口
+### 3.3.3 发表帖子接口 (Finish)
 
 用户如果要在此处发布帖子，则需要调用该接口，提交发布的帖子内容，该接口的具体设计如下：
 <table>
@@ -639,7 +639,7 @@
 </table>
 
 
-### 3.3.4 论坛页面获取相关个人和论坛信息接口
+### 3.3.4 论坛页面获取相关个人和论坛信息接口 (Finish)
 
 用户点击进入论坛页面时，可以用该接口获取相关的个人信息以及论坛的基础信息。接口的具体设计如下：
 
@@ -667,6 +667,7 @@
     <tr><td>assOrg</td><td colspan=2>社团所属组织</td></tr>
     <tr><td>assHead</td><td colspan=2>社团负责人</td></tr>
 </table>
+
 
 
 ### 3.3.5 申请加入社团接口
@@ -710,9 +711,11 @@
 	<tr><th>data.action[]</td><th colspan=2>活动列表</td></tr>
 	<tr><td>actid</td><td colspan=2>ID值，活动唯一标识符</td></tr>
 	<tr><td>title</td><td colspan=2>活动的标题</td></tr>
+	<tr><td>position</td><td colspan=2>活动举办地点</td></tr>
 	<tr><td>date</td><td colspan=2>活动的开始时间</td></tr>
 	<tr><td>isAttend</td><td colspan=2>是否已参加该活动，0为未参加，1为以参加</td></tr>
 </table>
+
 
 
 ### 3.3.7 获取活动详细信息接口
@@ -739,6 +742,7 @@
 	<tr><td>position</td><td colspan=2>活动举办的地点</td></tr>
 	<tr><td>status</td><td colspan=2>活动参加状态码，0为可参加，1为没有权限参加，2为已参加</td></tr>
 </table>
+
 
 
 ### 3.3.8 申请参加活动接口
@@ -1586,6 +1590,7 @@
 	<tr><td>title</td></td><td>String</td><td>活动标题</td></tr>
 	<tr><td>content</td></td><td>String</td><td>活动内容</td></tr>
 	<tr><td>aid</td></td><td>Integer</td><td>活动举办所在社团</td></tr>
+	<tr><td>position</td></td><td>String</td><td>活动举办地点</td></tr>
 	<tr><td>startTime</td></td><td>String</td><td>开始时间</td></tr>
 	<tr><td>endTime</td></td><td>String</td><td>结束时间</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
@@ -1593,6 +1598,7 @@
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个actid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
+
 
 
 #### 3.7.6.2 活动一览
@@ -1616,10 +1622,12 @@
     <tr><td>assname</td><td colspan=2>社团名字</td></tr>
     <tr><td>title</td><td colspan=2>活动标题</td></tr>
     <tr><td>content</td><td colspan=2>活动内容</td></tr>
+	<tr><td>position</td><td colspan=2>活动举办地点</td></tr>
     <tr><td>startTime</td><td colspan=2>开始时间</td></tr>
     <tr><td>endTime</td><td colspan=2>结束时间</td></tr>
 	<tr><td>status</td><td colspan=2>活动状态码：0：待审核，1：已发布，2，审批不过</td></tr>
 </table>
+
 
 
 

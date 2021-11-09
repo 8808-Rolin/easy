@@ -14,6 +14,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @ResponseBody
 @CrossOrigin
@@ -62,21 +64,32 @@ public class BBSController {
         return new ResponseVO(new GetPostListVO(postsPOJOS.length, common.getPageLimitPost(postsPOJOS,page,limit)));
     }
 
+    //发布帖子接口
     @PostMapping("/release-post")
     public ResponseVO release_post(ReleasePostPO rppo){
-        boolean key = bbsService.publishPost(rppo);
-        if (key) return new ResponseVO(new SimpleVO(bbsService.getTheLatestP_id(),"成功发表一篇帖子"));
-        return new ResponseVO(new SimpleVO(-1,"可能由于请求丢失数据，至使无法成功插入数据库..."));
+        Map<String,Integer> kv = bbsService.publishPost(rppo);
+        if(kv.get("status") == 0){//失败
+            return new ResponseVO(new SimpleVO(-1,"请求错误！发表帖子错误"));
+        }
+        return new ResponseVO(new SimpleVO(kv.get("pid"),"发表成功！请刷新页面"));
     }
 
 
     //-1代表无任何权限,是黑户
+    //用户点击进入论坛页面时，可以用该接口获取相关的个人权限以及论坛的基础信息
     @PostMapping("/get-ass-information")
     public ResponseVO get_ass_info(UserAssNotePO ua){
-        GetAssInfoAssPOJO getAssInfoAssPOJO = bbsService.getAssInformation(ua);
-        int permissonCode = userService.getTheLevelById(ua.getUid());
-        if (getAssInfoAssPOJO != null && permissonCode != -1) return new ResponseVO(new GetAssInfoVO(0,"获取社团信息成功", permissonCode, getAssInfoAssPOJO));
-        return new ResponseVO(new GetAssInfoVO(1,"缺失权限状态码和社团信息！",-1,null));
+        GetAssInfoAssPOJO gaia = bbsService.getAssInformation(ua);
+        Integer permissonCode = bbsService.getUserAssPermission(ua);
+        GetAssInfoVO gai = new GetAssInfoVO();
+        if (gaia == null || permissonCode == null) return new ResponseVO(new SimpleVO(1,"数据库查询错误！没有找到对应数据"));
+        else {
+            gai.setCode(0);
+            gai.setMsg("获取成功");
+            gai.setPermissionCode(permissonCode);
+            gai.setAss(gaia);
+            return new ResponseVO(gai);
+        }
     }
 
     @PostMapping(value = "/get-post-page-info")

@@ -10,7 +10,7 @@ import org.mybatis.caches.redis.RedisCache;
 @CacheNamespace(implementation = RedisCache.class)
 public interface ContentMapper {
     @Insert("INSERT INTO content (content) VALUES(#{content})")
-    Integer insertPost_content(String content);
+    Integer savePost_content(String content);
 
     @Select("SELECT max(id) FROM content")
     Integer getTheLatestID();

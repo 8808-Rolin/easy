@@ -18,6 +18,9 @@ public interface AssociationUserMapper {
     @Select("SELECT * FROM association_user")
     ArrayList<Association_User> getAllAssociation_users();
 
+    @Select("SELECT * FROM association_user WHERE u_id = #{uid} AND a_id = #{aid}")
+    Association_User findAssociation_userById(Integer uid,Integer aid);
+
 
     /**
      * 查询某个用户是否加入了某个社团
