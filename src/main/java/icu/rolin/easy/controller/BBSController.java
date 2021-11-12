@@ -98,35 +98,34 @@ public class BBSController {
 
     @PostMapping(value = "/get-post-page-info")
     public ResponseVO get_post_info(Integer pid){
-        return new ResponseVO(new PostVO());
+        return new ResponseVO(ss.getPostInfo(pid));
     }
 
     @PostMapping(value = "/get-discuss-list")
     public ResponseVO get_discuss_list(GetDiscussPO gd){
+        //不会分页，我不动这个
         return new ResponseVO(new GetDiscussVO());
     }
 
     @PostMapping(value = "/release-discuss")
     public ResponseVO release_discuss(ReleaseDiscussPO rd){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(is.addComment(rd));
     }
 
     @PostMapping(value = "/delete-post-discuss")
     public ResponseVO delete_context (Integer requestType,Integer typeid){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(ds.deletePostDiscuss(requestType,typeid));
     }
 
     @PostMapping(value = "/modify-post")
     public ResponseVO modify_post(UpdatePostPO up){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(us.modifyPost(up));
     }
 
     @PostMapping(value = "/favoriteProcess")
     public ResponseVO favorite(PostUserPO pu){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(is.collectPost(pu));
     }
-
-
 
 
 }

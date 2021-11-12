@@ -64,4 +64,6 @@ public class PostsPOJO {
     public void setReleaseTime(String releaseTime) {
         this.releaseTime = releaseTime;
     }
+
+
 }

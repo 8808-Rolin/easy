@@ -209,4 +209,46 @@ public class IncreaseService {
         return svo;
     }
 
+    public SimpleVO addComment(ReleaseDiscussPO rd){
+        SimpleVO simpleVO = new SimpleVO();
+        if (rd.getUid() == null || rd.getPid() == null){
+            simpleVO.setCode(-1);
+            simpleVO.setMsg("缺失任一ID字段值");
+            logger.warn("ID字段值丢失");
+        }else {
+            Integer code = commentsMapper.addComment(rd.getPid(), rd.getUid(), rd.getContent());
+            if (code == 0){
+                simpleVO.setCode(-1);
+                simpleVO.setMsg("插入评论失败");
+                logger.warn("插入评论---操作数据库失败..");
+            }else {
+                simpleVO.setCode(rd.getPid());
+                simpleVO.setMsg("发表评论成功");
+            }
+        }
+
+        return simpleVO;
+    }
+
+    //3.4.7 收藏帖子
+    public SimpleVO collectPost(PostUserPO pu){
+        SimpleVO simpleVO = new SimpleVO();
+        if (pu.getUid() == null || pu.getPid() == null){
+            simpleVO.setMsg("请求参数丢失");
+            simpleVO.setCode(-1);
+            logger.error("收藏帖子---请求参数丢失...");
+        }else {
+            Integer code = favoriteTableMapper.collectPost(pu.getPid(),pu.getUid());
+            if (code == 0){
+                simpleVO.setMsg("收藏帖子失败");
+                simpleVO.setCode(-1);
+            }else {
+                simpleVO.setMsg("收藏帖子成功");
+                simpleVO.setCode(0);
+            }
+        }
+
+        return simpleVO;
+    }
+
 }

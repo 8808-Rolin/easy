@@ -1,9 +1,7 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.Comments;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
 import java.sql.Timestamp;
@@ -22,5 +20,11 @@ public interface CommentsMapper {
     //通过PID查询最后发布的回复
     @Select("SELECT u_id,create_time FROM comments WHERE p_id = #{pid} ORDER BY create_time DESC LIMIT 1")
     Comments getLastCommentWithPost(Integer pid);
+
+    @Insert("INSERT INTO comments (p_id,u_id,content) VALUES(#{pid},#{uid},#{content})")
+    Integer addComment(Integer pid,Integer uid,String content);
+
+    @Delete("DELETE FROM comments WHERE id = #{id}")
+    Integer deleteCommentById(Integer id);
 
 }

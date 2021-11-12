@@ -2,6 +2,9 @@ package icu.rolin.easy.service;
 
 import icu.rolin.easy.mapper.*;
 import icu.rolin.easy.model.PO.ForgetPasswordPO;
+import icu.rolin.easy.model.PO.PostUserPO;
+import icu.rolin.easy.model.PO.UpdatePostPO;
+import icu.rolin.easy.model.VO.SimpleVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,4 +57,26 @@ public class UpdateService {
         }
         return code == 1;
     }
+
+    //3.4.6 修改帖子
+    public SimpleVO modifyPost(UpdatePostPO up){
+        SimpleVO simpleVO = new SimpleVO();
+        if (up.getUid() == null || up.getPid() == null){
+            simpleVO.setMsg("请求参数丢失");
+            simpleVO.setCode(-1);
+            logger.error("修改帖子---请求参数丢失...");
+        }else {
+            Integer code = postMapper.updatePost(up.getNewContent(), up.getPid(), up.getUid());
+            if (code == 0){
+                simpleVO.setMsg("修改帖子失败");
+                simpleVO.setCode(-1);
+            }else {
+                simpleVO.setMsg("修改帖子成功");
+                simpleVO.setCode(0);
+            }
+        }
+
+        return simpleVO;
+    }
+
 }

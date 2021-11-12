@@ -9,6 +9,7 @@ import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.*;
 import icu.rolin.easy.model.VO.CollegeListVO;
 import icu.rolin.easy.model.VO.GetActionInfoVO;
+import icu.rolin.easy.model.VO.PostVO;
 import icu.rolin.easy.utils.Common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+/**
+ *
+ */
 @Service
 public class SelectService {
     private final static Logger logger = LoggerFactory.getLogger(SelectService.class);
@@ -231,6 +235,25 @@ public class SelectService {
         else return null;
     }
 
+    /**
+     * 获取用户在该社团的一个权限代码
+     * 重写
+     * @author :JooLum
+     * @return 权限代码，1为社团管理员 0为普通用户，2为黑户
+     * 如果出错则直接返回一个空对象
+     */
+    public Integer getUserAssPermission(Integer uid,Integer aid){
+        //判断该人是否加入了社团，否则返回2 是则下一步
+        Integer level = userMapper.findLevelById(uid);
+        if (level == null) return null;
+        if (level == 0) return 2;
+        //判断用户是否加入了该社团，否则返回2，是则继续
+        Association_User au = associationUserMapper.findAssociation_userById(uid,aid);
+        if(au == null) return 2;
+        if(au.getIs_admin() == 0) return 0;
+        else if (au.getIs_admin() == 1) return 1;
+        else return null;
+    }
 
     /**
      * 通过用户ID查找用户的名字，如果用户不存在则返回一个“找不到该用户”
@@ -426,6 +449,34 @@ public class SelectService {
         getActionInfoVO.setPosition(actionInfo.getPosition());
         getActionInfoVO.setStatus(status);
         return getActionInfoVO;
+    }
+
+    /**
+     * @author Joolum
+     * @param pid  传入一个pid,为帖子表的id
+     * @return 返回一个PostVO对象
+     * 1为狗作者加狗管理，0为普通用户加狗作者，2为无用户
+     */
+
+    public PostVO getPostInfo(Integer pid){
+        Post post = postMapper.findPostById(pid);
+        if (post == null) return new PostVO(1,null,"帖子不存在",null,null);
+        PostPOJO postPOJO = new PostPOJO();
+        postPOJO.setTags(post.getTags());
+        postPOJO.setTitle(post.getTitle());
+        postPOJO.setReleaseDate(post.getCreate_time().toString());
+        postPOJO.setIsFavorite(favoriteTableMapper.isFavorite(post.getId(),post.getU_id()));
+        Integer permissonCode = this.getUserAssPermission(post.getU_id(), post.getA_id());
+        if (permissonCode == 2) return new PostVO(0,permissonCode,"缺失用户数据",postPOJO,null);
+        UserPOJO userPOJO = this.getPersonInformation(post.getU_id());
+        MasterPOJO masterPOJO = new MasterPOJO();
+        masterPOJO.setMuid(post.getU_id());
+        masterPOJO.setIntro(userPOJO.getIntro());
+        masterPOJO.setImage(userPOJO.getHeadImage());
+        masterPOJO.setOrg(userPOJO.getCollege());
+        masterPOJO.setUsername(userPOJO.getUserName());
+        if (permissonCode == 0) return new PostVO(0,permissonCode,"成功获取帖子内容",postPOJO,masterPOJO);
+        return new PostVO(0,permissonCode,"成功获取帖子内容",postPOJO,masterPOJO);
     }
 
 

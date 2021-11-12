@@ -1,10 +1,7 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.Post;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
@@ -15,6 +12,9 @@ public interface PostMapper {
 
     @Select("SELECT * FROM post")
     ArrayList<Post> getAllPosts();
+
+    @Select("SELECT * FROM post WHERE id = #{id}")
+    Post findPostById(Integer id);
 
     @Select("SELECT * FROM post WHERE post_type = #{postType}")
     ArrayList<Post> findPostByPostType(Integer postType);
@@ -30,5 +30,11 @@ public interface PostMapper {
 
     @Select("SELECT max(id) FROM post")
     Integer getTheLatestId();
+
+    @Delete("DELETE FROM post WHERE id = #{id}")
+    Integer deletePostById(Integer id);
+
+    @Update("UPDATE post SET content = #{content} WHERE id = #{pid} and u_id = #{uid}")
+    Integer updatePost(String content,Integer pid,Integer uid);
 
 }
