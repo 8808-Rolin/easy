@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ *
+ */
 @Service
 public class DeleteService {
     private final static Logger logger = LoggerFactory.getLogger(DeleteService.class);
@@ -68,6 +71,27 @@ public class DeleteService {
                     simpleVO.setMsg("删除评论成功");
                     simpleVO.setCode(0);
                 }
+            }
+        }
+
+        return simpleVO;
+    }
+
+    //3.6.3.1 清空邮箱
+    public SimpleVO deleteMail(Integer uid){
+        SimpleVO simpleVO = new SimpleVO();
+        if (uid == null){
+            simpleVO.setMsg("请求参数丢失");
+            simpleVO.setCode(-1);
+            logger.error("清除邮箱---请求参数丢失...");
+        }else {
+            Integer code = mailMapper.deleleMailById(uid);
+            if (code != 0){
+                simpleVO.setMsg("成功清除邮箱");
+                simpleVO.setCode(code);
+            }else {
+                simpleVO.setCode(-1);
+                simpleVO.setMsg("清除邮箱失败");
             }
         }
 

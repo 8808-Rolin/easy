@@ -55,4 +55,22 @@ public interface UserMapper {
     @Select("SELECT level FROM user WHERE id = #{id}")
     Integer findLevelById(Integer id);
 
+    @Select("SELECT is_open_zone FROM user WHERE id = #{id}")
+    Integer isOpenZone(Integer id);
+
+    @Update("UPDATE user SET username = #{username} WHERE id = #{id}")
+    Integer updateUserName(String username,Integer id);
+
+    @Update("UPDATE user SET intro = #{intro} WHERE id = #{id}")
+    Integer updateUserIntro(String intro,Integer id);
+
+    @Update("UPDATE user SET user_avatar = #{user_avatar} WHERE id = #{id}")
+    Integer updateUserHeadImage(String user_avatar,Integer id);
+
+    @Update("UPDATE user SET email = #{email} WHERE id = #{id}")
+    Integer updateUserEmail(String email,Integer id);
+
+    @Update("UPDATE user SET birth = #{birth} WHERE id = #{id}")
+    Integer updateUserBirth(String birth,Integer id);
+
 }

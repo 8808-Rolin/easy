@@ -1,11 +1,10 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.Mail;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
+
+import java.util.ArrayList;
 
 @Mapper
 public interface MailMapper {
@@ -18,5 +17,14 @@ public interface MailMapper {
 
     @Select("SELECT MAX(id) FROM mail")
     Integer getMaxMid();
+
+    @Delete("DELETE FROM mail WHERE from_id = #{fromid}")
+    Integer deleleMailById(Integer fromid);
+
+    @Select("SELECT * FROM mail WHERE to_id = #{toid}")
+    ArrayList<Mail> getMailsByTo_id(Integer toid);
+
+    @Select("SELECT content FROM mail WHERE id = #{id}")
+    String getContentById(Integer id);
 
 }

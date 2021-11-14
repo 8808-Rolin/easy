@@ -74,12 +74,17 @@ public class InfoController {
 
     @GetMapping(value = "/delete-mail")
     public ResponseVO delete_mail (Integer uid){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(ds.deleteMail(uid));
+    }
+
+    @GetMapping(value = "/get-mails")
+    public ResponseVO get_mails(Integer uid) {
+        return new ResponseVO(ss.getMails(uid));
     }
 
     @GetMapping(value = "/get-mail-content")
     public ResponseVO get_mail_content(Integer mid){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(ss.getMailContent(mid));
     }
 
     @GetMapping(value = "/get-ass-mails")

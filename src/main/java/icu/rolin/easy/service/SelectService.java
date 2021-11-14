@@ -1,5 +1,6 @@
 package icu.rolin.easy.service;
 
+import icu.rolin.easy.interceptor.ZoneInterceptor;
 import icu.rolin.easy.mapper.*;
 import icu.rolin.easy.model.DO.*;
 import icu.rolin.easy.model.PO.GetPostsPO;
@@ -7,18 +8,20 @@ import icu.rolin.easy.model.PO.LoginPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.*;
-import icu.rolin.easy.model.VO.CollegeListVO;
-import icu.rolin.easy.model.VO.GetActionInfoVO;
-import icu.rolin.easy.model.VO.PostVO;
+import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.utils.Common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import static icu.rolin.easy.interceptor.ZoneInterceptor.*;
 
 /**
  *
@@ -479,6 +482,164 @@ public class SelectService {
         return new PostVO(0,permissonCode,"成功获取帖子内容",postPOJO,masterPOJO);
     }
 
+    public ZonePostVO getPost(Integer type,Integer uid){
+        ZonePostVO zonePostVO = new ZonePostVO();
+        if (type == null || uid == null) {
+            logger.error("3.6.2操作失败，请求参数丢失！");
+            return null;
+        }
+        if (type == 0){
+            ArrayList<Post> posts = postMapper.getPostsByU_id(uid);
+            int postsNumber = posts.size();
+            if (postsNumber==0){
+                logger.warn("查询不到该用户的任何帖子，或许是他真的没发过帖");
+                zonePostVO.setPosts(null);
+                zonePostVO.setCode(postsNumber);
+            }else {
+                zonePostVO.setCode(postsNumber);
+
+                ZonePostPOJO[] zonePostPOJOS = new ZonePostPOJO[postsNumber];
+                for (int i=0;i<postsNumber;i++){
+                    Association association = associationMapper.findAssociationById(posts.get(i).getA_id());
+                    int replies = commentsMapper.countCommentsByPid(posts.get(i).getId());
+                    zonePostPOJOS[i].setAid(association.getId());
+                    zonePostPOJOS[i].setAname(association.getName());
+                    zonePostPOJOS[i].setPid(posts.get(i).getId());
+                    zonePostPOJOS[i].setTitle(posts.get(i).getTitle());
+                    zonePostPOJOS[i].setDate(posts.get(i).getCreate_time().toString());
+                    zonePostPOJOS[i].setReplies(replies);
+                    zonePostPOJOS[i].setAimage(association.getLogo());
+                }
+
+                zonePostVO.setPosts(zonePostPOJOS);
+            }
+        }else {
+            ArrayList<Favorite_Table> favorite_tables = favoriteTableMapper.getAllFavoriteTableByU_id(uid);
+            int favorite_tablesNumber = favorite_tables.size();
+            if (favorite_tablesNumber==0){
+                logger.warn("查询不到该用户的任何收藏，或许是他真的没有一键三连过");
+                zonePostVO.setPosts(null);
+                zonePostVO.setCode(favorite_tablesNumber);
+            }else {
+                zonePostVO.setCode(favorite_tablesNumber);
+
+                ZonePostPOJO[] zonePostPOJOS = new ZonePostPOJO[favorite_tablesNumber];
+                for (int i=0;i<favorite_tablesNumber;i++){
+                    Post post = postMapper.findPostById(favorite_tables.get(i).getP_id());
+                    Association association = associationMapper.findAssociationById(post.getA_id());
+                    int replies = commentsMapper.countCommentsByPid(post.getId());
+                    zonePostPOJOS[i].setAid(association.getId());
+                    zonePostPOJOS[i].setAname(association.getName());
+                    zonePostPOJOS[i].setPid(post.getId());
+                    zonePostPOJOS[i].setTitle(post.getTitle());
+                    zonePostPOJOS[i].setDate(post.getCreate_time().toString());
+                    zonePostPOJOS[i].setReplies(replies);
+                    zonePostPOJOS[i].setAimage(association.getLogo());
+                }
+
+                zonePostVO.setPosts(zonePostPOJOS);
+            }
+        }
+
+        return zonePostVO;
+    }
+
+    public GetMailOverviewVO getMails(Integer uid){
+        GetMailOverviewVO gmovvo = new GetMailOverviewVO();
+        if (uid == null){
+            logger.error("3.6.3.2 获取邮箱概要数据---请求参数丢失");
+            gmovvo.setCode(-1);
+            gmovvo.setMail(null);
+        }else {
+            ArrayList<Mail> mails = mailMapper.getMailsByTo_id(uid);
+            int mailsNumber = mails.size();
+            if (mailsNumber == 0){
+                logger.info("他可能真的挺孤独的，因为他没有收到任何邮件啊！岂可休！");
+                gmovvo.setCode(mailsNumber);
+                gmovvo.setMail(null);
+            }else {
+                gmovvo.setCode(mailsNumber);
+                MailOverviewPOJO[] mailOverviewPOJOS = new MailOverviewPOJO[mailsNumber];
+                for (int i=0;i<mailsNumber;i++){
+                    String fromUserName = userMapper.getNameById(mails.get(i).getFrom_id());
+                    mailOverviewPOJOS[i].setMid(mails.get(i).getId());
+                    mailOverviewPOJOS[i].setTitle(mails.get(i).getTitle());
+                    mailOverviewPOJOS[i].setDate(mails.get(i).getCreate_time().toString());
+                    mailOverviewPOJOS[i].setIsRead(mails.get(i).getIs_read());
+                    mailOverviewPOJOS[i].setIsSystem(mails.get(i).getIs_system());
+                    mailOverviewPOJOS[i].setFrom(fromUserName);
+                }
+            }
+        }
+
+        return gmovvo;
+    }
+
+    public SimpleVO getMailContent(Integer mid){
+        SimpleVO simpleVO = new SimpleVO();
+        String content = mailMapper.getContentById(mid);
+        if (content == null){
+            logger.warn("压根没有这封邮件！");
+            simpleVO.setMsg(content);
+            simpleVO.setCode(0);
+        }else if (content == ""){
+            logger.info("这封邮件就像那群嘉心糖一样，P用没有！");
+            simpleVO.setMsg(content);
+            simpleVO.setCode(1);
+        }else {
+            simpleVO.setMsg(content);
+            simpleVO.setCode(1);
+        }
+
+        return simpleVO;
+    }
+
+    public GetInformationVO getUserInformation(Integer uid){
+        GetInformationVO ginfovo = new GetInformationVO();
+        User user = userMapper.findById(uid);
+        ZoneUserDataPOJO zoneUserDataPOJO = new ZoneUserDataPOJO();
+        if (user == null){
+            ginfovo.setCode(0);
+            ginfovo.setAssNum(0);
+            ginfovo.setJoinass(null);
+            ginfovo.setUserdata(null);
+            ginfovo.setNotice("");
+        }else {
+            ginfovo.setCode(1);
+            ginfovo.setNotice(user.getNotice());
+            zoneUserDataPOJO.setUid(user.getId());
+            zoneUserDataPOJO.setUsername(user.getUsername());
+            zoneUserDataPOJO.setRealname(user.getUsername());
+            zoneUserDataPOJO.setProfile(user.getUser_avatar());
+            zoneUserDataPOJO.setPhone(user.getPost_number().toString());
+            zoneUserDataPOJO.setEmail(user.getEmail());
+            zoneUserDataPOJO.setCollege(collegeTableMapper.findCollegeNameById(user.getCollege_id()));
+            zoneUserDataPOJO.setBirth(user.getBirth().toString());
+            zoneUserDataPOJO.setNumpost(user.getPost_number());
+            ginfovo.setUserdata(zoneUserDataPOJO);
+            ArrayList<Association_User> association_users = associationUserMapper.getAllUserJoinAssociations(uid);
+            int assNum = association_users.size();
+            if (assNum == 0){
+                logger.info("该用户死宅一个，一个社团都不加入");
+                ginfovo.setAssNum(assNum);
+                ginfovo.setJoinass(null);
+            }else {
+                ginfovo.setAssNum(assNum);
+                ZoneJoinAssPOJO[] zoneJoinAssPOJOS = new ZoneJoinAssPOJO[assNum];
+                for (int i=0;i<assNum;i++){
+                    String associationName = associationMapper.getAssociationNameById(association_users.get(i).getA_id());
+                    String associationLogo = associationMapper.getAssociationLogoById(association_users.get(i).getA_id());
+                    zoneJoinAssPOJOS[i].setAid(association_users.get(i).getA_id());
+                    zoneJoinAssPOJOS[i].setName(associationName);
+                    zoneJoinAssPOJOS[i].setProfile(associationLogo);
+                }
+                ginfovo.setJoinass(zoneJoinAssPOJOS);
+            }
+        }
+
+        return ginfovo;
+    }
+
 
     // -----验证操作-----
 
@@ -551,6 +712,15 @@ public class SelectService {
         return associationUserMapper.getUserIsJoinAssociation(aid,uid) == 1;
     };
 
-
+    public int verifyUserZoneStatus(Integer muid, HttpServletRequest request, HttpServletResponse response){
+        if (muid == null) return 0;
+        Boolean key = verifyZoneStatus(request,response,muid);
+        if (key){
+            return 0;
+        }else {
+            Integer code = userMapper.isOpenZone(muid);
+            return code;
+        }
+    }
 
 }

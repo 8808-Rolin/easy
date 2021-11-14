@@ -1,6 +1,7 @@
 package icu.rolin.easy.config;
 
 import icu.rolin.easy.interceptor.UserInterceptor;
+import icu.rolin.easy.interceptor.ZoneInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                         "/images/**",
                         "/favicon.ico"
                 );
-
         super.addInterceptors(registry);
     }
 

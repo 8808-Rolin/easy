@@ -3,6 +3,7 @@ package icu.rolin.easy.service;
 import icu.rolin.easy.mapper.*;
 import icu.rolin.easy.model.PO.ForgetPasswordPO;
 import icu.rolin.easy.model.PO.PostUserPO;
+import icu.rolin.easy.model.PO.UidProfilePO;
 import icu.rolin.easy.model.PO.UpdatePostPO;
 import icu.rolin.easy.model.VO.SimpleVO;
 import org.slf4j.Logger;
@@ -74,6 +75,81 @@ public class UpdateService {
                 simpleVO.setMsg("修改帖子成功");
                 simpleVO.setCode(0);
             }
+        }
+
+        return simpleVO;
+    }
+
+    public SimpleVO updateUserName(UidProfilePO up){
+        SimpleVO simpleVO = new SimpleVO();
+        Integer code = userMapper.updateUserName(up.getNewProfile(), up.getUid());
+        if (code == 0){
+            logger.warn("用户修改用户名失败！");
+            simpleVO.setCode(-1);
+            simpleVO.setMsg("用户无法修改新用户名");
+        }else {
+            simpleVO.setCode(1);
+            simpleVO.setMsg("用户成功修改新的用户名！");
+        }
+
+        return simpleVO;
+    }
+
+    public SimpleVO updateUserIntro(UidProfilePO up){
+        SimpleVO simpleVO = new SimpleVO();
+        Integer code = userMapper.updateUserIntro(up.getNewProfile(), up.getUid());
+        if (code == 0){
+            logger.warn("用户修改简介失败！");
+            simpleVO.setCode(-1);
+            simpleVO.setMsg("用户无法修改新的简介");
+        }else {
+            simpleVO.setCode(1);
+            simpleVO.setMsg("用户成功修改新的简介！");
+        }
+
+        return simpleVO;
+    }
+
+    public SimpleVO updateUserHeadImage(UidProfilePO up){
+        SimpleVO simpleVO = new SimpleVO();
+        Integer code = userMapper.updateUserHeadImage(up.getNewProfile(), up.getUid());
+        if (code == 0){
+            logger.warn("用户更换头像失败！");
+            simpleVO.setCode(-1);
+            simpleVO.setMsg("用户无法更换头像");
+        }else {
+            simpleVO.setCode(1);
+            simpleVO.setMsg("用户头像更换成功！");
+        }
+
+        return simpleVO;
+    }
+
+    public SimpleVO updateUserEmail(UidProfilePO up){
+        SimpleVO simpleVO = new SimpleVO();
+        Integer code = userMapper.updateUserEmail(up.getNewProfile(), up.getUid());
+        if (code == 0){
+            logger.warn("用户更换邮箱失败！");
+            simpleVO.setCode(-1);
+            simpleVO.setMsg("用户无法修改邮箱");
+        }else {
+            simpleVO.setCode(1);
+            simpleVO.setMsg("用户邮箱修改成功！");
+        }
+
+        return simpleVO;
+    }
+
+    public SimpleVO updateUserBirth(UidProfilePO up){
+        SimpleVO simpleVO = new SimpleVO();
+        Integer code = userMapper.updateUserBirth(up.getNewProfile(), up.getUid());
+        if (code == 0){
+            logger.warn("用户更换生日失败！");
+            simpleVO.setCode(-1);
+            simpleVO.setMsg("用户无法修改生日");
+        }else {
+            simpleVO.setCode(1);
+            simpleVO.setMsg("用户生日修改成功！");
         }
 
         return simpleVO;

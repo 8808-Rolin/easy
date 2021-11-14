@@ -37,4 +37,7 @@ public interface PostMapper {
     @Update("UPDATE post SET content = #{content} WHERE id = #{pid} and u_id = #{uid}")
     Integer updatePost(String content,Integer pid,Integer uid);
 
+    @Select("SELECT * FROM post WHERE u_id = #{id}")
+    ArrayList<Post> getPostsByU_id(Integer id);
+
 }
