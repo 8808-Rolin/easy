@@ -46,7 +46,7 @@ public class ApplyController {
 
     @PostMapping(value = "/get-join-apply-list")
     public ResponseVO get_join_apply_list(Integer aid){
-        return  new ResponseVO(new GetJoinApplyVO());
+        return  new ResponseVO(ss.getJoinApplyList(aid));
     }
 
     @PostMapping(value = "/set-join-apply-status")

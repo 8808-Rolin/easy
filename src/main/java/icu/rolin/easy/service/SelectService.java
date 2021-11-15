@@ -10,6 +10,7 @@ import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.*;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.utils.Common;
+import icu.rolin.easy.utils.TransformCurrentTimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -640,6 +641,131 @@ public class SelectService {
         return ginfovo;
     }
 
+    // 究极蛇皮大杂烩之乱炖东北大锅之没有任何判定的纯纯写入数据的屑方法
+    public AssShowInfoVO getShowInfo(Integer aid){
+        AssShowInfoVO assShowInfoVO = new AssShowInfoVO();
+
+        Association association = associationMapper.findAssociationById(aid);
+        if (association == null) {
+            assShowInfoVO.setCode(-1);
+            assShowInfoVO.setAssInfo(null);
+            assShowInfoVO.setShowInfo(null);
+        }
+        AssInfoPOJO assInfoPOJO = new AssInfoPOJO();
+        String associationLeaderName = userMapper.getNameById(association.getLeader_id());
+        assInfoPOJO.setName(association.getName());
+        assInfoPOJO.setIntro(association.getIntro());
+        assInfoPOJO.setPrincipal(associationLeaderName);
+        assInfoPOJO.setOrg(association.getParent_organization());
+        assInfoPOJO.setProfile(association.getLogo());
+
+        Integer headCount = associationUserMapper.getTheAssociationMembers(aid);
+        Integer postCount = postMapper.getTheAssociationPostNumber(aid);
+        Integer actionCount = actionMapper.getToBeHeldActionsNumber(aid, TransformCurrentTimeUtil.returnCurrentTime());
+        ShowInfoPOJO showInfoPOJO = new ShowInfoPOJO(headCount,postCount,actionCount);
+
+        assShowInfoVO.setCode(1);
+        assShowInfoVO.setAssInfo(assInfoPOJO);
+        assShowInfoVO.setShowInfo(showInfoPOJO);
+
+        return assShowInfoVO;
+    }
+
+    public GetMailOverviewVO getAssMails(Integer aid){
+        GetMailOverviewVO gmovvo = new GetMailOverviewVO();
+        ArrayList<Mail> mails = mailMapper.getMailsByTo_id(aid);
+        int mailsNumber = mails.size();
+        if (mailsNumber == 0){
+            gmovvo.setCode(mailsNumber);
+            gmovvo.setMail(null);
+        }else {
+            gmovvo.setCode(mailsNumber);
+            MailOverviewPOJO[] mailOverviewPOJOS = new MailOverviewPOJO[mailsNumber];
+            for (int i=0;i<mailsNumber;i++){
+                String fromName = userMapper.getNameById(mails.get(i).getFrom_id());
+                mailOverviewPOJOS[i].setMid(mails.get(i).getId());
+                mailOverviewPOJOS[i].setTitle(mails.get(i).getTitle());
+                mailOverviewPOJOS[i].setDate(mails.get(i).getCreate_time().toString());
+                mailOverviewPOJOS[i].setIsRead(mails.get(i).getIs_read());
+                mailOverviewPOJOS[i].setIsSystem(mails.get(i).getIs_system());
+                mailOverviewPOJOS[i].setFrom(fromName);
+            }
+            gmovvo.setMail(mailOverviewPOJOS);
+        }
+
+        return gmovvo;
+    }
+
+//    public PersonActionVO getPersonActivity(Integer aid){
+//        PersonActionVO pavo = new PersonActionVO();
+//
+//
+//        return pavo;
+//    }
+
+
+    public GetUsersVO getMemberInformation(Integer aid){
+        GetUsersVO getUsersVO = new GetUsersVO();
+        ArrayList<Association_User> association_users = associationUserMapper.findAllMembersByAID(aid);
+        int membersNumber = association_users.size();
+        if (membersNumber == 0){
+            getUsersVO.setCode(-1);
+            getUsersVO.setMsg("可能该社团没有任何成员");
+            getUsersVO.setUser(null);
+        }else {
+            User[] users = new User[membersNumber];
+            for (int i=0;i<membersNumber;i++){
+                users[i] = userMapper.findById(association_users.get(i).getU_id());
+            }
+            GetUserPOJO[] getUserPOJOS = new GetUserPOJO[membersNumber];
+            for (int i=0;i<membersNumber;i++){
+                getUserPOJOS[i].setUid(users[i].getId());
+                getUserPOJOS[i].setUsername(users[i].getUsername());
+                getUserPOJOS[i].setRealname(users[i].getRealname());
+                getUserPOJOS[i].setStudentID(users[i].getStudent_number());
+                getUserPOJOS[i].setCollege(collegeTableMapper.findCollegeNameById(users[i].getCollege_id()));
+                getUserPOJOS[i].setIntro(users[i].getIntro());
+                getUserPOJOS[i].setPermisson(users[i].getLevel());
+                getUserPOJOS[i].setBirth(users[i].getBirth().toString());
+            }
+            getUsersVO.setCode(1);
+            getUsersVO.setMsg("获取社团用户信息成功");
+            getUsersVO.setUser(getUserPOJOS);
+        }
+
+        return getUsersVO;
+    }
+
+    public GetJoinApplyVO getJoinApplyList(Integer aid){
+        GetJoinApplyVO gjavo = new GetJoinApplyVO();
+        ArrayList<Apply_Join_Association> ajass = applyJoinAssociationMapper.getApplyJoinList(aid);
+        int ajassNumber = ajass.size();
+        if (ajassNumber == 0){
+            gjavo.setCode(0);
+            gjavo.setMsg("可能该社团压根没人想进，或者出错了");
+            gjavo.setApply(null);
+        }else {
+            gjavo.setCode(1);
+            User[] users = new User[ajassNumber];
+            for (int i=0;i<ajassNumber;i++){
+                users[i] = userMapper.findById(ajass.get(i).getU_id());
+            }
+            JoinApplyPOJO[] joinApplyPOJOs = new JoinApplyPOJO[ajassNumber];
+            for (int i=0;i<ajassNumber;i++){
+                joinApplyPOJOs[i].setUid(users[i].getId());
+                joinApplyPOJOs[i].setUaid(ajass.get(i).getId());
+                joinApplyPOJOs[i].setUserName(users[i].getUsername());
+                joinApplyPOJOs[i].setRealName(users[i].getRealname());
+                joinApplyPOJOs[i].setStudentID(users[i].getStudent_number());
+                joinApplyPOJOs[i].setCollege(collegeTableMapper.findCollegeNameById(users[i].getCollege_id()));
+                joinApplyPOJOs[i].setNote(ajass.get(i).getNote());
+            }
+            gjavo.setMsg("获取社团申请表用户信息成功");
+            gjavo.setApply(joinApplyPOJOs);
+        }
+
+        return gjavo;
+    }
 
     // -----验证操作-----
 

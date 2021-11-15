@@ -1,6 +1,7 @@
 package icu.rolin.easy.service;
 
 import icu.rolin.easy.mapper.*;
+import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.VO.SimpleVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,6 +93,26 @@ public class DeleteService {
             }else {
                 simpleVO.setCode(-1);
                 simpleVO.setMsg("清除邮箱失败");
+            }
+        }
+
+        return simpleVO;
+    }
+
+    public SimpleVO removeMember(UserAssNotePO ua){
+        SimpleVO simpleVO = new SimpleVO();
+        if (ua.getUid() == null || ua.getAid() == null){
+            simpleVO.setMsg("请求参数丢失");
+            simpleVO.setCode(-1);
+            logger.error("清除邮箱---请求参数丢失...");
+        }else {
+            Integer code = associationUserMapper.deleteUserByAidUid(ua.getAid(), ua.getUid());
+            if (code != 0){
+                simpleVO.setMsg("成功删除社团用户");
+                simpleVO.setCode(code);
+            }else {
+                simpleVO.setCode(-1);
+                simpleVO.setMsg("删除社团用户失败");
             }
         }
 

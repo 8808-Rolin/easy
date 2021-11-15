@@ -4,6 +4,7 @@ import icu.rolin.easy.model.DO.Association;
 import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
@@ -33,4 +34,6 @@ public interface AssociationMapper {
     @Select("SELECT logo FROM association WHERE id = #{id}")
     String getAssociationLogoById(Integer id);
 
+    @Update("UPDATE association SET name = #{name}, intro = #{intro}, logo = #{logo}, leader_id = #{leaderid} WHERE id = #{id}")
+    Integer updateAssociationInfo(String name, String intro, String logo, Integer leaderid, Integer id);
 }

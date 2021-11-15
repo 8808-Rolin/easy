@@ -40,4 +40,7 @@ public interface PostMapper {
     @Select("SELECT * FROM post WHERE u_id = #{id}")
     ArrayList<Post> getPostsByU_id(Integer id);
 
+    @Select("SELECT COUNT(*) FROM post WHERE a_id = #{aid}")
+    Integer getTheAssociationPostNumber(Integer aid);
+
 }

@@ -89,12 +89,12 @@ public class InfoController {
 
     @GetMapping(value = "/get-ass-mails")
     public ResponseVO get_ass_mail_overview(Integer aid){
-        return new ResponseVO(new GetMailOverviewVO());
+        return new ResponseVO(ss.getAssMails(aid));
     }
 
     @GetMapping(value = "/get-fixed-show-info")
     public ResponseVO get_show_info(Integer aid){
-        return new ResponseVO(new AssShowInfoVO());
+        return new ResponseVO(ss.getShowInfo(aid));
     }
 
     @GetMapping(value = "/get-person-act")
@@ -118,17 +118,17 @@ public class InfoController {
 
     @PostMapping(value = "/get-member-information-list")
     public ResponseVO get_member_list_ass(Integer aid){
-        return new ResponseVO(new GetUsersVO());
+        return new ResponseVO(ss.getMemberInformation(aid));
     }
 
     @PostMapping(value = "/remove-user")
     public ResponseVO remove_user(UserAssNotePO ua){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(ds.removeMember(ua));
     }
 
     @PostMapping(value = "/update-ass-info")
     public ResponseVO update_ass_info(AssInfoUpdatePO aiu){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(us.updateAssociationInfo(aiu));
     }
 
     @GetMapping(value = "/get-alluser-number")

@@ -1,10 +1,7 @@
 package icu.rolin.easy.service;
 
 import icu.rolin.easy.mapper.*;
-import icu.rolin.easy.model.PO.ForgetPasswordPO;
-import icu.rolin.easy.model.PO.PostUserPO;
-import icu.rolin.easy.model.PO.UidProfilePO;
-import icu.rolin.easy.model.PO.UpdatePostPO;
+import icu.rolin.easy.model.PO.*;
 import icu.rolin.easy.model.VO.SimpleVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -150,6 +147,36 @@ public class UpdateService {
         }else {
             simpleVO.setCode(1);
             simpleVO.setMsg("用户生日修改成功！");
+        }
+
+        return simpleVO;
+    }
+
+    public SimpleVO setJoinApplyStatus(Integer type,Integer uaid){
+        SimpleVO simpleVO = new SimpleVO();
+        Integer code = applyJoinAssociationMapper.setJoinApplyStatus(type,uaid);
+        if (code == 0){
+            logger.warn("修改申请状态失败！");
+            simpleVO.setCode(-1);
+            simpleVO.setMsg("无法修改申请状态");
+        }else {
+            simpleVO.setCode(1);
+            simpleVO.setMsg("修改成功！");
+        }
+
+        return simpleVO;
+    }
+
+    public SimpleVO updateAssociationInfo(AssInfoUpdatePO aiu){
+        SimpleVO simpleVO = new SimpleVO();
+        Integer code = associationMapper.updateAssociationInfo(aiu.getName(), aiu.getIntro(), aiu.getLogo(), aiu.getHeaderuid(), aiu.getAid());
+        if (code == 0){
+            logger.warn("修改社团基本信息失败！");
+            simpleVO.setCode(-1);
+            simpleVO.setMsg("无法修改社团信息");
+        }else {
+            simpleVO.setCode(1);
+            simpleVO.setMsg("修改成功！");
         }
 
         return simpleVO;
