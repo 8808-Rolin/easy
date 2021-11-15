@@ -1,10 +1,7 @@
 package icu.rolin.easy.controller;
 
 import icu.rolin.easy.model.PO.*;
-import icu.rolin.easy.model.POJO.GetAssInfoAssPOJO;
-import icu.rolin.easy.model.POJO.PostsPOJO;
-import icu.rolin.easy.model.POJO.ShowDataAssPOJO;
-import icu.rolin.easy.model.POJO.SimpleNoticePOJO;
+import icu.rolin.easy.model.POJO.*;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.*;
 import icu.rolin.easy.utils.Common;
@@ -97,19 +94,52 @@ public class BBSController {
     }
 
     @PostMapping(value = "/get-post-page-info")
-    public ResponseVO get_post_info(Integer pid){
-        return new ResponseVO(ss.getPostInfo(pid));
+    public ResponseVO get_post_info(Integer pid,Integer uid){
+        int permission = ss.getPermissionCodeWithPost(pid);
+        PostPOJO post = ss.getPostInfoWithPost(pid, uid);
+        MasterPOJO master = ss.getMasterInfoWithPost(pid);
+        PostVO postVO = new PostVO();
+        if(post == null) return new ResponseVO(new SimpleVO(1,"帖子获取失败"));
+        if(permission == 2 || master == null) {
+            postVO.setCode(0);
+            postVO.setPermissionCode(2);
+            postVO.setMsg("获取用户失败，该用户可能已经退出了该社团");
+        }else{
+            postVO.setCode(0);
+            postVO.setPermissionCode(permission);
+            postVO.setMsg("获取成功！！");
+        }
+        postVO.setMaster(master);
+        postVO.setPost(post);
+        return new ResponseVO(postVO);
     }
+
 
     @PostMapping(value = "/get-discuss-list")
     public ResponseVO get_discuss_list(GetDiscussPO gd){
-        //不会分页，我不动这个
-        return new ResponseVO(new GetDiscussVO());
+        //进行一个参数的判断
+        int MaxPerPage = 12;  //每页最多数量
+        int page = 1;
+        if (gd.getPid() == null) return new ResponseVO(new SimpleVO(-1,"缺失参数错误！"));
+        if(gd.getPage() != null && gd.getPage()!=0) page = gd.getPage();
+        //获取一个总页数
+        int total_page = ss.getMaxPageInDiscuss(gd.getPid(),MaxPerPage);
+        if(total_page == 0) return new ResponseVO(new SimpleVO(0,"该帖子暂无评论"));
+        if(total_page < page) return new ResponseVO(new SimpleVO(-1,"页码参数错误！"));
+        //实例化视图对象
+        GetDiscussVO gdvo = new GetDiscussVO();
+        gdvo.setCode(total_page);
+        gdvo.setMsg("获取评论列表成功！");
+
+        //获取一个评论列表并返回 传入gd、mpp，默认倒序排序
+        DiscussPOJO[] discuss = ss.getDiscuss(page,gd.getPid(),MaxPerPage);
+        gdvo.setDiscuss(discuss);
+        return new ResponseVO(gdvo);
     }
 
     @PostMapping(value = "/release-discuss")
     public ResponseVO release_discuss(ReleaseDiscussPO rd){
-        return new ResponseVO(is.addComment(rd));
+        return new ResponseVO(is.sendComment(rd));
     }
 
     @PostMapping(value = "/delete-post-discuss")

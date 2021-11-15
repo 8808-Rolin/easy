@@ -783,7 +783,7 @@
 
 该接口以及整合至：- [3.1.4.1 获取个人信息](#3141-获取个人信息)
 
-### 3.4.2 获取帖子与发帖人信息
+### 3.4.2 获取帖子与发帖人信息（Finish）
 
 该接口可以用于获得帖子主体与发帖人的信息，需要返回两个字段，一个表示用户是否存在，一个表示帖子是否存在。
 <table>
@@ -795,27 +795,29 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
     <tr><td>pid</td><td>Integer</td><td>ID值，帖子的唯一标识符</td></tr>
+	<tr><td>uid</td><td>Integer</td><td>ID值，用户唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
     <tr><td>code</td><td colspan=2>0为获取成功，1为获取失败，且帖子不存在</td></tr>
-    <tr><td>permissionCode</td><td colspan=2>权限代码，1为管理员 ，0为普通用户,2为用户不存在</td></tr>
+    <tr><td>permissionCode</td><td colspan=2>权限代码，1为管理员 ，0为普通用户,2为用户不存在(是用发帖人的权限)</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
     <tr><th>data.post</th><td colspan=2>result为0是返回该字段，是帖子数据</td></tr>
     <tr><td>title</td><td colspan=2>帖子标题</td></tr>
     <tr><td>content</td><td colspan=2>帖子内容</td></tr>
     <tr><td>isFavorite</td><td colspan=2>是否收藏 0为未收藏 1为以收藏</td></tr>
     <tr><td>releaseDate</td><td colspan=2>发布日期</td></tr>
-    <tr><td>tags</td><td colspan=2>帖子标签</td></tr>
+    <tr><td>tags[]</td><td colspan=2>帖子标签，是一个字符串数组</td></tr>
     <tr><th>data.master</th><td colspan=2>permissionCode不为2时返回该字段，显示帖子的作者信息</td></tr>
     <tr><td>muid</td><td colspan=2>Master-User-ID,作者的UID</td></tr>
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
-    <tr><td>org</td><td colspan=2>用户所属学院，是一个整数型</td></tr>
+    <tr><td>org</td><td colspan=2>用户所属学院，是一个文本型</td></tr>
     <tr><td>intro</td><td colspan=2>用户简介</td></tr>
     <tr><td>image</td><td colspan=2>Base64编码字符串，是用户头像</td></tr>
 </table>
 
 
-### 3.4.3 获取回复和回复人列表
+
+### 3.4.3 获取回复和回复人列表(Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -837,7 +839,6 @@
     <tr><td>cuid</td><td colspan=2>评论人的UID</td></tr>
     <tr><td>username</td><td colspan=2>评论人的昵称</td></tr>
     <tr><td>userImage</td><td colspan=2>评论人的头像</td></tr>
-    <tr><td>permissionCode</td><td colspan=2>权限代码，1为该回复可删除，0为不可删除（管理员发的）</td></tr>
     <tr><th>data.discuss.content</th><td colspan=2>评论数据</td></tr>
     <tr><td>cid</td><td colspan=2>ID值，回复的唯一标识符</td></tr>
     <tr><td>text</td><td colspan=2>回复的文本内容</td></tr>
@@ -845,7 +846,7 @@
 </table>
 
 
-### 3.4.4 提交回复
+### 3.4.4 提交回复（Finish）
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -860,7 +861,7 @@
     <tr><td>content</td><td>String</td><td>无格式文本内容</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>code</td><td colspan=2>-1提交失败，提交成功返回pid</td></tr>
+    <tr><td>code</td><td colspan=2>-1提交失败，提交成功返回cid</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
 </table>
 

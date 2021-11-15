@@ -5,7 +5,7 @@ public class PostPOJO {
     private String content;
     private Integer isFavorite;
     private String releaseDate;
-    private String tags;
+    private String[] tags;
 
     public String getTitle() {
         return title;
@@ -39,11 +39,11 @@ public class PostPOJO {
         this.releaseDate = releaseDate;
     }
 
-    public String getTags() {
+    public String[] getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(String[] tags) {
         this.tags = tags;
     }
 }

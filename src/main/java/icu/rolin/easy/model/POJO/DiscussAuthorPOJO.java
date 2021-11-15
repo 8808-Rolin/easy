@@ -4,7 +4,6 @@ public class DiscussAuthorPOJO {
     private Integer cuid;
     private String username;
     private String userImage;
-    private Integer permissionCode;
 
     public Integer getCuid() {
         return cuid;
@@ -30,11 +29,4 @@ public class DiscussAuthorPOJO {
         this.userImage = userImage;
     }
 
-    public Integer getPermissionCode() {
-        return permissionCode;
-    }
-
-    public void setPermissionCode(Integer permissionCode) {
-        this.permissionCode = permissionCode;
-    }
 }

@@ -209,7 +209,13 @@ public class IncreaseService {
         return svo;
     }
 
-    public SimpleVO addComment(ReleaseDiscussPO rd){
+    /**
+     * 发送评论，计入数据库，返回布尔值
+     * @author Joolum
+     * @param rd 一个 参数对象
+     * @return SimpleVO
+     */
+    public SimpleVO sendComment(ReleaseDiscussPO rd){
         SimpleVO simpleVO = new SimpleVO();
         if (rd.getUid() == null || rd.getPid() == null){
             simpleVO.setCode(-1);
@@ -222,7 +228,7 @@ public class IncreaseService {
                 simpleVO.setMsg("插入评论失败");
                 logger.warn("插入评论---操作数据库失败..");
             }else {
-                simpleVO.setCode(rd.getPid());
+                simpleVO.setCode(commentsMapper.findFinalID());
                 simpleVO.setMsg("发表评论成功");
             }
         }

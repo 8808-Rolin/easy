@@ -11,13 +11,6 @@ public class PostVO {
     private PostPOJO post;
     private MasterPOJO master;
 
-    public PostVO(Integer code, Integer permissionCode, String msg, PostPOJO post, MasterPOJO master) {
-        this.code = code;
-        this.permissionCode = permissionCode;
-        this.msg = msg;
-        this.post = post;
-        this.master = master;
-    }
 
     public Integer getCode() {
         return code;

@@ -17,7 +17,7 @@ public interface CollegeTableMapper {
     @Select("SELECT * FROM college_table WHERE id = #{id}")
     College_Table findCollegeById(Integer id);
 
-    @Select("SELECT college_name WHERE id = #{id}")
+    @Select("SELECT college_name FROM college_table WHERE id = #{id}")
     String findCollegeNameById(Integer id);
 
     //查询所有的学院

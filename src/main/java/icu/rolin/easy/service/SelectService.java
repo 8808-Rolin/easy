@@ -3,10 +3,7 @@ package icu.rolin.easy.service;
 import icu.rolin.easy.interceptor.ZoneInterceptor;
 import icu.rolin.easy.mapper.*;
 import icu.rolin.easy.model.DO.*;
-import icu.rolin.easy.model.PO.GetPostsPO;
-import icu.rolin.easy.model.PO.LoginPO;
-import icu.rolin.easy.model.PO.UniVariablePO;
-import icu.rolin.easy.model.PO.UserAssNotePO;
+import icu.rolin.easy.model.PO.*;
 import icu.rolin.easy.model.POJO.*;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.utils.Common;
@@ -454,33 +451,77 @@ public class SelectService {
         return getActionInfoVO;
     }
 
-    /**
-     * @author Joolum
-     * @param pid  传入一个pid,为帖子表的id
-     * @return 返回一个PostVO对象
-     * 1为狗作者加狗管理，0为普通用户加狗作者，2为无用户
-     */
 
-    public PostVO getPostInfo(Integer pid){
+
+    /**
+     * 获取发帖人权限信息代码，获取帖子与发帖人信息的业务拆分-A
+     * @author Rolin
+     * @param pid 传入一个帖子PID
+     * @return 返回一个权限代码，1为管理员，0为普通用户 2为用户不存在
+     */
+    public int getPermissionCodeWithPost(Integer pid){
+        // 通过PID获取UID与AID
         Post post = postMapper.findPostById(pid);
-        if (post == null) return new PostVO(1,null,"帖子不存在",null,null);
-        PostPOJO postPOJO = new PostPOJO();
-        postPOJO.setTags(post.getTags());
-        postPOJO.setTitle(post.getTitle());
-        postPOJO.setReleaseDate(post.getCreate_time().toString());
-        postPOJO.setIsFavorite(favoriteTableMapper.isFavorite(post.getId(),post.getU_id()));
-        Integer permissonCode = this.getUserAssPermission(post.getU_id(), post.getA_id());
-        if (permissonCode == 2) return new PostVO(0,permissonCode,"缺失用户数据",postPOJO,null);
-        UserPOJO userPOJO = this.getPersonInformation(post.getU_id());
-        MasterPOJO masterPOJO = new MasterPOJO();
-        masterPOJO.setMuid(post.getU_id());
-        masterPOJO.setIntro(userPOJO.getIntro());
-        masterPOJO.setImage(userPOJO.getHeadImage());
-        masterPOJO.setOrg(userPOJO.getCollege());
-        masterPOJO.setUsername(userPOJO.getUserName());
-        if (permissonCode == 0) return new PostVO(0,permissonCode,"成功获取帖子内容",postPOJO,masterPOJO);
-        return new PostVO(0,permissonCode,"成功获取帖子内容",postPOJO,masterPOJO);
+        Integer muid = post.getU_id();
+        Integer aid = post.getA_id();
+        // 通过校验UID与AID，可以判断当前的用户身份
+        Integer res = associationUserMapper.findUserIsAdminByUidAid(aid,muid);
+        if(res == null) {
+            return 2;
+        }
+        return res;
     }
+
+
+    /**
+     * 获取帖子的详细内容，获取帖子与发帖人信息的业务拆分-B
+     * @author Rolin
+     * @param pid
+     * @return
+     */
+    public PostPOJO getPostInfoWithPost(Integer pid,Integer uid){
+        // 获取Post表内容
+        String context = "";
+        Post post = postMapper.findPostById(pid);
+        if(post == null) return null;
+        // 通过内容ID获取
+        Content content = contentMapper.getContentByID(post.getContent_id());
+        //通过PID获取用户是否收藏了该帖子
+        Integer is_favorite = favoriteTableMapper.isFavorite(pid,uid);
+        // 返回对应内容对象
+        if (content != null) context = content.getContent();
+        PostPOJO postPOJO = new PostPOJO();
+        postPOJO.setTitle(post.getTitle());
+        postPOJO.setContent(context);
+        postPOJO.setIsFavorite(is_favorite);
+        postPOJO.setReleaseDate(Common.convertTimestamp2Date(post.getCreate_time(),"yyyy-MM-dd"));
+        // 进行一个标签的分割
+        String tagString  = post.getTags();
+        String[] tags = tagString.split(",");
+        postPOJO.setTags(tags);
+        return postPOJO;
+    }
+
+    /**
+     * 获取帖子的楼主的信息，获取帖子与发帖人信息的业务拆分-C
+     * @author Rolin
+     * @param pid 传入一个PID
+     * @return 返回一个MasterPojo
+     */
+    public MasterPOJO getMasterInfoWithPost(Integer pid){
+        Post post = postMapper.findPostById(pid);
+        Integer uid = post.getU_id();
+        MasterPOJO masterPOJO = new MasterPOJO();
+        User user = userMapper.findById(uid);
+        if(user == null) return null;
+        masterPOJO.setMuid(uid);
+        masterPOJO.setUsername(user.getUsername());
+        masterPOJO.setOrg(collegeTableMapper.findCollegeNameById(user.getCollege_id()));
+        masterPOJO.setIntro(user.getIntro());
+        masterPOJO.setImage(user.getUser_avatar());
+        return masterPOJO;
+    }
+
 
     public ZonePostVO getPost(Integer type,Integer uid){
         ZonePostVO zonePostVO = new ZonePostVO();
@@ -640,6 +681,59 @@ public class SelectService {
         return ginfovo;
     }
 
+    /**
+     * 获取一个帖子下的评论数量，然后对其进行一个分页算法
+     * @param pid 帖子PID
+     * @param max_per_page 每一页最大的数据条数
+     * @return 返回一个分页数量
+     */
+    public int getMaxPageInDiscuss(Integer pid,int max_per_page){
+        Integer discuss_number = commentsMapper.countCommentsByPid(pid);
+        // 没有评论
+        if(discuss_number == 0) return 0;
+        // 有评论，计算页数
+        int page = (discuss_number / max_per_page) + 1;
+        return page;
+    }
+
+
+    /**
+     * 根据参数获取对应的回复列表
+     * @author Rolin
+     * @param page 对应页码
+     * @param pid 对应帖子
+     * @param max 单页最大帖子数量
+     * @return 返回一个评论数组
+     */
+    public DiscussPOJO[] getDiscuss(int page,int pid,int max){
+        // 计算左右限
+        int left = (page-1) * max;
+        int right = page *max;
+        //查询对应评论
+        ArrayList<Comments> comments = commentsMapper.findByPidWithTimeDescForLimit(pid,left,right);
+        //实例化对象
+        if(comments.size() == 0) return null;
+        DiscussPOJO[] discussPOJOS = new DiscussPOJO[comments.size()];
+        // 注入信息
+        for (int i = 0; i < comments.size(); i++) {
+            discussPOJOS[i] = new DiscussPOJO();
+            discussPOJOS[i].setPage(page);
+            DiscussContentPOJO dc = new DiscussContentPOJO();
+            dc.setCid(comments.get(i).getId());
+            dc.setText(comments.get(i).getContent());
+            dc.setReleaseDate(Common.convertTimestamp2Date(comments.get(i).getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+            discussPOJOS[i].setContent(dc);
+            //获取评论人信息
+            Integer uid = comments.get(i).getU_id();
+            User user = userMapper.findById(uid);
+            DiscussAuthorPOJO author = new DiscussAuthorPOJO();
+            author.setCuid(uid);
+            author.setUsername(user.getUsername());
+            author.setUserImage(user.getUser_avatar());
+            discussPOJOS[i].setAuthor(author);
+        }
+        return discussPOJOS;
+    }
 
     // -----验证操作-----
 
@@ -701,6 +795,7 @@ public class SelectService {
     public boolean getAssIsExist(Integer aid){
         return associationMapper.findAssIsExist(aid) == 1;
     }
+
 
     /**
      * 判断用户是否加入了某个社团

@@ -4,6 +4,7 @@ import icu.rolin.easy.model.DO.Comments;
 import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -27,4 +28,9 @@ public interface CommentsMapper {
     @Delete("DELETE FROM comments WHERE id = #{id}")
     Integer deleteCommentById(Integer id);
 
+    @Select("SELECT * FROM comments WHERE p_id= #{pid} ORDER BY create_time DESC LIMIT #{leftLimit},#{rightLimit}")
+    ArrayList<Comments> findByPidWithTimeDescForLimit(Integer pid,Integer leftLimit,Integer rightLimit);
+
+    @Select("SELECT max(id) FROM comments")
+    Integer findFinalID();
 }
