@@ -19,4 +19,7 @@ public interface ContentMapper {
     @Select("SELECT * FROM content WHERE id = #{id}")
     Content getContentByID(Integer id);
 
+    @Select("SELECT content FROM content WHERE id = #{id}")
+    String findContentById(Integer id);
+
 }

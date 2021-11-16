@@ -38,16 +38,16 @@ public class ActionController {
 
     @PostMapping(value = "/release-action")
     public ResponseVO release(ReleaseActionPO actObj){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(is.releaseAction(actObj));
     }
     @PostMapping(value = "/get-action-list")
     public ResponseVO get_action_list(Integer aid){
-        return new ResponseVO(new GetActionListVO());
+        return new ResponseVO(ss.getActionList(aid));
     }
 
     @GetMapping(value = "/get-action-member")
     public ResponseVO get_action_member(Integer aid){
-        return new ResponseVO(new ActionMemberVO());
+        return new ResponseVO(ss.getActionMember(aid));
     }
 
     @PostMapping(value = "/get-act-apply")

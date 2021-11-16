@@ -9,6 +9,9 @@ import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
 
+/**
+ *
+ */
 @Mapper
 @CacheNamespace(implementation = RedisCache.class)
 public interface AssociationMapper {
@@ -36,4 +39,9 @@ public interface AssociationMapper {
 
     @Update("UPDATE association SET name = #{name}, intro = #{intro}, logo = #{logo}, leader_id = #{leaderid} WHERE id = #{id}")
     Integer updateAssociationInfo(String name, String intro, String logo, Integer leaderid, Integer id);
+
+    // 判断此人是不是社团老大
+    @Select("SELECT COUNT(*) FROM association WHERE id = #{id} AND leader_id = #{leaderid}")
+    Integer verifyMemberGradge(Integer id, Integer leaderid);
+
 }

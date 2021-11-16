@@ -21,4 +21,12 @@ public interface ActionMapper {
 
     @Select("SELECT COUNT(*) FROM action WHERE a_id = #{aid} AND DATE(start_time) >= #{currentTime}")
     Integer getToBeHeldActionsNumber(Integer aid,String currentTime);
+
+    @Insert("INSERT INTO action (a_id, title, content_id, position, start_time, end_time) VALUES(#{aid}, #{title}, #{contentid}, #{position}, #{startTime}, #{endTime})")
+    Integer releaseAction(Integer aid,String title,Integer contentid,String position,String startTime,String endTime);
+
+    @Select("SELECT MAX(id) FROM action")
+    Integer getTheLatestId();
+
+
 }

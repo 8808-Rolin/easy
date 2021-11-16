@@ -767,6 +767,93 @@ public class SelectService {
         return gjavo;
     }
 
+    //用membergradge做用户权限判定
+    public GetAssApplyVO getAssociationListApplyList(Integer aid,Integer uid){
+        GetAssApplyVO gaavo = new GetAssApplyVO();
+        Integer memberGradge = associationMapper.verifyMemberGradge(aid,uid);
+        if (memberGradge == 0){
+            logger.warn("用户无权限查看社团后台！");
+            gaavo.setCode(-1);
+            gaavo.setMsg("宁越俎代庖了，爬！");
+            gaavo.setApply(null);
+        }else {
+            ArrayList<Apply_Commond> apply_commonds = applyCommondMapper.getAssociationApplyList(aid);
+            int acNumber = apply_commonds.size();
+            if (acNumber == 0){
+                gaavo.setCode(0);
+                gaavo.setMsg("可能这个社团雀食是没人想进吧...");
+                gaavo.setApply(null);
+            }else {
+                gaavo.setCode(acNumber);
+                AssApplyPOJO[] assApplyPOJOS = new AssApplyPOJO[acNumber];
+                for (int i=0;i<acNumber;i++){
+                    assApplyPOJOS[i].setAaid(apply_commonds.get(i).getId());
+                    assApplyPOJOS[i].setStatus(apply_commonds.get(i).getIs_approved());
+                    assApplyPOJOS[i].setTitle(apply_commonds.get(i).getTitle());
+                    assApplyPOJOS[i].setDate(apply_commonds.get(i).getCreate_time().toString());
+                }
+                gaavo.setApply(assApplyPOJOS);
+                gaavo.setMsg("你所热爱的，就是你的生活");
+            }
+        }
+
+        return gaavo;
+    }
+
+    public GetActionListVO getActionList(Integer aid){
+        GetActionListVO galco = new GetActionListVO();
+        ArrayList<Action> actions = actionMapper.findByA_id(aid);
+        Integer actionNumber = actions.size();
+        if (actionNumber == 0){
+            galco.setMsg("可能这个社团一点活动都没有");
+            galco.setCode(0);
+            galco.setAction(null);
+        }else {
+            galco.setCode(actionNumber);
+            ActionDataPOJO[] actionDataPOJOS = new ActionDataPOJO[actionNumber];
+            for (int i=0;i<actionNumber;i++){
+                String assName = associationMapper.getAssociationNameById(actions.get(i).getA_id());
+                String content = contentMapper.findContentById(actions.get(i).getContent_id());
+                actionDataPOJOS[i].setActid(actions.get(i).getId());
+                actionDataPOJOS[i].setAid(actions.get(i).getA_id());
+                actionDataPOJOS[i].setAssname(assName);
+                actionDataPOJOS[i].setTitle(actions.get(i).getTitle());
+                actionDataPOJOS[i].setContent(content);
+                actionDataPOJOS[i].setStartTime(actions.get(i).getStart_time().toString());
+                actionDataPOJOS[i].setEndTime(actions.get(i).getEnd_time().toString());
+                actionDataPOJOS[i].setStatus(actions.get(i).getIs_approved());
+            }
+            galco.setAction(actionDataPOJOS);
+            galco.setMsg("获取社团活动列表成功！");
+        }
+
+        return galco;
+    }
+
+    public ActionMemberVO getActionMember(Integer aid){
+        ActionMemberVO amvo = new ActionMemberVO();
+        ArrayList<Join_Action> join_actions = joinActionMapper.getActionPersonNumber(aid);
+        Integer personNumber = join_actions.size();
+        if (personNumber == 0){
+            amvo.setMsg("可能这个活动一点人都没有");
+            amvo.setCode(0);
+            amvo.setAction_member(null);
+        }else {
+            amvo.setCode(personNumber);
+            UserSimplePOJO[] userSimplePOJOS = new UserSimplePOJO[personNumber];
+            for (int i=0;i<personNumber;i++){
+                User user = userMapper.findById(join_actions.get(i).getU_id());
+                userSimplePOJOS[i].setUid(user.getId());
+                userSimplePOJOS[i].setUsername(user.getUsername());
+                userSimplePOJOS[i].setStudentid(user.getStudent_number());
+            }
+            amvo.setAction_member(userSimplePOJOS);
+            amvo.setMsg("获取活动人员信息成功!");
+        }
+
+        return amvo;
+    }
+
     // -----验证操作-----
 
 
