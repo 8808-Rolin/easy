@@ -121,6 +121,7 @@ public class SelectService {
         if(associations.size() == 0) return null;
         ShowDataAssPOJO[] sdaPOJOs = new ShowDataAssPOJO[associations.size()];
         for (int i=0; i < associations.size(); i++) {
+            sdaPOJOs[i] = new ShowDataAssPOJO();
             sdaPOJOs[i].setAid(associations.get(i).getId());
             sdaPOJOs[i].setAssImage(associations.get(i).getLogo());
             sdaPOJOs[i].setAssName(associations.get(i).getName());
@@ -137,7 +138,7 @@ public class SelectService {
 
 
     /**
-     * 根据用户需求返回对应的类型的帖子
+     * 根据用户需求返回对应的类型的帖子，并对其进行一个序的排
      * @author Joolum
      * @param gppo 传入一个参数对象
      * @return 返回一个PostsPOJO数组

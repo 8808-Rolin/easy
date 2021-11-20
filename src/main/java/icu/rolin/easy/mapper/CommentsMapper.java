@@ -33,4 +33,7 @@ public interface CommentsMapper {
 
     @Select("SELECT max(id) FROM comments")
     Integer findFinalID();
+
+    @Select("SELECT id FROM comments WHERE p_id = #{pid}")
+    ArrayList<Integer> findIdByPid(Integer pid);
 }

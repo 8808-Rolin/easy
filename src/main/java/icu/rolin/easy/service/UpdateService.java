@@ -59,7 +59,13 @@ public class UpdateService {
         return code == 1;
     }
 
-    //3.4.6 修改帖子
+
+    /**
+     * 修改帖子内容时调用的方法，需要事务管理
+     * 直接修改内容ID所对应的内容即可
+     * @param up 参数对象
+     * @return 返回一个SimpleVO
+     */
     public SimpleVO modifyPost(UpdatePostPO up){
         SimpleVO simpleVO = new SimpleVO();
         if (up.getUid() == null || up.getPid() == null){

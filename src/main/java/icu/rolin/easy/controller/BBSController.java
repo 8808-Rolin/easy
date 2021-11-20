@@ -144,11 +144,20 @@ public class BBSController {
 
     @PostMapping(value = "/delete-post-discuss")
     public ResponseVO delete_context (Integer requestType,Integer typeid){
-        return new ResponseVO(ds.deletePostDiscuss(requestType,typeid));
+        // 判断请求类型，调用相应的Service
+        if (requestType == 0 && typeid != null)  // 删除帖子
+            return new ResponseVO(ds.deletePost(typeid));
+        else if(requestType == 1 && typeid != null) // 删除回复
+            return new ResponseVO(ds.deleteComment(typeid));
+        else //参数错误
+            return new ResponseVO(new SimpleVO(1,"参数错误，请检查参数"));
     }
 
     @PostMapping(value = "/modify-post")
     public ResponseVO modify_post(UpdatePostPO up){
+        if (up.getUid() == null || up.getPid() == null || up.getNewContent() == null) {
+            return new ResponseVO(new SimpleVO(1,"参数错误，修改失败"));
+        }
         return new ResponseVO(us.modifyPost(up));
     }
 
