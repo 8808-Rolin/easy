@@ -2,18 +2,22 @@ package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.Association_User;
 import org.apache.ibatis.annotations.CacheNamespace;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
 
+/**
+ * E
+ */
 @Mapper
 @CacheNamespace(implementation = RedisCache.class)
 public interface AssociationUserMapper {
 
     @Select("SELECT * FROM association_user WHERE id = #{aid}")
-    public ArrayList<Association_User> findAllMembersByAID(Integer aid);
+    ArrayList<Association_User> findAllMembersByAID(Integer aid);
 
     @Select("SELECT * FROM association_user")
     ArrayList<Association_User> getAllAssociation_users();
@@ -34,6 +38,7 @@ public interface AssociationUserMapper {
     @Select("SELECT COUNT(*) FROM association_user WHERE u_id = #{uid} AND a_id = #{aid}")
     Integer getUserIsJoinAssociation(Integer aid,Integer uid);
 
+
     /**
      * 查询一个用户是否是某社团的一个管理员，如果是则返回1，否返回0，如果不存在则返回null
      * @param aid 社团ID
@@ -42,6 +47,13 @@ public interface AssociationUserMapper {
      */
     @Select("SELECT is_admin FROM association_user WHERE u_id = #{uid} AND a_id = #{aid}")
     Integer findUserIsAdminByUidAid(Integer aid,Integer uid);
+
+
+    @Select("SELECT COUNT(u_id) FROM association_user WHERE a_id = #{aid}")
+    Integer getTheAssociationMembers(Integer aid);
+
+    @Delete("DELETE FROM association_user WHERE a_id = #{aid} AND u_id = #{uid}")
+    Integer deleteUserByAidUid(Integer aid, Integer uid);
 
 
 }

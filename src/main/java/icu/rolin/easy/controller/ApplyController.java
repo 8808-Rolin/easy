@@ -46,22 +46,22 @@ public class ApplyController {
 
     @PostMapping(value = "/get-join-apply-list")
     public ResponseVO get_join_apply_list(Integer aid){
-        return  new ResponseVO(new GetJoinApplyVO());
+        return  new ResponseVO(ss.getJoinApplyList(aid));
     }
 
     @PostMapping(value = "/set-join-apply-status")
     public ResponseVO set_join_apply(Integer type,Integer uaid){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(us.setJoinApplyStatus(type,uaid));
     }
 
     @PostMapping(value = "/get-association-apply-list")
     public ResponseVO get_ass_apply_list(Integer aid, @RequestParam(value = "headeruid") Integer uid){
-        return new ResponseVO(new GetAssApplyVO());
+        return new ResponseVO(ss.getAssociationListApplyList(aid,uid));
     }
 
     @PostMapping(value = "/submit-association-apply")
     public ResponseVO send_apply_ass(SendApplyPO sapo){
-        return new ResponseVO(new SimpleVO());
+        return new ResponseVO(is.submitAssApply(sapo));
     }
 
     @GetMapping(value = "/get-create-apply-list")

@@ -4,10 +4,14 @@ import icu.rolin.easy.model.DO.Association;
 import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
 
+/**
+ *
+ */
 @Mapper
 @CacheNamespace(implementation = RedisCache.class)
 public interface AssociationMapper {
@@ -32,5 +36,12 @@ public interface AssociationMapper {
 
     @Select("SELECT logo FROM association WHERE id = #{id}")
     String getAssociationLogoById(Integer id);
+
+    @Update("UPDATE association SET name = #{name}, intro = #{intro}, logo = #{logo}, leader_id = #{leaderid} WHERE id = #{id}")
+    Integer updateAssociationInfo(String name, String intro, String logo, Integer leaderid, Integer id);
+
+    // 判断此人是不是社团老大
+    @Select("SELECT COUNT(*) FROM association WHERE id = #{id} AND leader_id = #{leaderid}")
+    Integer verifyMemberGradge(Integer id, Integer leaderid);
 
 }

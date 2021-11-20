@@ -6,6 +6,15 @@ public class ReleaseActionPO {
     private String content;
     private String startTime;
     private String endTime;
+    private String position;
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
     public Integer getAid() {
         return aid;

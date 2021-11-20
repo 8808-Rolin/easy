@@ -43,4 +43,7 @@ public interface PostMapper {
     @Select("SELECT content_id FROM post WHERE id=#{pid}")
     Integer findContentById(Integer pid);
 
+    @Select("SELECT COUNT(*) FROM post WHERE a_id = #{aid}")
+    Integer getTheAssociationPostNumber(Integer aid);
+
 }

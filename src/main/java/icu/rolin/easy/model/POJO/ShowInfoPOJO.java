@@ -28,4 +28,10 @@ public class ShowInfoPOJO {
     public void setActioncount(Integer actioncount) {
         this.actioncount = actioncount;
     }
+
+    public ShowInfoPOJO(Integer headcount, Integer postcount, Integer actioncount) {
+        this.headcount = headcount;
+        this.postcount = postcount;
+        this.actioncount = actioncount;
+    }
 }
