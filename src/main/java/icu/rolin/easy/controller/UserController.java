@@ -7,7 +7,7 @@ import icu.rolin.easy.model.VO.LoginVO;
 import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
 import icu.rolin.easy.service.*;
-import icu.rolin.easy.utils.ServiceUtils;
+import icu.rolin.easy.service.UtilsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +32,7 @@ public class UserController {
         boolean status = ss.verifyLogin(loginPO);// 此处使用key作为验证返回码，区分service的code
         if (status) {
             int uid = ss.getUserID(loginPO);
-            String token = ServiceUtils.generateToken(loginPO,uid);
+            String token = UtilsService.generateToken(loginPO,uid);
             LoginVO lvo  = new LoginVO();
             lvo.setCode(0);
             lvo.setMsg("用户登陆成功");

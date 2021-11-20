@@ -10,7 +10,7 @@ import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
 import icu.rolin.easy.service.*;
 import icu.rolin.easy.utils.Common;
-import icu.rolin.easy.utils.ServiceUtils;
+import icu.rolin.easy.service.UtilsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +55,7 @@ public class ToolController {
 
     @PostMapping(value = "/upload-image")
     public ResponseVO upload_image(String imageBASE64){
-        String path = ServiceUtils.base64ToImage(imageBASE64);
+        String path = UtilsService.base64ToImage(imageBASE64);
         if (path == null){
             return new ResponseVO(new SimpleVO(1,"图片上传失败"));
         }else {
@@ -66,7 +66,7 @@ public class ToolController {
 
     @PostMapping(value = "/upload-file")
     public ResponseVO upload_file(@RequestParam("file") MultipartFile file){
-        String fileName = ServiceUtils.uploadFile(file);
+        String fileName = UtilsService.uploadFile(file);
         if (fileName == null){
             return new ResponseVO(new SimpleVO(1,"文件上传失败"));
         }else {
@@ -77,7 +77,7 @@ public class ToolController {
 
     @PostMapping(value = "/download-file")
     public ResponseEntity<byte[]> download_file(String fileName, Integer uid){
-        ResponseEntity<byte[]> file = ServiceUtils.downloadFile(fileName);
+        ResponseEntity<byte[]> file = UtilsService.downloadFile(fileName);
         String userName = ss.getUserNameById(uid);
         if (file != null){
             System.out.println("用户名为："+userName+"，正在下载名为："+fileName+"的文件...");

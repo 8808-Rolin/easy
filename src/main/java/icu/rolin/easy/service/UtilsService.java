@@ -1,6 +1,8 @@
-package icu.rolin.easy.utils;
+package icu.rolin.easy.service;
 
 import icu.rolin.easy.model.PO.LoginPO;
+import icu.rolin.easy.utils.Base64ToImageUtil;
+import icu.rolin.easy.utils.TokenUtil;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -16,8 +19,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-public class ServiceUtils {
-    private final static Logger logger = LoggerFactory.getLogger(ServiceUtils.class);
+@Service
+public class UtilsService {
+    private final static Logger logger = LoggerFactory.getLogger(UtilsService.class);
 
     /**
      * 生成Token操作
@@ -43,14 +47,15 @@ public class ServiceUtils {
     public static String base64ToImage(String imageBASE64)  {
         //将base64 转换成 MultipartFile
         MultipartFile file = Base64ToImageUtil.base64ToMultipart(imageBASE64);
-        System.out.println("file:"+file);
         //图片名称
         String fileName = file.getOriginalFilename();
         //获取图片的后缀名
         String[] suffixName = fileName.split(";");
         //生成新的图片名称
         String newImgName = UUID.randomUUID() + suffixName[0];
+        System.out.println(path);
         File filepath = new File(path, newImgName);
+        System.out.println(filepath.getParentFile());
         // 判断路径是否存在，如果不存在就创建一个
         if (!filepath.getParentFile().exists()) {
             filepath.getParentFile().mkdirs();
