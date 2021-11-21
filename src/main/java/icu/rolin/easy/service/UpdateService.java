@@ -58,27 +58,33 @@ public class UpdateService {
 
 
     /**
-     * 修改帖子内容时调用的方法，需要事务管理
+     * 修改帖子内容时调用的方法，验证用户身份
      * 直接修改内容ID所对应的内容即可
      * @param up 参数对象
      * @return 返回一个SimpleVO
      */
     public SimpleVO modifyPost(UpdatePostPO up){
         SimpleVO simpleVO = new SimpleVO();
-        if (up.getUid() == null || up.getPid() == null){
-            simpleVO.setMsg("请求参数丢失");
+        //验证用户身份
+        Integer is = postMapper.findMatchWithPidUid(up.getUid(),up.getPid());
+        if(is == 0){//用户权限不足，无法进行修改
+            simpleVO.setMsg("用户权限不足，无法修改");
             simpleVO.setCode(-1);
-            logger.error("修改帖子---请求参数丢失...");
-        }else {
-            Integer code = postMapper.updatePost(up.getNewContent(), up.getPid(), up.getUid());
-            if (code == 0){
-                simpleVO.setMsg("修改帖子失败");
-                simpleVO.setCode(-1);
-            }else {
-                simpleVO.setMsg("修改帖子成功");
-                simpleVO.setCode(0);
-            }
+            return simpleVO;
         }
+        //  获取内容ID
+        Integer content_id = postMapper.findContentById(up.getPid());
+        //  修改内容ID
+        Integer res = contentMapper.updateContentById(content_id,up.getNewContent());
+        //  返回
+        if (res == 0){
+            simpleVO.setMsg("修改帖子失败");
+            simpleVO.setCode(-1);
+        }else {
+            simpleVO.setMsg("修改帖子成功");
+            simpleVO.setCode(0);
+        }
+
 
         return simpleVO;
     }

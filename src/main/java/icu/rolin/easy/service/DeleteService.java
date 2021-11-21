@@ -134,4 +134,16 @@ public class DeleteService {
         return simpleVO;
     }
 
+
+    /**
+     * 移除用户的收藏帖子，对收藏表的数据进行一个删除
+     * @param uid 用户ID
+     * @param pid 帖子ID
+     * @return 返回一个布尔值，表示操作是否成功
+     */
+    public boolean removeFavorite(int uid,int pid){
+        Integer code = favoriteTableMapper.deleteCollectPost(pid,uid);
+        return code == 1;
+    }
+
 }

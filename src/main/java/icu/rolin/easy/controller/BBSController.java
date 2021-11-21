@@ -155,15 +155,50 @@ public class BBSController {
 
     @PostMapping(value = "/modify-post")
     public ResponseVO modify_post(UpdatePostPO up){
-        if (up.getUid() == null || up.getPid() == null || up.getNewContent() == null) {
+        if (up.getUid() == null ||
+                up.getPid() == null ||
+                up.getNewContent() == null ||
+                up.getPid() == 0 ||
+                up.getUid() == 0
+        ) {
             return new ResponseVO(new SimpleVO(1,"参数错误，修改失败"));
         }
         return new ResponseVO(us.modifyPost(up));
     }
 
-    @PostMapping(value = "/favoriteProcess")
+    @GetMapping(value = "/favoriteProcess")
     public ResponseVO favorite(PostUserPO pu){
-        return new ResponseVO(is.collectPost(pu));
+        SimpleVO simpleVO = new SimpleVO();
+        if (pu.getUid() == null || pu.getPid() == null || pu.getUid() == 0 || pu.getPid() == 0) {
+            simpleVO.setMsg("请求参数错误");
+            simpleVO.setCode(-1);
+        }
+        int uid = pu.getUid();
+        int pid = pu.getPid();
+        // 查询用户是否收藏了该帖子，是一个布尔值
+        boolean status = ss.judgeUserFavoriteStatus(pid,uid);
+        // 根据返回值决定调用收藏或者取消收藏业务方法
+        boolean res;
+        if(status) {//用户当前已收藏，取消收藏
+            if (ds.removeFavorite(uid, pid)) {
+                //删除成功
+                simpleVO.setMsg("用户取消收藏成功！！！");
+                simpleVO.setCode(1);
+            } else {
+                simpleVO.setMsg("用户取消收藏失败！！！");
+                simpleVO.setCode(-1);
+            }
+        }else {
+            if (is.collectPost(pid,uid)) {
+                //收藏成功
+                simpleVO.setMsg("用户收藏帖子成功！！！");
+                simpleVO.setCode(0);
+            } else {
+                simpleVO.setMsg("用户收藏失败！！！");
+                simpleVO.setCode(-1);
+            }
+        }
+        return new ResponseVO(simpleVO);
     }
 
 

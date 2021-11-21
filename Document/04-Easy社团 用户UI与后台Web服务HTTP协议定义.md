@@ -913,7 +913,7 @@
 </table>
 
 
-### 3.4.6 修改帖子
+### 3.4.6 修改帖子(Finish)
 
 帖子的作者可以修改帖子的内容（该权限仅作者独有，管理员也无权修改，仅能做删除操作）
 <table>
@@ -929,12 +929,13 @@
     <tr><td>newContent</td><td>String</td><td>新内容</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>code</td><td colspan=2>0为修改成功，1为修改失败</td></tr>
+    <tr><td>code</td><td colspan=2>0为修改成功，非0为修改失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
 
 
-### 3.4.7 收藏帖子
+
+### 3.4.7 收藏帖子 (Finish)
 
 用户可以收藏帖子，也可以取消收藏，由于收藏只有两种状态，因此该接口是一个开关，只需要请求即可自动切换收藏状态
 

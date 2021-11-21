@@ -105,16 +105,12 @@ public class Common {
      * @return
      */
     public static PostsPOJO[] getPageLimitPost(PostsPOJO[] objs, int page, int limit){
-        System.out.println(objs.length+"---"+page+"---"+limit);
         int size = objs.length;
-
         int start = (page -1)*limit ;
-
         int end = start+limit;
         if(start > size) return null;
         if (end > size) end = size;
         PostsPOJO[] newObjs = new PostsPOJO[end-start];
-        System.out.println(newObjs.length);
         for (int i = 0; i < newObjs.length; i++) {
             newObjs[i] = objs[start + i];
         }

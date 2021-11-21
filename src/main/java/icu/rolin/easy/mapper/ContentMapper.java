@@ -23,5 +23,8 @@ public interface ContentMapper {
     @Select("SELECT content FROM content WHERE id = #{id}")
     String findContentById(Integer id);
 
+    @Update("UPDATE content SET content = #{content} WHERE id = ${id}")
+    Integer updateContentById(Integer id,String content);
+
 
 }

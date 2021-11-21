@@ -242,25 +242,16 @@ public class IncreaseService {
         return simpleVO;
     }
 
-    //3.4.7 收藏帖子
-    public SimpleVO collectPost(PostUserPO pu) {
-        SimpleVO simpleVO = new SimpleVO();
-        if (pu.getUid() == null || pu.getPid() == null) {
-            simpleVO.setMsg("请求参数丢失");
-            simpleVO.setCode(-1);
-            logger.error("收藏帖子---请求参数丢失...");
-        } else {
-            Integer code = favoriteTableMapper.collectPost(pu.getPid(), pu.getUid());
-            if (code == 0) {
-                simpleVO.setMsg("收藏帖子失败");
-                simpleVO.setCode(-1);
-            } else {
-                simpleVO.setMsg("收藏帖子成功");
-                simpleVO.setCode(0);
-            }
-        }
 
-        return simpleVO;
+    /**
+     * 收藏帖子，往收藏表中插入一条数据
+     * @param pid 帖子ID
+     * @param uid   用户ID
+     * @return 返回一个布尔值表示操作是否成功
+     */
+    public boolean collectPost(int pid,int uid) {
+        Integer code = favoriteTableMapper.collectPost(pid, uid);
+        return code == 1;
     }
 
     public SimpleVO submitAssApply(SendApplyPO sapo) {

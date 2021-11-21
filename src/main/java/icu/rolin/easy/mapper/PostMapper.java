@@ -37,8 +37,6 @@ public interface PostMapper {
     @Delete("DELETE FROM post WHERE id = #{id}")
     Integer deletePostById(Integer id);
 
-    @Update("UPDATE post SET content = #{content} WHERE id = #{pid} and u_id = #{uid}")
-    Integer updatePost(String content,Integer pid,Integer uid);
 
     @Select("SELECT * FROM post WHERE u_id = #{id}")
     ArrayList<Post> getPostsByU_id(Integer id);
@@ -48,5 +46,8 @@ public interface PostMapper {
 
     @Select("SELECT COUNT(*) FROM post WHERE a_id = #{aid}")
     Integer getTheAssociationPostNumber(Integer aid);
+
+    @Select("SELECT COUNT(*) FROM post WHERE a_id = #{aid} AND u_id = #{uid}")
+    Integer findMatchWithPidUid(Integer uid,Integer aid);
 
 }

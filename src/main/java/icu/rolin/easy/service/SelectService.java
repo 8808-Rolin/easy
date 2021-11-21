@@ -1045,4 +1045,15 @@ public class SelectService {
         return userIsJoinAss(act_aid,uid);
     }
 
+    /**
+     * 判断用户是否收藏了某个帖子
+     * @param pid 帖子ID
+     * @param uid 用户ID
+     * @return 返回当前用户收藏状态
+     */
+    public boolean judgeUserFavoriteStatus(int pid,int uid){
+        Integer status = favoriteTableMapper.isFavorite(pid,uid);
+        return status == 1;
+    }
+
 }

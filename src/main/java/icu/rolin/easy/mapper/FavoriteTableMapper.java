@@ -16,6 +16,9 @@ public interface FavoriteTableMapper {
     @Insert("INSERT INTO favorite_table (p_id,u_id) VALUES(#{pid},#{uid})")
     Integer collectPost(Integer pid,Integer uid);
 
+    @Delete("DELETE FROM favorite_table WHERE p_id = #{pid} and u_id = #{uid}")
+    Integer deleteCollectPost(Integer pid,Integer uid);
+
     @Select("SELECT * FROM favorite_table WHERE u_id = #{uid}")
     ArrayList<Favorite_Table> getAllFavoriteTableByU_id(Integer uid);
 
