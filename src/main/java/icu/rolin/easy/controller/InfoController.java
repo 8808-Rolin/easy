@@ -1,6 +1,7 @@
 package icu.rolin.easy.controller;
 
 import com.alibaba.fastjson.JSON;
+import icu.rolin.easy.model.DO.Association;
 import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.AssMemberPOJO;
@@ -159,5 +160,14 @@ public class InfoController {
     @PostMapping(value = "/get-all-users")
     public ResponseVO get_all_user(){
         return new ResponseVO(new GetUsersVO());
+    }
+
+    @GetMapping(value = "/get-association-info")
+    public ResponseVO get_ass_info(Integer aid){
+        if (aid == null || aid == 0) return  new ResponseVO(-1,"参数错误,请重新输入");
+        Association association = ss.getAssociationInfoById(aid);
+        if(association == null) return new ResponseVO(-1,"不存在该社团，请检查aid");
+        return new ResponseVO(0,association);
+
     }
 }

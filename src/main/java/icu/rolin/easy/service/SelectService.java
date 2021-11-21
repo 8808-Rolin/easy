@@ -21,9 +21,7 @@ import java.util.Comparator;
 
 import static icu.rolin.easy.interceptor.ZoneInterceptor.*;
 
-/**
- *
- */
+
 @Service
 public class SelectService {
     private final static Logger logger = LoggerFactory.getLogger(SelectService.class);
@@ -99,7 +97,7 @@ public class SelectService {
      * @return 返回一个SimpleNoticePOJO数组
      */
     public SimpleNoticePOJO[] showNotices(){
-        ArrayList<Post> posts = postMapper.findPostByPostType(0);
+        ArrayList<Post> posts = postMapper.findPostByPostTypeWithIndex(0);
         if(posts.size() == 0) return null;
 
         SimpleNoticePOJO[] simpleNoticePOJOS = new SimpleNoticePOJO[posts.size()];
@@ -180,8 +178,8 @@ public class SelectService {
                 Long o1Stamp = Common.date2Stamp(o1.getReplyTime(),"yyyy-MM-dd HH:mm:ss");
                 Long o2Stamp = Common.date2Stamp(o2.getReplyTime(),"yyyy-MM-dd HH:mm:ss");
                 Long res = o1Stamp - o2Stamp;
-                if (res > 0)    return 1;
-                else if (res < 0)   return -1;
+                if (res > 0)    return -1;
+                else if (res < 0)   return 1;
                 return 0;
             }
         });
@@ -318,28 +316,23 @@ public class SelectService {
     /**
      * 进行一个个人信息的获取
      * @param uid 传入一个用户uid进行查询
-     * @return 返回以恶搞UserPOJO 包含用户信息
+     * @return 返回以一个UserPOJO 包含用户信息
      */
     public UserPOJO getPersonInformation(Integer uid){
-        if (uid == null){
-            logger.error("用户uid缺失");
-            return null;
-        }else {
-            User userDO = userMapper.findById(uid);
-            System.out.println(userDO.toString());
+        User userDO = userMapper.findById(uid);
+        logger.info(userDO.toString());
 
-            College_Table college_table = collegeTableMapper.findCollegeById(userDO.getCollege_id());
-            System.out.println(college_table);
-            UserPOJO userPOJO = new UserPOJO(
-                    userDO.getUsername(),
-                    userDO.getRealname(),
-                    userDO.getStudent_number(),
-                    college_table.getCollege_name(),
-                    userDO.getIntro(),
-                    userDO.getLevel(),
-                    userDO.getUser_avatar());
-            return userPOJO;
-        }
+        College_Table college_table = collegeTableMapper.findCollegeById(userDO.getCollege_id());
+        System.out.println(college_table);
+        UserPOJO userPOJO = new UserPOJO(
+                userDO.getUsername(),
+                userDO.getRealname(),
+                userDO.getStudent_number(),
+                college_table.getCollege_name(),
+                userDO.getIntro(),
+                userDO.getLevel(),
+                userDO.getUser_avatar());
+        return userPOJO;
     }
 
     /**
@@ -478,8 +471,8 @@ public class SelectService {
     /**
      * 获取帖子的详细内容，获取帖子与发帖人信息的业务拆分-B
      * @author Rolin
-     * @param pid
-     * @return
+     * @param pid 帖子ID
+     * @return 返回PostPOJO
      */
     public PostPOJO getPostInfoWithPost(Integer pid,Integer uid){
         // 获取Post表内容
@@ -792,12 +785,7 @@ public class SelectService {
         return gmovvo;
     }
 
-//    public PersonActionVO getPersonActivity(Integer aid){
-//        PersonActionVO pavo = new PersonActionVO();
-//
-//
-//        return pavo;
-//    }
+
 
 
     public GetUsersVO getMemberInformation(Integer aid){
@@ -950,6 +938,16 @@ public class SelectService {
         return amvo;
     }
 
+
+    /**
+     * 通过社团的ID可以查询到社团的详细信息
+     * @param id 社团ID，是一个AID
+     * @return 返回一个社团表对象
+     */
+    public Association getAssociationInfoById(Integer id){
+        return associationMapper.findAssociationById(id);
+    }
+
     // -----验证操作-----
 
 
@@ -1031,6 +1029,20 @@ public class SelectService {
             Integer code = userMapper.isOpenZone(muid);
             return code;
         }
+    }
+
+    /**
+     * 对用户进行一个断的判
+     *  1. 查询活动所在的社团
+     *  2. 查询用户是否加入该社团
+     * @param actid  传入活动ID
+     * @param uid    传入用户ID
+     * @return 返回一个布尔值，告知是否通过验证
+     */
+    public boolean verifyUserJoinAssWithAction(Integer actid,Integer uid){
+        Action action = actionMapper.getDetailedAssActioonByAcId(actid);
+        Integer act_aid  = action.getA_id();
+        return userIsJoinAss(act_aid,uid);
     }
 
 }

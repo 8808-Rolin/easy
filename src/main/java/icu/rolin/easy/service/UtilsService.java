@@ -2,6 +2,8 @@ package icu.rolin.easy.service;
 
 import icu.rolin.easy.model.PO.LoginPO;
 import icu.rolin.easy.utils.Base64ToImageUtil;
+import icu.rolin.easy.utils.Common;
+import icu.rolin.easy.utils.Constant;
 import icu.rolin.easy.utils.TokenUtil;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -34,14 +36,12 @@ public class UtilsService {
     }
 
 
-    //定义上传保存路径
-    @Value("${web.static.path}")
-    private static String path;
 
 
     /**
      * 将BASE64编码的JPG图片转化为本地图片并返回一个URL
-     * @param imageBASE64
+     * 通过MD5判断图片是否已经在本地有了，有的话直接返回而不需要重新存储,文件同理
+     * @param imageBASE64 Base64编码的图片
      * @return 返回一个相对URL，指向图片资源
      */
     public static String base64ToImage(String imageBASE64)  {
@@ -50,26 +50,9 @@ public class UtilsService {
         //图片名称
         String fileName = file.getOriginalFilename();
         //获取图片的后缀名
-        String[] suffixName = fileName.split(";");
-        //生成新的图片名称
-        String newImgName = UUID.randomUUID() + suffixName[0];
-        System.out.println(path);
-        File filepath = new File(path, newImgName);
-        System.out.println(filepath.getParentFile());
-        // 判断路径是否存在，如果不存在就创建一个
-        if (!filepath.getParentFile().exists()) {
-            filepath.getParentFile().mkdirs();
-        }
-        try {
-            // 写入文件
-            file.transferTo(new File(path + File.separator + newImgName));
-            logger.info("文件上传成功，上传路径为： " + path + newImgName);
-            return newImgName;
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.error("图片上传失败");
-            return null;
-        }
+        String[] suffixName1 = fileName.split(";");
+        String suffix = suffixName1[0].split("\\.")[1];
+        return handleFile(file,suffix);
     }
 
 
@@ -83,23 +66,37 @@ public class UtilsService {
         String fileName = file.getOriginalFilename();
         //获取文件的后缀名
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
-        //生成新的图片名称
-        String newFileName = UUID.randomUUID() + suffixName;
-        File filepath = new File(path, newFileName);
-        // 判断路径是否存在，如果不存在就创建一个
-        if (!filepath.getParentFile().exists()) {
-            filepath.getParentFile().mkdirs();
+        return handleFile(file,suffixName);
+    }
+
+    /**
+     * 处理文件保存事项，对比MD5值，如果相同则不再重复保存
+     * 如果不同则保存到本地，并返回一个名称
+     * 通过MD5判断是否已经在本地有了，有的话直接返回而不需要重新存储,文件同理
+     * @param file MultipartFile
+     * @param suffix 文件后缀
+     * @return 返回文件名称
+     */
+    public static String handleFile (MultipartFile file,String suffix){
+        String fileMD5 = Common.getMd5(file);
+        String newName = fileMD5+ "." +suffix;
+        // 如果该文件名一致，既MD5一致，直接返回链接
+        if(Common.FILE_MD5_LIST.contains(newName)){
+            return newName;
+        }else{ //不一致，执行保存操作
+            try {
+                // 写入文件
+                file.transferTo(new File(Constant.FILE_PATH + File.separator + newName));
+                Common.FILE_MD5_LIST.add(newName);
+                logger.info("文件上传成功，上传路径为： " + Constant.FILE_PATH + newName);
+                return newName;
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.error("文件上传失败");
+                return null;
+            }
         }
-        try {
-            // 写入文件
-            file.transferTo(new File(path + File.separator + newFileName));
-            logger.info("文件上传成功，上传路径为： " + path + newFileName);
-            return newFileName;
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.info("文件上传失败");
-            return null;
-        }
+
     }
 
 
@@ -113,7 +110,7 @@ public class UtilsService {
             logger.warn("缺失文件名，无法定位文件位置！");
             return null;
         }else {
-            File file = new File(path + File.separator + fileName);
+            File file = new File(Constant.FILE_PATH + File.separator + fileName);
             if (!file.exists()){
                 logger.error("文件缺失，请检查存储库.");
                 return null;

@@ -1,18 +1,21 @@
 package icu.rolin.easy.utils;
 
 import icu.rolin.easy.model.POJO.PostsPOJO;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class Common {
+    public static Set<String> FILE_MD5_LIST = new HashSet<String>();
 
     /**
      * 帖子类型以及帖子类型代号直接的对应关系，是一个Map键值对形式
@@ -102,16 +105,55 @@ public class Common {
      * @return
      */
     public static PostsPOJO[] getPageLimitPost(PostsPOJO[] objs, int page, int limit){
+        System.out.println(objs.length+"---"+page+"---"+limit);
         int size = objs.length;
-        int start = (page -1)*limit +1;
+
+        int start = (page -1)*limit ;
+
         int end = start+limit;
         if(start > size) return null;
         if (end > size) end = size;
-        PostsPOJO[] newObjs = new PostsPOJO[end-start+1];
+        PostsPOJO[] newObjs = new PostsPOJO[end-start];
+        System.out.println(newObjs.length);
         for (int i = 0; i < newObjs.length; i++) {
-            newObjs[i] = objs[start + i -1];
+            newObjs[i] = objs[start + i];
         }
         return newObjs;
+    }
+
+    /**
+     * 获取某一文件夹下所有的文件名称
+     * @param dirPath 文件夹路径
+     * @return 返回一个列表
+     */
+    public static ArrayList<String> getPathAllFileName(String dirPath){
+        ArrayList<String> names = new ArrayList<String>();
+        File dir = new File(dirPath);
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            names.add(file.getName());
+        }
+        return names;
+    }
+
+    /**
+     * 获取上传文件的md5
+     * @param file
+     * @return
+     */
+    public static String getMd5(MultipartFile file) {
+        try {
+            //获取文件的byte信息
+            byte[] uploadBytes = file.getBytes();
+            // 拿到一个MD5转换器
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            byte[] digest = md5.digest(uploadBytes);
+            //转换为16进制
+            return new BigInteger(1, digest).toString(16);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

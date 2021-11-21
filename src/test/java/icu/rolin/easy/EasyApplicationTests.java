@@ -3,13 +3,18 @@ package icu.rolin.easy;
 import icu.rolin.easy.mapper.CollegeTableMapper;
 import icu.rolin.easy.mapper.CommentsMapper;
 import icu.rolin.easy.model.DO.Comments;
+import icu.rolin.easy.utils.Common;
+import icu.rolin.easy.utils.Constant;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 class EasyApplicationTests {
 
@@ -21,10 +26,12 @@ class EasyApplicationTests {
 	private CollegeTableMapper collegeTableMapper;
 	@Autowired
 	private CommentsMapper commentsMapper;
+
 	@Test
 	void classTest(){
-		Comments comments = commentsMapper.getLastCommentWithPost(100);
-		System.out.println(comments);
+		for (String s : Common.getPathAllFileName(Constant.FILE_PATH)) {
+			System.out.println(s);
+		}
 	}
 
 	//测试字符串转时间戳
