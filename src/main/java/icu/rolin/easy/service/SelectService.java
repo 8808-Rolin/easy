@@ -526,68 +526,78 @@ public class SelectService {
         return masterPOJO;
     }
 
-
-    public ZonePostVO getPost(Integer type,Integer uid){
-        ZonePostVO zonePostVO = new ZonePostVO();
-        if (type == null || uid == null) {
-            logger.error("3.6.2操作失败，请求参数丢失！");
-            return null;
-        }
-        if (type == 0){
-            ArrayList<Post> posts = postMapper.getPostsByU_id(uid);
-            int postsNumber = posts.size();
-            if (postsNumber==0){
-                logger.warn("查询不到该用户的任何帖子，或许是他真的没发过帖");
-                zonePostVO.setPosts(null);
-                zonePostVO.setCode(postsNumber);
-            }else {
-                zonePostVO.setCode(postsNumber);
-
-                ZonePostPOJO[] zonePostPOJOS = new ZonePostPOJO[postsNumber];
-                for (int i=0;i<postsNumber;i++){
-                    Association association = associationMapper.findAssociationById(posts.get(i).getA_id());
-                    int replies = commentsMapper.countCommentsByPid(posts.get(i).getId());
-                    zonePostPOJOS[i].setAid(association.getId());
-                    zonePostPOJOS[i].setAname(association.getName());
-                    zonePostPOJOS[i].setPid(posts.get(i).getId());
-                    zonePostPOJOS[i].setTitle(posts.get(i).getTitle());
-                    zonePostPOJOS[i].setDate(posts.get(i).getCreate_time().toString());
-                    zonePostPOJOS[i].setReplies(replies);
-                    zonePostPOJOS[i].setAimage(association.getLogo());
-                }
-
-                zonePostVO.setPosts(zonePostPOJOS);
+    /**
+     * 获取用户发布的帖子，用于展示在空间上
+     * @param uid 用户UID(空间UID)
+     * @return 返回一个ZonePostPOJO数组
+     */
+    public ZonePostPOJO[] zoneGetPostRelease (int uid){
+        ArrayList<Post> posts = postMapper.getPostsByU_id(uid);
+        ZonePostPOJO[] zonePostPOJOS = new ZonePostPOJO[posts.size()];
+        for (int i=0;i< zonePostPOJOS.length;i++){
+            zonePostPOJOS[i] = new ZonePostPOJO();
+            Association association = null;
+            if(posts.get(i).getA_id() != 0){
+                association = associationMapper.findAssociationById(posts.get(i).getA_id());
             }
-        }else {
-            ArrayList<Favorite_Table> favorite_tables = favoriteTableMapper.getAllFavoriteTableByU_id(uid);
-            int favorite_tablesNumber = favorite_tables.size();
-            if (favorite_tablesNumber==0){
-                logger.warn("查询不到该用户的任何收藏，或许是他真的没有一键三连过");
-                zonePostVO.setPosts(null);
-                zonePostVO.setCode(favorite_tablesNumber);
-            }else {
-                zonePostVO.setCode(favorite_tablesNumber);
-
-                ZonePostPOJO[] zonePostPOJOS = new ZonePostPOJO[favorite_tablesNumber];
-                for (int i=0;i<favorite_tablesNumber;i++){
-                    Post post = postMapper.findPostById(favorite_tables.get(i).getP_id());
-                    Association association = associationMapper.findAssociationById(post.getA_id());
-                    int replies = commentsMapper.countCommentsByPid(post.getId());
-                    zonePostPOJOS[i].setAid(association.getId());
-                    zonePostPOJOS[i].setAname(association.getName());
-                    zonePostPOJOS[i].setPid(post.getId());
-                    zonePostPOJOS[i].setTitle(post.getTitle());
-                    zonePostPOJOS[i].setDate(post.getCreate_time().toString());
-                    zonePostPOJOS[i].setReplies(replies);
-                    zonePostPOJOS[i].setAimage(association.getLogo());
-                }
-
-                zonePostVO.setPosts(zonePostPOJOS);
+            int replies = commentsMapper.countCommentsByPid(posts.get(i).getId());
+            if(association == null){
+                zonePostPOJOS[i].setAid(0);
+                zonePostPOJOS[i].setAname("公共交流区");
+                zonePostPOJOS[i].setAimage("/images/default.jpg");
+            }else{
+                zonePostPOJOS[i].setAid(association.getId());
+                zonePostPOJOS[i].setAname(association.getName());
+                zonePostPOJOS[i].setAimage(association.getLogo());
             }
+            zonePostPOJOS[i].setPid(posts.get(i).getId());
+            zonePostPOJOS[i].setTitle(posts.get(i).getTitle());
+            zonePostPOJOS[i].setDate(Common.convertTimestamp2Date(posts.get(i).getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+            zonePostPOJOS[i].setReplies(replies);
         }
-
-        return zonePostVO;
+        return zonePostPOJOS;
     }
+
+    /**
+     * 获取用户收藏的帖子，用于展示在空间上
+     * @param uid 用户UID(空间UID)
+     * @return 返回一个ZonePostPOJO数组
+     */
+    public ZonePostPOJO[] zoneGetPostFavorite (int uid){
+        //得到该用户收藏的所有列表
+        ArrayList<Favorite_Table> favorite_tables = favoriteTableMapper.getAllFavoriteTableByU_id(uid);
+        ArrayList<Post> posts = new ArrayList<>();
+        ZonePostPOJO[] zonePostPOJOS = new ZonePostPOJO[favorite_tables.size()];
+        int index = 0;
+        for (Favorite_Table favorite_table : favorite_tables) {
+            posts.add(postMapper.findPostById(favorite_table.getP_id()));
+            zonePostPOJOS[index] = new ZonePostPOJO();
+            zonePostPOJOS[index].setDate(Common.convertTimestamp2Date(favorite_table.getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+            zonePostPOJOS[index].setPid(favorite_table.getP_id());
+            index++;
+        }
+        for (int ix=0;ix< zonePostPOJOS.length;ix++){
+            Association association = null;
+            int replies = commentsMapper.countCommentsByPid(favorite_tables.get(ix).getP_id());
+            if(posts.get(ix).getA_id() != 0){
+                association = associationMapper.findAssociationById(posts.get(ix).getA_id());
+
+            }
+            if(association == null){
+                zonePostPOJOS[ix].setAid(0);
+                zonePostPOJOS[ix].setAname("公共交流区");
+                zonePostPOJOS[ix].setAimage("/images/default.jpg");
+            }else{
+                zonePostPOJOS[ix].setAid(association.getId());
+                zonePostPOJOS[ix].setAname(association.getName());
+                zonePostPOJOS[ix].setAimage(association.getLogo());
+            }
+            zonePostPOJOS[ix].setTitle(posts.get(ix).getTitle());
+            zonePostPOJOS[ix].setReplies(replies);
+        }
+        return zonePostPOJOS;
+    }
+
 
     public GetMailOverviewVO getMails(Integer uid){
         GetMailOverviewVO gmovvo = new GetMailOverviewVO();
@@ -1176,14 +1186,29 @@ public class SelectService {
         return associationUserMapper.getUserIsJoinAssociation(aid,uid) == 1;
     };
 
-    public int verifyUserZoneStatus(Integer muid, HttpServletRequest request, HttpServletResponse response){
-        if (muid == null) return 0;
-        Boolean key = verifyZoneStatus(request,response,muid);
+
+    /**
+     * 验证用户对于空间的权限
+     * @author Joolum
+     * @param muid 空间主人的UID
+     * @param request 请求，用以获取Token
+     * @return 返回一个整数，0->表示自己空间，1->可访问空间，2->不可访问空间,负数 -> 错误
+     */
+    public int verifyUserZoneStatus(Integer muid, HttpServletRequest request){
+        // 判断用户是否归属当前空间
+        boolean key = verifyZoneStatus(request,muid);
         if (key){
             return 0;
         }else {
             Integer code = userMapper.isOpenZone(muid);
-            return code;
+            if(code == null) return -2; //获取用户空间权限失败，可能不存在该用户
+            if(code == 1){ //访问
+                return 1;
+            }else if(code == 0){
+                return 2;
+            }else{
+                return code;//数据库出错
+            }
         }
     }
 

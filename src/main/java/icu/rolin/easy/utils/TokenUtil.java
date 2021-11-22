@@ -8,23 +8,16 @@ import java.util.Date;
 
 public class TokenUtil {
 
-    @Value("${web.token.token_time}")
-    private static long EXPIRED_TIME;
-
-
-    private static String TOKEN_SECRET = "easy";
-
     public static String sign(Integer uid,String password){
         String token = null;
         try{
-            Date expiresAt = new Date(System.currentTimeMillis()+EXPIRED_TIME);
-            System.out.println(TOKEN_SECRET);
+            Date expiresAt = new Date(System.currentTimeMillis()+Constant.EXPIRED_TIME);
             token = JWT.create()
                     .withIssuer("auth0")
                     .withClaim("uid",uid)
                     .withClaim("password",password)
                     .withExpiresAt(expiresAt)
-                    .sign(Algorithm.HMAC256(TOKEN_SECRET));
+                    .sign(Algorithm.HMAC256(Constant.TOKEN_SECRET));
 
         }catch (Exception e){
             e.printStackTrace();

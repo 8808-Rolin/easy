@@ -85,4 +85,19 @@ public class Post implements Serializable {
     public void setUpdate_time(Timestamp update_time) {
         this.update_time = update_time;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", a_id=" + a_id +
+                ", u_id=" + u_id +
+                ", title='" + title + '\'' +
+                ", content_id=" + content_id +
+                ", tags='" + tags + '\'' +
+                ", post_type=" + post_type +
+                ", create_time=" + create_time +
+                ", update_time=" + update_time +
+                '}';
+    }
 }

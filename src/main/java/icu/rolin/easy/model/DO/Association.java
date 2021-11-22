@@ -76,4 +76,18 @@ public class Association implements Serializable {
     public void setUpdate_time(Timestamp update_time) {
         this.update_time = update_time;
     }
+
+    @Override
+    public String toString() {
+        return "Association{" +
+                "id=" + id +
+                ", leader_id=" + leader_id +
+                ", name='" + name + '\'' +
+                ", logo='" + logo + '\'' +
+                ", intro='" + intro + '\'' +
+                ", parent_organization='" + parent_organization + '\'' +
+                ", create_time=" + create_time +
+                ", update_time=" + update_time +
+                '}';
+    }
 }
