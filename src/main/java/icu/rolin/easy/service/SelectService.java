@@ -8,6 +8,8 @@ import icu.rolin.easy.model.POJO.*;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.utils.Common;
 import icu.rolin.easy.utils.TransformCurrentTimeUtil;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 import static icu.rolin.easy.interceptor.ZoneInterceptor.*;
 
@@ -398,15 +398,19 @@ public class SelectService {
      * @return 返回一个GetActionInfoVO对象
      */
     public GetActionInfoVO getDetailedActionInformation(Integer uid, Integer actid){
+        logger.info("actid:"+actid+"----uid:"+uid);
+        logger.debug("test");
         // 实例化一个新返回对象
         GetActionInfoVO getActionInfoVO = new GetActionInfoVO();
         Content content = null;
         Action actionInfo = null;
         try{
             //获取活动详细信息
-            actionInfo = actionMapper.getDetailedAssActioonByAcId(actid);
+            actionInfo = actionMapper.getDetailedAssActionByAcId(actid);
+            logger.info(actionInfo.toString());
             //获取活动内容
             content = contentMapper.getContentByID(actionInfo.getContent_id());
+            logger.info(content.getContent());
         }catch (Exception e){
             //获取出错，返回一个错误状态对象
             e.printStackTrace();
@@ -414,26 +418,31 @@ public class SelectService {
             getActionInfoVO.setMsg("数据库查询或后台错误，错误类型："+e.getMessage());
             return getActionInfoVO;
         }
+
         //获取状态码
         Integer status;
         // 判断该用户是否加入了社团 0：未加入，1：已加入
         if(associationUserMapper.getUserIsJoinAssociation(actionInfo.getA_id(),uid)==0)
-            status = 0;
+            // 未加入社团 没有权限参加活动 为1
+            status = 1;
         else{
             status = joinActionMapper.verifyUserJoinActionById(actid,uid);
+            if (status == 0){ //是社团 未参加活动
+                status = 0;
+            }else if(status == 1){ //是社团 已经参加活动
+                status = 2;
+            }else{
+                status = null;
+            }
         }
+
         if(status == null) { //status等于null时表示数据库查询出大问题
             getActionInfoVO.setCode(1);
             getActionInfoVO.setMsg("数据库查询错误-status = null");
             return getActionInfoVO;
         }
-        if(status == 1){ // 已参加
-            status = 2;
-        }else if (status != 0){ // 出大问题
-            getActionInfoVO.setCode(1);
-            getActionInfoVO.setMsg("数据库查询错误- status > 1");
-            return getActionInfoVO;
-        }
+
+
         getActionInfoVO.setCode(0);
         getActionInfoVO.setMsg("获取成功");
         getActionInfoVO.setTitle(actionInfo.getTitle());
@@ -687,8 +696,7 @@ public class SelectService {
         // 没有评论
         if(discuss_number == 0) return 0;
         // 有评论，计算页数
-        int page = (discuss_number / max_per_page) + 1;
-        return page;
+        return (discuss_number / max_per_page) + 1;
     }
 
 
@@ -730,6 +738,154 @@ public class SelectService {
         return discussPOJOS;
 
     }
+
+
+    /**
+     * 搜索帖子，返回所有帖子组成的数组对象
+     * @param key 关键词
+     * @return SearchPostPOJO
+     */
+    // TODO: 2021/11/22 增加连锁搜索，搜索按关联性排序
+    public SearchPostPOJO[] getSearchResultOfPost(String key){
+        // 初始化集合对象
+        Set<SearchPostPOJO> ssp = new HashSet<>();
+        // 匹配标题，添加到集合中
+        ArrayList<Post> posts = postMapper.findPostTitleLikeKey(key);
+        for (Post post : posts) {
+           addPostToSet(ssp,post);
+        }
+        // 搜索标签，将结果添加到集合中
+        ArrayList<Integer> tags = postMapper.findIdByKey(key);
+        for (Integer tag : tags) {
+            Post post = postMapper.findPostById(tag);
+            addPostToSet(ssp,post);
+        }
+
+        // 搜索内容表，返回所有符合的内容(只有ID),获取所有的帖子ID信息(ID and Content_id)
+        ArrayList<Content> contents = contentMapper.findContentLikeKey(key);
+        Set<Integer> contents_id = new HashSet<>();
+        for (Content content : contents) {
+            contents_id.add(content.getId());
+        }
+        ArrayList<Post> postIDs = postMapper.findPostIdContentId();
+        // 比对帖子ID，提取符合的内容,添加到列表中
+        for (Post postID : postIDs) {
+            if(contents_id.contains(postID.getContent_id())){ //如果相同，则写入，如果不同，则下一个循环
+                Post p = postMapper.findPostById(postID.getId());
+                addPostToSet(ssp,p);
+            }
+        }
+        // 搜索符合条件的评论
+        ArrayList<Comments> comments = commentsMapper.findCommentLikeKey(key);
+        // 提取帖子ID，添加到列表中
+        for (Comments comment : comments) {
+            Post p = postMapper.findPostById(comment.getP_id());
+            addPostToSet(ssp,p);
+        }
+        // 构造数组并排序
+        SearchPostPOJO[] spp = new SearchPostPOJO[ssp.size()];
+        int index = 0;
+        for (SearchPostPOJO searchPostPOJO : ssp) {
+            spp[index++] = searchPostPOJO;
+        }
+        Arrays.sort(spp, new Comparator<SearchPostPOJO>() {
+            @Override
+            public int compare(SearchPostPOJO o1, SearchPostPOJO o2) {
+                long time1 = Common.date2Stamp(o1.getReleaseDate(),"yyyy-MM-dd HH:mm:ss");
+                long time2 = Common.date2Stamp(o2.getReleaseDate(),"yyyy-MM-dd HH:mm:ss");
+                long res = time2 - time1;
+                if(res < 0 ) return -1;
+                else if(res == 0) return 0;
+                else return 1;
+            }
+        });
+        // 返回结果
+        return spp;
+    }
+
+    /**
+     * 提取方法，将一个帖子处理后放置到Set集合中去
+     * @param ssp 需要增加的Set合集
+     * @param p 帖子
+     */
+    public void addPostToSet(Set<SearchPostPOJO> ssp, Post p){
+        SearchPostPOJO sp = new SearchPostPOJO();
+        sp.setPid(p.getId());
+        if(ssp.contains(sp)) return;
+        sp.setTitle(p.getTitle());
+        // 对内容进行处理
+        String content  = contentMapper.getContentByID(p.getContent_id()).getContent();
+        String text = Common.StripHT(content);
+        if(text.length() >= 150){
+            sp.setContent(text.substring(0,140));
+        }else sp.setContent (text);
+        sp.setAid(p.getA_id());
+        if (p.getA_id() == 0){
+            sp.setAname("公共交流区");
+        }else{
+            sp.setAname(associationMapper.getAssociationNameById(p.getA_id()));
+        }
+        sp.setAuthorUID(p.getU_id());
+        sp.setAuthorName(userMapper.getNameById(p.getU_id()));
+        sp.setReleaseDate(Common.convertTimestamp2Date(p.getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+        ssp.add(sp);
+    }
+
+    /**
+     * 搜索帖子，返回所有用户组成的数组对象
+     * @param key 关键词
+     * @return SearchUserPOJO
+     */
+    // TODO: 2021/11/22  添加更多判定功能，智能化选择需要的用户
+    public SearchUserPOJO[] getSearchResultOfUser(String key){
+        // 初始化
+        Set<SearchUserPOJO> ssu = new HashSet<>();
+        // 唯一性匹配
+        User u = userMapper.findByPhoneStudentID(key,key);
+        if (u != null ){
+            addUserToSet(ssu,u);
+            SearchUserPOJO[] t = new SearchUserPOJO[1];
+            for (SearchUserPOJO searchUserPOJO : ssu) {
+                t[0] = searchUserPOJO;
+            }
+            return t;
+        }
+        // 搜索用户名称、简介匹配
+        ArrayList<User> users = userMapper.findLikeKey(key);
+        for (User user : users) {
+            addUserToSet(ssu,user);
+        }
+        // 帖子Tags匹配的用户
+        ArrayList<Post> uid = postMapper.findUidByTags(key);
+        for (Post post : uid) {
+            User user = userMapper.findById(post.getU_id());
+            addUserToSet(ssu,user);
+        }
+        SearchUserPOJO[] t = new SearchUserPOJO[ssu.size()];
+        int i = 0;
+        for (SearchUserPOJO supojo : ssu) {
+           t[i++] = supojo;
+        }
+        return t;
+    }
+
+    /**
+     * 提取方法，将一个用户信息处理后放置到Set集合中去
+     * @param ssu 需要增加的Set合集
+     * @param u 用户信息
+     */
+    public void addUserToSet(Set<SearchUserPOJO> ssu, User u){
+        SearchUserPOJO su = new SearchUserPOJO();
+        su.setUid(u.getId());
+        if(ssu.contains(su)) return;
+        su.setUsername(u.getUsername());
+        su.setIntro(u.getIntro());
+        su.setImage(u.getUser_avatar());
+        su.setNumberOfPost(postMapper.countPostOfUid(u.getId()));
+        ssu.add(su);
+    }
+
+
     // 究极蛇皮大杂烩之乱炖东北大锅之没有任何判定的纯纯写入数据的屑方法
     public AssShowInfoVO getShowInfo(Integer aid){
         AssShowInfoVO assShowInfoVO = new AssShowInfoVO();
@@ -1040,7 +1196,7 @@ public class SelectService {
      * @return 返回一个布尔值，告知是否通过验证
      */
     public boolean verifyUserJoinAssWithAction(Integer actid,Integer uid){
-        Action action = actionMapper.getDetailedAssActioonByAcId(actid);
+        Action action = actionMapper.getDetailedAssActionByAcId(actid);
         Integer act_aid  = action.getA_id();
         return userIsJoinAss(act_aid,uid);
     }

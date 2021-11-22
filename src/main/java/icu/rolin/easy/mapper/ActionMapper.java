@@ -17,7 +17,7 @@ public interface ActionMapper {
     ArrayList<Action> findByA_id(Integer aid);
 
     @Select("SELECT * FROM action WHERE id = #{id}")
-    Action getDetailedAssActioonByAcId(Integer id);
+    Action getDetailedAssActionByAcId(Integer id);
 
     @Select("SELECT COUNT(*) FROM action WHERE a_id = #{aid} AND DATE(start_time) >= #{currentTime}")
     Integer getToBeHeldActionsNumber(Integer aid,String currentTime);

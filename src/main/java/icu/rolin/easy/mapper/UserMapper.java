@@ -73,4 +73,10 @@ public interface UserMapper {
     @Update("UPDATE user SET birth = #{birth} WHERE id = #{id}")
     Integer updateUserBirth(String birth,Integer id);
 
+    @Select("SELECT * FROM user WHERE username LIKE CONCAT('%',#{Key},'%') OR realname LIKE CONCAT('%',#{Key},'%') OR intro LIKE CONCAT('%',#{Key},'%')")
+    ArrayList<User> findLikeKey(String Key);
+
+    @Select("SELECT * FROM user WHERE phone = #{phone} OR student_number = #{sid}")
+    User findByPhoneStudentID(String phone,String sid);
+
 }

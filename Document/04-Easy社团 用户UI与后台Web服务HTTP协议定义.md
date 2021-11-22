@@ -57,9 +57,9 @@
     - [3.4.3 获取回复和回复人列表(Finish)](#343-获取回复和回复人列表finish)
     - [3.4.4 提交回复（Finish）](#344-提交回复finish)
     - [3.4.5 删除帖子以及回复（Finish）](#345-删除帖子以及回复finish)
-    - [3.4.6 修改帖子](#346-修改帖子)
-    - [3.4.7 收藏帖子](#347-收藏帖子)
-  - [3.5 搜索页面相关接口](#35-搜索页面相关接口)
+    - [3.4.6 修改帖子(Finish)](#346-修改帖子finish)
+    - [3.4.7 收藏帖子 (Finish)](#347-收藏帖子-finish)
+  - [3.5 搜索页面相关接口(Finishing)](#35-搜索页面相关接口finishing)
   - [3.6 个人空间相关接口](#36-个人空间相关接口)
     - [3.6.1 权限验证](#361-权限验证)
     - [3.6.2 获取我的（他的）帖子和收藏](#362-获取我的他的帖子和收藏)
@@ -463,10 +463,6 @@
     <tr><td>coid</td><td colspan=2>学院ID，coid</td></tr>
 	<tr><td>name</td><td colspan=2>学院名称</td></tr>
 </table>
-
-
-
-
 
 #### 3.1.4.8 下载文件接口 (Finish)
 
@@ -958,7 +954,7 @@
 </table>
 
 
-## 3.5 搜索页面相关接口
+## 3.5 搜索页面相关接口(Finish) 
 
 搜索页面是用户用以搜索站内相关内容的一个接口平台，用户可以搜索帖子、搜索用户、并使用帖子类型对搜索结果进行筛选（前端实现）（分页也在前端实现）
 
@@ -972,11 +968,11 @@
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
-    <tr><td>type</td><td>Integer</td><td>一个整数，0表示搜索帖子和回复 1表示搜索用户</td></tr>
+    <tr><td>type</td><td>Integer</td><td>一个整数，0表示搜索帖子和回复(默认) 1表示搜索用户</td></tr>
     <tr><td>keyword</td><td>String</td><td>关键词</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>code</td><td colspan=2>-1表示结果为帖子，-2表示结果为用户，0表示没有结果 整数表示结果数量，其他负数表示出错</td></tr>
+    <tr><td>code</td><td colspan=2>0表示没有结果 整数表示结果数量，其他负数表示出错</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 	<tr><th>data.posts[]</td><th colspan=2>帖子数据数组</td></tr>
 	<tr><td>pid</td><td colspan=2>帖子pid</td></tr>
@@ -994,6 +990,7 @@
     <tr><td>numberOfPosts</td><td colspan=2>用户发帖数量</td></tr>
     <tr><td>image</td><td colspan=2>用户头像</td></tr>
 </table>
+
 
 ## 3.6 个人空间相关接口
 

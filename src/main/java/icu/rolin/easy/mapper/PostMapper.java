@@ -50,4 +50,19 @@ public interface PostMapper {
     @Select("SELECT COUNT(*) FROM post WHERE a_id = #{aid} AND u_id = #{uid}")
     Integer findMatchWithPidUid(Integer uid,Integer aid);
 
+    @Select("SELECT * FROM post WHERE title LIKE CONCAT('%',#{key},'%')")
+    ArrayList<Post> findPostTitleLikeKey(String key);
+
+    @Select("SELECT id,content_id FROM post")
+    ArrayList<Post> findPostIdContentId();
+
+    @Select("SELECT u_id FROM post WHERE tags LIKE CONCAT('%',#{key},'%')")
+    ArrayList<Post> findUidByTags(String key);
+
+    @Select("SELECT id FROM post WHERE tags LIKE CONCAT('%',#{key},'%')")
+    ArrayList<Integer> findIdByKey(String key);
+
+    @Select("SELECT COUNT(id) FROM post WHERE u_id = #{uid}")
+    Integer countPostOfUid(Integer uid);
+
 }

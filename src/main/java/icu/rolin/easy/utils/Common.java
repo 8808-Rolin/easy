@@ -1,6 +1,8 @@
 package icu.rolin.easy.utils;
 
+import icu.rolin.easy.model.DO.Post;
 import icu.rolin.easy.model.POJO.PostsPOJO;
+import icu.rolin.easy.model.POJO.SearchPostPOJO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -12,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.regex.Pattern;
 
 
 public class Common {
@@ -153,6 +156,40 @@ public class Common {
     }
 
 
+    /**
+     *通过正则表达式 过滤HTML标签内容，最后留下HTML文本
+     * @param inputString 输入串
+     * @return 滤过结果
+     */
+    public static String StripHT(String inputString) {
+        String htmlStr = inputString; // 含html标签的字符串
+        String textStr = "";
+        java.util.regex.Pattern p_script;
+        java.util.regex.Matcher m_script;
+        java.util.regex.Pattern p_style;
+        java.util.regex.Matcher m_style;
+        java.util.regex.Pattern p_html;
+        java.util.regex.Matcher m_html;
+        try {
+            String regEx_script = "<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?script[\\s]*?>"; // 定义script的正则表达式{或<script[^>]*?>[\\s\\S]*?<\\/script>
+            String regEx_style = "<[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?style[\\s]*?>"; // 定义style的正则表达式{或<style[^>]*?>[\\s\\S]*?<\\/style>
+            String regEx_html = "<[^>]+>"; // 定义HTML标签的正则表达式
+            p_script = Pattern.compile(regEx_script, Pattern.CASE_INSENSITIVE);
+            m_script = p_script.matcher(htmlStr);
+            htmlStr = m_script.replaceAll(""); // 过滤script标签
+            p_style = Pattern.compile(regEx_style, Pattern.CASE_INSENSITIVE);
+            m_style = p_style.matcher(htmlStr);
+            htmlStr = m_style.replaceAll(""); // 过滤style标签
+            p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
+            m_html = p_html.matcher(htmlStr);
+            htmlStr = m_html.replaceAll(""); // 过滤html标签
+            textStr = htmlStr;
+        } catch (Exception e) {System.err.println("Html2Text: " + e.getMessage()); }
+        //剔除空格行
+        textStr=textStr.replaceAll("[ ]+", " ");
+        textStr=textStr.replaceAll("(?m)^\\s*$(\\n|\\r\\n)", "");
+        return textStr;// 返回文本字符串
+    }
 
 
 }

@@ -49,4 +49,15 @@ public class Comments implements Serializable {
     public void setCreate_time(Timestamp create_time) {
         this.create_time = create_time;
     }
+
+    @Override
+    public String toString() {
+        return "Comments{" +
+                "id=" + id +
+                ", p_id=" + p_id +
+                ", u_id=" + u_id +
+                ", content='" + content + '\'' +
+                ", create_time=" + create_time +
+                '}';
+    }
 }

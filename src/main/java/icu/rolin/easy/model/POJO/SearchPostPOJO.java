@@ -1,5 +1,8 @@
 package icu.rolin.easy.model.POJO;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 public class SearchPostPOJO {
     private Integer pid;
     private String title;
@@ -72,5 +75,19 @@ public class SearchPostPOJO {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    // 重写hashCode方法与equal方法，以便实现使用集合去重
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SearchPostPOJO that = (SearchPostPOJO) o;
+        return pid.equals(that.pid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pid);
     }
 }

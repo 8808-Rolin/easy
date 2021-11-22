@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 
 public class Action implements Serializable {
+
+
     private Integer id;
     private Integer a_id;
     private String title;
@@ -95,4 +97,19 @@ public class Action implements Serializable {
         this.update_time = update_time;
     }
 
+    @Override
+    public String toString() {
+        return "Action{" +
+                "id=" + id +
+                ", a_id=" + a_id +
+                ", title='" + title + '\'' +
+                ", content_id=" + content_id +
+                ", position='" + position + '\'' +
+                ", start_time=" + start_time +
+                ", end_time=" + end_time +
+                ", is_approved=" + is_approved +
+                ", create_time=" + create_time +
+                ", update_time=" + update_time +
+                '}';
+    }
 }

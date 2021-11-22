@@ -1,5 +1,7 @@
 package icu.rolin.easy.model.POJO;
 
+import java.util.Objects;
+
 public class SearchUserPOJO {
     private Integer uid;
     private String username;
@@ -45,5 +47,20 @@ public class SearchUserPOJO {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    // 重写hashCode方法与equal方法，以便实现使用集合去重
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SearchUserPOJO that = (SearchUserPOJO) o;
+        return uid.equals(that.uid);
+    }
+
+    // 只要UID相同即可判定为是同一个对象
+    @Override
+    public int hashCode() {
+        return Objects.hash(uid);
     }
 }

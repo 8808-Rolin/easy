@@ -201,5 +201,30 @@ public class BBSController {
         return new ResponseVO(simpleVO);
     }
 
+    @GetMapping(value = "/search")
+    public ResponseVO search(SearchPO spo){
+        // 判断参数，且设定默认参数
+        if(spo == null  || spo.getKeyword() == null){
+            return new ResponseVO(new SimpleVO(-500,"参数错误，关键字不能为空"));
+        }
+        int type = 0;
+        if(spo.getType() != null) type = spo.getType();
+        String key = spo.getKeyword();
+        SearchVO svo = new SearchVO();
+        if(type == 0){
+            SearchPostPOJO[] sps =  ss.getSearchResultOfPost(key);
+            svo.setMsg("搜索帖子结果展示");
+            svo.setCode(sps.length);
+            svo.setPosts(sps);
+        }else if (type == 1){
+            SearchUserPOJO[] sus = ss.getSearchResultOfUser(key);
+            svo.setMsg("搜索用户结果展示");
+            svo.setCode(sus.length);
+            svo.setUsers(sus);
+        }else{
+            return new ResponseVO(new SimpleVO(-404,"参数错误，类型只能为1或者0或者空"));
+        }
 
+        return new ResponseVO(svo);
+    }
 }

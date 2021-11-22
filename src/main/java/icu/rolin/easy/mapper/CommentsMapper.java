@@ -1,6 +1,7 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.Comments;
+import icu.rolin.easy.model.DO.Content;
 import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
@@ -36,4 +37,8 @@ public interface CommentsMapper {
 
     @Select("SELECT id FROM comments WHERE p_id = #{pid}")
     ArrayList<Integer> findIdByPid(Integer pid);
+
+    @Select("SELECT * FROM comments WHERE content LIKE CONCAT('%',#{key},'%')")
+    ArrayList<Comments> findCommentLikeKey(String key);
+
 }
