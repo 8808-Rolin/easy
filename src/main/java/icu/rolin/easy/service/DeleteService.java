@@ -93,26 +93,7 @@ public class DeleteService {
         }
     }
 
-    //3.6.3.1 清空邮箱
-    public SimpleVO deleteMail(Integer uid){
-        SimpleVO simpleVO = new SimpleVO();
-        if (uid == null){
-            simpleVO.setMsg("请求参数丢失");
-            simpleVO.setCode(-1);
-            logger.error("清除邮箱---请求参数丢失...");
-        }else {
-            Integer code = mailMapper.deleleMailById(uid);
-            if (code != 0){
-                simpleVO.setMsg("成功清除邮箱");
-                simpleVO.setCode(code);
-            }else {
-                simpleVO.setCode(-1);
-                simpleVO.setMsg("清除邮箱失败");
-            }
-        }
 
-        return simpleVO;
-    }
 
     public SimpleVO removeMember(UserAssNotePO ua){
         SimpleVO simpleVO = new SimpleVO();

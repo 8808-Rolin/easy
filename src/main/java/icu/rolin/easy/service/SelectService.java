@@ -1,6 +1,5 @@
 package icu.rolin.easy.service;
 
-import icu.rolin.easy.interceptor.ZoneInterceptor;
 import icu.rolin.easy.mapper.*;
 import icu.rolin.easy.model.DO.*;
 import icu.rolin.easy.model.PO.*;
@@ -8,8 +7,6 @@ import icu.rolin.easy.model.POJO.*;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.utils.Common;
 import icu.rolin.easy.utils.TransformCurrentTimeUtil;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -599,53 +596,59 @@ public class SelectService {
     }
 
 
-    public GetMailOverviewVO getMails(Integer uid){
-        GetMailOverviewVO gmovvo = new GetMailOverviewVO();
-        if (uid == null){
-            logger.error("3.6.3.2 获取邮箱概要数据---请求参数丢失");
-            gmovvo.setCode(-1);
-            gmovvo.setMail(null);
-        }else {
-            ArrayList<Mail> mails = mailMapper.getMailsByTo_id(uid);
-            int mailsNumber = mails.size();
-            if (mailsNumber == 0){
-                logger.info("他可能真的挺孤独的，因为他没有收到任何邮件啊！岂可休！");
-                gmovvo.setCode(mailsNumber);
-                gmovvo.setMail(null);
-            }else {
-                gmovvo.setCode(mailsNumber);
-                MailOverviewPOJO[] mailOverviewPOJOS = new MailOverviewPOJO[mailsNumber];
-                for (int i=0;i<mailsNumber;i++){
-                    String fromUserName = userMapper.getNameById(mails.get(i).getFrom_id());
-                    mailOverviewPOJOS[i].setMid(mails.get(i).getId());
-                    mailOverviewPOJOS[i].setTitle(mails.get(i).getTitle());
-                    mailOverviewPOJOS[i].setDate(mails.get(i).getCreate_time().toString());
-                    mailOverviewPOJOS[i].setIsRead(mails.get(i).getIs_read());
-                    mailOverviewPOJOS[i].setIsSystem(mails.get(i).getIs_system());
-                    mailOverviewPOJOS[i].setFrom(fromUserName);
-                }
+    /**
+     * 获取邮箱概要，即获取isRead字段为1和0的邮件概要
+     * @param uid 用户UID
+     * @return 返回渲染好的视图对象
+     */
+    public MailOverviewPOJO[] getMails(Integer uid){
+        ArrayList<Mail> mails = mailMapper.getMailsByTo_id(uid);
+        int mailsNumber = mails.size();
+        MailOverviewPOJO[] mailOverviewPOJOS = new MailOverviewPOJO[mailsNumber];
+        for (int i=0;i<mailsNumber;i++){
+            mailOverviewPOJOS[i] = new MailOverviewPOJO();
+            mailOverviewPOJOS[i].setMid(mails.get(i).getId());
+            mailOverviewPOJOS[i].setTitle(mails.get(i).getTitle());
+            mailOverviewPOJOS[i].setDate(Common.convertTimestamp2Date(mails.get(i).getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+            mailOverviewPOJOS[i].setIsRead(mails.get(i).getIs_read());
+            mailOverviewPOJOS[i].setIsSystem(mails.get(i).getIs_system());
+            if(mails.get(i).getIs_system() == 0){
+                String fromUserName = userMapper.getNameById(mails.get(i).getFrom_id());
+                mailOverviewPOJOS[i].setFrom(fromUserName);
+            }else{
+                mailOverviewPOJOS[i].setFrom("系 统");
             }
-        }
 
-        return gmovvo;
+        }
+        return mailOverviewPOJOS;
     }
 
+
+    /**
+     * 获取邮箱邮件的详细信息
+     * 如果isRead字段为2则无法获取（因为该邮件已被删除）
+     * @param mid 邮件ID
+     * @return 返回渲染好的视图
+     */
+    // TODO: 2021/11/22 获取邮件详细信息
     public SimpleVO getMailContent(Integer mid){
         SimpleVO simpleVO = new SimpleVO();
-        String content = mailMapper.getContentById(mid);
-        if (content == null){
-            logger.warn("压根没有这封邮件！");
-            simpleVO.setMsg(content);
+        Mail mail = mailMapper.getContentById(mid);
+        if (mail == null || mail.getContent() == null){
+            simpleVO.setMsg("获取邮件错误");
             simpleVO.setCode(0);
-        }else if (content == ""){
+        }else if (mail.getContent().equals("")){
             logger.info("这封邮件就像那群嘉心糖一样，P用没有！");
-            simpleVO.setMsg(content);
-            simpleVO.setCode(1);
+            simpleVO.setMsg("这是一封空邮件");
+            simpleVO.setCode(0);
         }else {
-            simpleVO.setMsg(content);
+            simpleVO.setMsg(mail.getContent());
             simpleVO.setCode(1);
         }
-
+        if(mail != null && mail.getIs_read() == 2) {
+            simpleVO.setMsg("该邮件已删除");
+            simpleVO.setCode(0);
+        }
         return simpleVO;
     }
 

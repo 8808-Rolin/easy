@@ -5,6 +5,7 @@ import icu.rolin.easy.model.DO.Association;
 import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.AssMemberPOJO;
+import icu.rolin.easy.model.POJO.MailOverviewPOJO;
 import icu.rolin.easy.model.POJO.PersonActionPOJO;
 import icu.rolin.easy.model.POJO.UserPOJO;
 import icu.rolin.easy.model.VO.*;
@@ -74,18 +75,33 @@ public class InfoController {
         return new ResponseVO(ss.getDetailedActionInformation(uid,actid));
     }
 
+    // TODO: 2021/11/22 清空邮箱操作，实质是将现在所有的邮件的isRead字段修改2，保留数据库内容 
     @GetMapping(value = "/delete-mail")
     public ResponseVO delete_mail (Integer uid){
-        return new ResponseVO(ds.deleteMail(uid));
+        if(uid == null || uid <= 0 ){
+            return new ResponseVO(new SimpleVO(-1,"参数错误，请重试"));
+        }
+        return new ResponseVO(us.deleteMail(uid));
     }
-
+    
+    // 获取邮箱概要
     @GetMapping(value = "/get-mails")
     public ResponseVO get_mails(Integer uid) {
-        return new ResponseVO(ss.getMails(uid));
+        if(uid == null || uid <= 0){
+            return new ResponseVO(new SimpleVO(-1,"获取错误，请检查参数"));
+        }
+        GetMailOverviewVO gmovo = new GetMailOverviewVO();
+        MailOverviewPOJO[] mo = ss.getMails(uid);
+        gmovo.setCode(mo.length);
+        gmovo.setMail(mo);
+        return new ResponseVO(gmovo);
     }
 
     @GetMapping(value = "/get-mail-content")
     public ResponseVO get_mail_content(Integer mid){
+        if(mid == null || mid <= 0){
+            return new ResponseVO(new SimpleVO(-1,"获取错误，请检查参数"));
+        }
         return new ResponseVO(ss.getMailContent(mid));
     }
 

@@ -194,4 +194,18 @@ public class UpdateService {
         return simpleVO;
     }
 
+
+    /**
+     * 清空邮箱，实质上是将is_read字段修改为2，即不可见
+     * @param uid 用户UID
+     * @return 视图对象
+     */
+    public SimpleVO deleteMail(Integer uid){
+        SimpleVO simpleVO = new SimpleVO();
+        Integer code = mailMapper.emptyMailById(uid);
+        simpleVO.setMsg("成功清除邮箱");
+        simpleVO.setCode(code);
+        return simpleVO;
+    }
+
 }

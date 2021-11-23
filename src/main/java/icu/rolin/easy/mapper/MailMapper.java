@@ -18,13 +18,13 @@ public interface MailMapper {
     @Select("SELECT MAX(id) FROM mail")
     Integer getMaxMid();
 
-    @Delete("DELETE FROM mail WHERE from_id = #{fromid}")
-    Integer deleleMailById(Integer fromid);
+    @Update("UPDATE mail SET is_read = 2  WHERE to_id = #{uid}")
+    Integer emptyMailById(Integer uid);
 
-    @Select("SELECT * FROM mail WHERE to_id = #{toid}")
+    @Select("SELECT * FROM mail WHERE to_id = #{toid} AND (is_read = 0 OR is_read = 1)")
     ArrayList<Mail> getMailsByTo_id(Integer toid);
 
-    @Select("SELECT content FROM mail WHERE id = #{id}")
-    String getContentById(Integer id);
+    @Select("SELECT * FROM mail WHERE id = #{id}")
+    Mail getContentById(Integer id);
 
 }
