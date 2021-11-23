@@ -1105,7 +1105,7 @@
 
 
 
-### 3.6.4 获取我的个人信息和公告
+### 3.6.4 获取我的个人信息和公告(Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1115,16 +1115,16 @@
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
-    <tr><td>uid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
+    <tr><td>uid</td><td>Integer</td><td>ID值，用户的唯一标识符,是空间的主人Muid</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>0表示获取失败，1表示获取成功</td></tr>
 	<tr><td>assNum</td><td colspan=2>用户加入的社团数量</td></tr>
-	<tr><td>notice</td><td colspan=2>公告内容</td></tr>
     <tr><th>data.userdata</td><th colspan=2>当code不为0时，返回该字段，是一个用户数据</td></tr>
 	<tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realname</td><td colspan=2>用户真实姓名</td></tr>
+<tr><td>notice</td><td colspan=2>公告内容</td></tr>
     <tr><td>profile</td><td colspan=2>用户头像</td></tr>
     <tr><td>phone</td><td colspan=2>用户电话号码</td></tr>
 	<tr><td>email</td><td colspan=2>用户电子邮箱</td></tr>
@@ -1139,7 +1139,8 @@
 
 
 
-### 3.6.5 修改公告
+
+### 3.6.5 修改公告 (Finish)
 
 用户可以在空间页面修改公告，只需要提交一个uid和修改后的新公告即可
 

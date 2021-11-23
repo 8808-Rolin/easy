@@ -15,6 +15,7 @@ public class User implements Serializable {
     private String student_number;
     private Integer college_id;
     private String email;
+    private String phone;
     private Integer sex;
     private Date birth;
     private Integer is_open_zone;
@@ -35,6 +36,7 @@ public class User implements Serializable {
                 ", student_number='" + student_number + '\'' +
                 ", college_id=" + college_id +
                 ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
                 ", sex=" + sex +
                 ", birth=" + birth +
                 ", is_open_zone=" + is_open_zone +
@@ -94,6 +96,14 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Integer getSex() {

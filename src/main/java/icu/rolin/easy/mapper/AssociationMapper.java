@@ -31,6 +31,8 @@ public interface AssociationMapper {
     @Select("SELECT * FROM association WHERE id = #{id}")
     Association findAssociationById(Integer id);
 
+
+
     @Select("SELECT name FROM association WHERE id = #{id}")
     String getAssociationNameById(Integer id);
 

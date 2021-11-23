@@ -10,6 +10,15 @@ public class ZoneUserDataPOJO {
     private String college;
     private String birth;
     private Integer numpost;
+    private String notice;
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
+    }
 
     public Integer getUid() {
         return uid;

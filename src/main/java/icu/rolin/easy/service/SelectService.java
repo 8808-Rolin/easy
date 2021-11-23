@@ -1,5 +1,6 @@
 package icu.rolin.easy.service;
 
+import icu.rolin.easy.interceptor.ZoneInterceptor;
 import icu.rolin.easy.mapper.*;
 import icu.rolin.easy.model.DO.*;
 import icu.rolin.easy.model.PO.*;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static icu.rolin.easy.interceptor.ZoneInterceptor.*;
@@ -652,51 +655,58 @@ public class SelectService {
         return simpleVO;
     }
 
-    public GetInformationVO getUserInformation(Integer uid){
-        GetInformationVO ginfovo = new GetInformationVO();
+    /**
+     * 获取空间个人信息以及公告、社团信息
+     * @param uid 空间主人的uid
+     * @param req 请求，用于判断Token
+     * @return 返回一个ZoneUserDataPOJO对象
+     */
+    public ZoneUserDataPOJO getZoneUserData(int uid,HttpServletRequest req){
+        ZoneUserDataPOJO zud = new ZoneUserDataPOJO();
         User user = userMapper.findById(uid);
-        ZoneUserDataPOJO zoneUserDataPOJO = new ZoneUserDataPOJO();
-        if (user == null){
-            ginfovo.setCode(0);
-            ginfovo.setAssNum(0);
-            ginfovo.setJoinass(null);
-            ginfovo.setUserdata(null);
-            ginfovo.setNotice("");
-        }else {
-            ginfovo.setCode(1);
-            ginfovo.setNotice(user.getNotice());
-            zoneUserDataPOJO.setUid(user.getId());
-            zoneUserDataPOJO.setUsername(user.getUsername());
-            zoneUserDataPOJO.setRealname(user.getUsername());
-            zoneUserDataPOJO.setProfile(user.getUser_avatar());
-            zoneUserDataPOJO.setPhone(user.getPost_number().toString());
-            zoneUserDataPOJO.setEmail(user.getEmail());
-            zoneUserDataPOJO.setCollege(collegeTableMapper.findCollegeNameById(user.getCollege_id()));
-            zoneUserDataPOJO.setBirth(user.getBirth().toString());
-            zoneUserDataPOJO.setNumpost(user.getPost_number());
-            ginfovo.setUserdata(zoneUserDataPOJO);
-            ArrayList<Association_User> association_users = associationUserMapper.getAllUserJoinAssociations(uid);
-            int assNum = association_users.size();
-            if (assNum == 0){
-                logger.info("该用户死宅一个，一个社团都不加入");
-                ginfovo.setAssNum(assNum);
-                ginfovo.setJoinass(null);
-            }else {
-                ginfovo.setAssNum(assNum);
-                ZoneJoinAssPOJO[] zoneJoinAssPOJOS = new ZoneJoinAssPOJO[assNum];
-                for (int i=0;i<assNum;i++){
-                    String associationName = associationMapper.getAssociationNameById(association_users.get(i).getA_id());
-                    String associationLogo = associationMapper.getAssociationLogoById(association_users.get(i).getA_id());
-                    zoneJoinAssPOJOS[i].setAid(association_users.get(i).getA_id());
-                    zoneJoinAssPOJOS[i].setName(associationName);
-                    zoneJoinAssPOJOS[i].setProfile(associationLogo);
-                }
-                ginfovo.setJoinass(zoneJoinAssPOJOS);
-            }
+        boolean status = ZoneInterceptor.verifyZoneStatus(req,uid);
+        zud.setUid(user.getId());
+        zud.setUsername(user.getUsername());
+        zud.setProfile(user.getUser_avatar());
+        zud.setEmail(user.getEmail());
+        zud.setCollege(collegeTableMapper.findCollegeNameById(user.getCollege_id()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        zud.setBirth(dateFormat.format(user.getBirth()));
+        int number = postMapper.countPostOfUid(uid);
+        number += commentsMapper.countCommentsByUid(uid);
+        zud.setNumpost(number);
+        zud.setNotice(user.getNotice());
+        if(status){
+            zud.setRealname(user.getRealname());
+            zud.setPhone(user.getPhone());
+        }else{
+            zud.setRealname(Common.getStarString2(user.getRealname(),1,1));
+            zud.setPhone(Common.getStarString2(user.getPhone(),3,4));
         }
-
-        return ginfovo;
+        return zud;
     }
+
+    /**
+     * 空间信息，用户加入的社团基础信息
+     * @param uid 用户ID
+     * @return 返回一个数组对象
+     */
+    public ZoneJoinAssPOJO[] getZoneAssInfo(int uid){
+        ArrayList<Association_User> aus= associationUserMapper.getAllUserJoinAssociations(uid);
+        ArrayList<Association> associations = new ArrayList<>();
+        for (Association_User au : aus) {
+            associations.add(associationMapper.findAssociationById(au.getA_id()));
+        }
+        ZoneJoinAssPOJO[] zja = new ZoneJoinAssPOJO[associations.size()];
+        for (int i = 0; i < zja.length; i++) {
+            zja[i] = new ZoneJoinAssPOJO();
+            zja[i].setAid(associations.get(i).getId());
+            zja[i].setName(associations.get(i).getName());
+            zja[i].setProfile(associations.get(i).getLogo());
+        }
+        return zja;
+    }
+
 
     /**
      * 获取一个帖子下的评论数量，然后对其进行一个分页算法
@@ -1238,6 +1248,16 @@ public class SelectService {
     public boolean judgeUserFavoriteStatus(int pid,int uid){
         Integer status = favoriteTableMapper.isFavorite(pid,uid);
         return status == 1;
+    }
+
+    /**
+     * 验证一个用户是否存在，判断其合法性
+     * @param uid 要验证的用户ID
+     * @return 返回一个状态
+     */
+    public boolean verifyUserExist(int uid){
+        User code = userMapper.findById(uid);
+        return code != null;
     }
 
 }

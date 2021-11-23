@@ -6,7 +6,6 @@ import icu.rolin.easy.model.POJO.ZoneUserDataPOJO;
 public class GetInformationVO {
     private Integer code;
     private Integer assNum;
-    private String notice;
     private ZoneUserDataPOJO userdata;
     private ZoneJoinAssPOJO[] joinass;
 
@@ -26,13 +25,6 @@ public class GetInformationVO {
         this.assNum = assNum;
     }
 
-    public String getNotice() {
-        return notice;
-    }
-
-    public void setNotice(String notice) {
-        this.notice = notice;
-    }
 
     public ZoneUserDataPOJO getUserdata() {
         return userdata;

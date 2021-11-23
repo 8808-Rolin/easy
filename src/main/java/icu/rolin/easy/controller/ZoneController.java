@@ -1,8 +1,11 @@
 package icu.rolin.easy.controller;
 
 
+import icu.rolin.easy.interceptor.ZoneInterceptor;
 import icu.rolin.easy.model.PO.UidProfilePO;
+import icu.rolin.easy.model.POJO.ZoneJoinAssPOJO;
 import icu.rolin.easy.model.POJO.ZonePostPOJO;
+import icu.rolin.easy.model.POJO.ZoneUserDataPOJO;
 import icu.rolin.easy.model.VO.GetInformationVO;
 import icu.rolin.easy.model.VO.ResponseVO;
 import icu.rolin.easy.model.VO.SimpleVO;
@@ -86,8 +89,31 @@ public class ZoneController {
     }
 
     @GetMapping(value = "/get-information")
-    public ResponseVO get_information(Integer uid){
-        return new ResponseVO(ss.getUserInformation(uid));
+    public ResponseVO get_information(Integer uid,HttpServletRequest hsr){
+        if(uid == null || uid <= 0 || !ss.verifyUserExist(uid)){
+            return new ResponseVO(new SimpleVO(0,"获取失败，请检查参数的合法性"));
+        }
+        GetInformationVO givo = new GetInformationVO();
+        ZoneUserDataPOJO zud = ss.getZoneUserData(uid,hsr);
+        ZoneJoinAssPOJO[] z = ss.getZoneAssInfo(uid);
+        givo.setCode(1);
+        givo.setAssNum(z.length);
+        givo.setUserdata(zud);
+        givo.setJoinass(z);
+        return new ResponseVO(givo);
+    }
+
+    @PostMapping(value = "/update-notice")
+    public ResponseVO notice_notice(UidProfilePO up,HttpServletRequest req){
+        if(
+                up == null ||
+                up.getUid() == null ||
+                up.getNewProfile() == null ||
+                !ZoneInterceptor.verifyZoneStatus(req,up.getUid())
+        ){
+            return new ResponseVO(new SimpleVO(1,"修改失败，请检查参数的合法性"));
+        }
+        return new ResponseVO(us.modifyNotice(up));
     }
 
     @PostMapping(value = "/update-name")

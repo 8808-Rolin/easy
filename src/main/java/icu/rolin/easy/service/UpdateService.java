@@ -89,6 +89,19 @@ public class UpdateService {
         return simpleVO;
     }
 
+    public SimpleVO modifyNotice(UidProfilePO up){
+        SimpleVO simpleVO = new SimpleVO();
+        Integer code = userMapper.updateUserNotice(up.getNewProfile(),up.getUid());
+        if(code == 1){
+            simpleVO.setCode(0);
+            simpleVO.setMsg("修改成功！");
+        }else{
+            simpleVO.setCode(1);
+            simpleVO.setMsg("修改失败！");
+        }
+        return simpleVO;
+    }
+
     public SimpleVO updateUserName(UidProfilePO up){
         SimpleVO simpleVO = new SimpleVO();
         Integer code = userMapper.updateUserName(up.getNewProfile(), up.getUid());

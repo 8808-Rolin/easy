@@ -16,6 +16,10 @@ public interface CommentsMapper {
     @Select("SELECT count(*) FROM comments WHERE p_id = #{pid}")
     Integer countCommentsByPid(Integer pid);
 
+    //获取用户发表的回复数量
+    @Select("SELECT count(*) FROM comments WHERE u_id = #{uid}")
+    Integer countCommentsByUid(Integer uid);
+
     @Select("SELECT max(create_time) FROM comments")
     Timestamp getTheLatestComment();
 

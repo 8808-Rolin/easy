@@ -75,7 +75,7 @@ public class InfoController {
         return new ResponseVO(ss.getDetailedActionInformation(uid,actid));
     }
 
-    // TODO: 2021/11/22 清空邮箱操作，实质是将现在所有的邮件的isRead字段修改2，保留数据库内容 
+
     @GetMapping(value = "/delete-mail")
     public ResponseVO delete_mail (Integer uid){
         if(uid == null || uid <= 0 ){
