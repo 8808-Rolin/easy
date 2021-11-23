@@ -102,78 +102,93 @@ public class UpdateService {
         return simpleVO;
     }
 
-    public SimpleVO updateUserName(UidProfilePO up){
+    /**
+     * 用户修改用户名称时调用该业务方法
+     * @param up 参数对象
+     * @return 响应对象SimpleVO
+     */
+    public SimpleVO modifyUserName(UidProfilePO up){
         SimpleVO simpleVO = new SimpleVO();
         Integer code = userMapper.updateUserName(up.getNewProfile(), up.getUid());
-        if (code == 0){
-            logger.warn("用户修改用户名失败！");
-            simpleVO.setCode(-1);
-            simpleVO.setMsg("用户无法修改新用户名");
-        }else {
-            simpleVO.setCode(1);
-            simpleVO.setMsg("用户成功修改新的用户名！");
-        }
-
+        simpleVO.setCode(0);
+        simpleVO.setMsg("用户成功修改新的用户名！");
         return simpleVO;
     }
 
+    /**
+     * 用户修改用户简介时调用该业务方法
+     * @param up 参数对象
+     * @return 响应对象SimpleVO
+     */
     public SimpleVO updateUserIntro(UidProfilePO up){
         SimpleVO simpleVO = new SimpleVO();
         Integer code = userMapper.updateUserIntro(up.getNewProfile(), up.getUid());
         if (code == 0){
             logger.warn("用户修改简介失败！");
-            simpleVO.setCode(-1);
+            simpleVO.setCode(1);
             simpleVO.setMsg("用户无法修改新的简介");
         }else {
-            simpleVO.setCode(1);
+            simpleVO.setCode(0);
             simpleVO.setMsg("用户成功修改新的简介！");
         }
-
         return simpleVO;
     }
 
+    /**
+     * 用户修改头像时调用该业务方法
+     * @param up 参数对象
+     * @return 响应对象SimpleVO
+     */
     public SimpleVO updateUserHeadImage(UidProfilePO up){
         SimpleVO simpleVO = new SimpleVO();
         Integer code = userMapper.updateUserHeadImage(up.getNewProfile(), up.getUid());
         if (code == 0){
             logger.warn("用户更换头像失败！");
-            simpleVO.setCode(-1);
-            simpleVO.setMsg("用户无法更换头像");
-        }else {
             simpleVO.setCode(1);
+            simpleVO.setMsg("更换头像失败，请重试");
+        }else {
+            simpleVO.setCode(0);
             simpleVO.setMsg("用户头像更换成功！");
         }
-
         return simpleVO;
     }
 
+    /**
+     * 用户修改Email时调用该业务方法
+     * @param up 参数对象
+     * @return 响应对象SimpleVO
+     */
     public SimpleVO updateUserEmail(UidProfilePO up){
         SimpleVO simpleVO = new SimpleVO();
         Integer code = userMapper.updateUserEmail(up.getNewProfile(), up.getUid());
         if (code == 0){
             logger.warn("用户更换邮箱失败！");
-            simpleVO.setCode(-1);
+            simpleVO.setCode(1);
             simpleVO.setMsg("用户无法修改邮箱");
         }else {
-            simpleVO.setCode(1);
+            simpleVO.setCode(0);
             simpleVO.setMsg("用户邮箱修改成功！");
         }
 
         return simpleVO;
     }
 
+    /**
+     * 用户修改生日时调用该业务方法
+     * @param up 参数对象
+     * @return 响应对象SimpleVO
+     */
     public SimpleVO updateUserBirth(UidProfilePO up){
         SimpleVO simpleVO = new SimpleVO();
         Integer code = userMapper.updateUserBirth(up.getNewProfile(), up.getUid());
         if (code == 0){
             logger.warn("用户更换生日失败！");
-            simpleVO.setCode(-1);
-            simpleVO.setMsg("用户无法修改生日");
-        }else {
             simpleVO.setCode(1);
+            simpleVO.setMsg("修改生日失败，请重试");
+        }else {
+            simpleVO.setCode(0);
             simpleVO.setMsg("用户生日修改成功！");
         }
-
         return simpleVO;
     }
 

@@ -117,26 +117,41 @@ public class ZoneController {
     }
 
     @PostMapping(value = "/update-name")
-    public ResponseVO name_update(UidProfilePO up){
-        return new ResponseVO(us.updateUserName(up));
+    public ResponseVO name_update(UidProfilePO up,HttpServletRequest req){
+        if(up == null || up.getUid() == null || up.getNewProfile() == null || !ZoneInterceptor.verifyZoneStatus(req,up.getUid())){
+            return new ResponseVO(new SimpleVO(1,"修改失败，请检查参数的合法性"));
+        }
+        return new ResponseVO(us.modifyUserName(up));
     }
 
     @PostMapping(value = "/update-intro")
-    public ResponseVO intro_update(UidProfilePO up){
+    public ResponseVO intro_update(UidProfilePO up,HttpServletRequest req){
+        if(up == null || up.getUid() == null || up.getNewProfile() == null || !ZoneInterceptor.verifyZoneStatus(req,up.getUid())){
+            return new ResponseVO(new SimpleVO(1,"修改失败，请检查参数的合法性"));
+        }
         return new ResponseVO(us.updateUserIntro(up));
     }
 
     @PostMapping(value = "/update-profile")
-    public ResponseVO profile_update(UidProfilePO up){
+    public ResponseVO profile_update(UidProfilePO up,HttpServletRequest req){
+        if(up == null || up.getUid() == null || up.getNewProfile() == null || !ZoneInterceptor.verifyZoneStatus(req,up.getUid())){
+            return new ResponseVO(new SimpleVO(1,"修改失败，请检查参数的合法性"));
+        }
         return new ResponseVO(us.updateUserHeadImage(up));
     }
     @PostMapping(value = "/update-email")
-    public ResponseVO email_update(UidProfilePO up){
+    public ResponseVO email_update(UidProfilePO up,HttpServletRequest req){
+        if(up == null || up.getUid() == null || up.getNewProfile() == null || !ZoneInterceptor.verifyZoneStatus(req,up.getUid())){
+            return new ResponseVO(new SimpleVO(1,"修改失败，请检查参数的合法性"));
+        }
         return new ResponseVO(us.updateUserEmail(up));
     }
 
     @PostMapping(value = "/update-birth")
-    public ResponseVO birth_update(UidProfilePO up){
+    public ResponseVO birth_update(UidProfilePO up,HttpServletRequest req){
+        if(up == null || up.getUid() == null || up.getNewProfile() == null || !ZoneInterceptor.verifyZoneStatus(req,up.getUid())){
+            return new ResponseVO(new SimpleVO(1,"修改失败，请检查参数的合法性"));
+        }
         return new ResponseVO(us.updateUserBirth(up));
     }
 

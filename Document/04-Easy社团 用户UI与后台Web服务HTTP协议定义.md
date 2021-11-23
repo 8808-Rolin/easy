@@ -1197,12 +1197,13 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
-	<tr><td>newProfile</td><td>String</td><td>新头像，是一个Base64编码字符串</td></tr>
+	<tr><td>newProfile</td><td>String</td><td>新头像，是一个URL</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 
 
