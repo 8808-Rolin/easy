@@ -65,7 +65,7 @@ public class ToolController {
     }
 
     @PostMapping(value = "/upload-file")
-    public ResponseVO upload_file(@RequestParam("file") MultipartFile file){
+    public ResponseVO upload_file(@RequestPart("file") MultipartFile file){
         String fileName = UtilsService.uploadFile(file);
         if (fileName == null){
             return new ResponseVO(new SimpleVO(1,"文件上传失败"));

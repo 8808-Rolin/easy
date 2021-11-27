@@ -41,16 +41,16 @@ public class ZoneInterceptor {
 
         // 获取请求头的token
         String token = request.getHeader("token");
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(Constant.TOKEN_SECRET))
-                    .withIssuer("auth0").build();
-            DecodedJWT jwt = verifier.verify(token);
-            if (jwt.getClaim("uid").asInt() == muid){
-                logger.info("用户访问了自己的空间");
-                return true;
-            }else {
-                logger.info("用户访问了他人的空间");
-                return false;
-            }
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(Constant.TOKEN_SECRET))
+                .withIssuer("auth0").build();
+        DecodedJWT jwt = verifier.verify(token);
+        if (jwt.getClaim("uid").asInt().equals(muid)){
+            logger.info("用户访问了自己的空间");
+            return true;
+        }else {
+            logger.info("用户访问了他人的空间");
+            return false;
+        }
     }
 
 

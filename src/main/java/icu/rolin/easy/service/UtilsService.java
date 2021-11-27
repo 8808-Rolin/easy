@@ -1,5 +1,9 @@
 package icu.rolin.easy.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import icu.rolin.easy.model.PO.LoginPO;
 import icu.rolin.easy.utils.Base64ToImageUtil;
 import icu.rolin.easy.utils.Common;
@@ -16,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -66,7 +71,7 @@ public class UtilsService {
         String fileName = file.getOriginalFilename();
         //获取文件的后缀名
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
-        return handleFile(file,suffixName);
+        return handleFile(file,suffixName.split("\\.")[1]);
     }
 
     /**
@@ -128,5 +133,18 @@ public class UtilsService {
             }
         }
 
+    }
+
+    /**
+     * 通过请求获得当前登录用户的UID
+     * @param request 请求HttpServletRequest
+     * @return 用户ID
+     */
+    public static Integer getUidWithTokenByRequest(HttpServletRequest request){
+        String token = request.getHeader("token");
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(Constant.TOKEN_SECRET))
+                .withIssuer("auth0").build();
+        DecodedJWT jwt = verifier.verify(token);
+        return jwt.getClaim("uid").asInt();
     }
 }

@@ -6,7 +6,8 @@ public class MailOverviewPOJO {
     private String date;
     private Integer isRead;
     private Integer isSystem;
-    private String from;
+    private Integer type;
+    private String name;
 
     public Integer getMid() {
         return mid;
@@ -48,11 +49,19 @@ public class MailOverviewPOJO {
         this.isSystem = isSystem;
     }
 
-    public String getFrom() {
-        return from;
+    public Integer getType() {
+        return type;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

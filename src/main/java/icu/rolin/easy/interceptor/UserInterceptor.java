@@ -36,25 +36,21 @@ public class UserInterceptor implements HandlerInterceptor {
 
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) {
-
         // 跨域请求通过
         String method = request.getMethod();
         if ("OPTIONS".equals(method)) {
             return true;
         }
-
         // 响应格式
         response.setCharacterEncoding("utf-8");
 
         // 获取请求头的token
         String token = request.getHeader("token");
-        System.out.println("------拦截时间为：" + returnCurrentTime() + "------");
+        logger.info("------拦截时间为：" + returnCurrentTime() + "------拦截URI："+request.getRequestURI());
         if (StringUtils.isEmpty(token)) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            System.out.println("------No token------");
             response.setHeader("tokenStatus", "808");
             logger.error("---用户缺失Token---");
-
             return false;
         }
         try {
@@ -62,17 +58,13 @@ public class UserInterceptor implements HandlerInterceptor {
                     .withIssuer("auth0").build();
             DecodedJWT jwt = verifier.verify(token);
             DateFormat expiration = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            System.out.println("------token认证通过------");
-            System.out.println("用户id：" + jwt.getClaim("uid").asString());
-            System.out.println("用户密码：" + jwt.getClaim("password").asString());
-            System.out.println("------token到期时间：" + expiration.format(jwt.getExpiresAt()) + "------");
-
+            logger.info("------token认证通过------用户id："+jwt.getClaim("uid").asInt());
             return true;
         } catch (TokenExpiredException e) {
-            System.out.println("------用户token已过期，已向前端发送状态码------");
+            response.setStatus(809);
             response.setHeader("tokenStatus", "809");
+            response.setHeader("Access-Control-Expose-Headers","Authorization");
             logger.error("---用户Token已过期");
-
             return false;
         }
     }

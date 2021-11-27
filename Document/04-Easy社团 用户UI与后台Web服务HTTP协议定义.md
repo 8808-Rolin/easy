@@ -1082,8 +1082,10 @@
     <tr><td>date</td><td colspan=2>邮件发送日期</td></tr>
     <tr><td>isRead</td><td colspan=2>i是否已阅读 0为未阅读，1为已阅读</td></tr>
 	<tr><td>isSystem</td><td colspan=2>是否是系统发送，1为系统发送，0为用户发送</td></tr>
-    <tr><td>from</td><td colspan=2>邮件发送者昵称</td></tr>
+    <tr><td>type</td><td colspan=2>0为收件箱邮件，1为发信箱邮件</td></tr>
+    <tr><td>name</td><td colspan=2>当type为0时，此处为发送者名称；当type为1时，此处为接收者名称</td></tr>
 </table>
+
 
 
 #### 3.6.3.3 获取邮件内容(Finish)
@@ -1097,11 +1099,13 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
     <tr><td>mid</td><td>Integer</td><td>ID值，邮件的唯一标识符</td></tr>
+	<tr><td>status</td><td>Integer</td><td>0：表示不会改变已读，1：表示会将邮件置为已读状态</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
     <tr><td>msg</td><td colspan=2>邮件内容</td></tr>
 </table>
+
 
 
 
@@ -1166,7 +1170,7 @@
 
 用户可以在个人空间页面修改个人信息，只需要点击相关信息，就可以执行修改操作，因此每一个修改操作都对应一个接口，该部分的接口设置如下：
 
-#### 3.6.6.1 修改昵称
+#### 3.6.6.1 修改昵称（Finish）
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1186,7 +1190,7 @@
 
 
 
-#### 3.6.6.2 修改简介
+#### 3.6.6.2 修改简介（Finish）
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1207,7 +1211,7 @@
 
 
 
-#### 3.6.6.3 修改头像
+#### 3.6.6.3 修改头像（Finish）
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1226,7 +1230,7 @@
 </table>
 
 
-#### 3.6.6.4 修改电子邮箱
+#### 3.6.6.4 修改电子邮箱（Finish）
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1237,7 +1241,7 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
-	<tr><td>newEmail</td><td>String</td><td>新邮箱</td></tr>
+	<tr><td>newProfile</td><td>String</td><td>新邮箱</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
@@ -1245,7 +1249,8 @@
 </table>
 
 
-#### 3.6.6.5 修改生日
+
+#### 3.6.6.5 修改生日（Finish）
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1256,12 +1261,13 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
-	<tr><td>newBirth</td><td>String</td><td>新的生日</td></tr>
+	<tr><td>newProfile</td><td>String</td><td>新的生日</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
+
 
 ## 3.7 社团管理后台相关接口
 
@@ -1271,7 +1277,7 @@
 
 该部分的接口用于首页展示信息使用，一个是固定展示信息，一个是社团邮箱信息,一个是数据可视化展示信息。
 
-#### 3.7.1.1 固定展示信息
+#### 3.7.1.1 固定展示信息（Finish）
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1284,7 +1290,7 @@
     <tr><td>aid</td><td>Integer</td><td>ID值，社团的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
+	<tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，非1代表失败</td></tr>
 	<tr><th>data.assInfo</td><th colspan=2>社团信息</td></tr>
     <tr><td>name</td><td colspan=2>社团名字</td></tr>
 	<tr><td>intro</td><td colspan=2>社团简介</td></tr>
@@ -1298,11 +1304,12 @@
 </table>
 
 
+
 #### 3.7.1.2 社团邮箱数据
 
 这里可以显示社团的邮箱，点击邮箱里的邮件会弹出一个新的窗口展示邮件内容，点击邮箱的右上角的+号可以发送邮件
 
-##### 3.7.1.2.1 显示摘要列表
+##### 3.7.1.2.1 显示摘要列表（Finish）
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1315,18 +1322,21 @@
     <tr><td>aid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-	<tr><td>code</td><td colspan=2>返回一个整数，表示获取到的数据数量</td></tr>
+	<tr><td>code</td><td colspan=2>返回一个整数，表示获取到的数据数量 <b>负数表示错误</b></td></tr>
     <tr><th>data.mail[]</td><th colspan=2>当code不为0时，返回该字段，是一个对象数组</td></tr>
     <tr><td>mid</td><td colspan=2>mail-ID:邮件的唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>邮件标题</td></tr>
     <tr><td>date</td><td colspan=2>邮件发送日期</td></tr>
     <tr><td>isRead</td><td colspan=2>i是否已阅读 0为未阅读，1为已阅读</td></tr>
 	<tr><td>isSystem</td><td colspan=2>是否是系统发送，1为系统发送，0为用户发送</td></tr>
-    <tr><td>from</td><td colspan=2>邮件发送者昵称</td></tr>
+	<tr><td>type</td><td colspan=2>0为收件箱邮件，1为发信箱邮件</td></tr>
+    <tr><td>name</td><td colspan=2>当type为0时，此处为发送者名称；当type为1时，此处为接收者名称</td></tr>
+
 </table>
 
 
-##### 3.7.1.2.2 展示邮件信息
+
+##### 3.7.1.2.2 展示邮件信息(Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1337,11 +1347,13 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
     <tr><td>mid</td><td>Integer</td><td>ID值，邮件的唯一标识符</td></tr>
+	<tr><td>status</td><td>Integer</td><td>0：表示不会改变已读，1：表示会将邮件置为已读状态</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
 	<tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
     <tr><td>msg</td><td colspan=2>邮件内容</td></tr>
 </table>
+
 
 
 

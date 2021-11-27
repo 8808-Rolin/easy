@@ -10,8 +10,11 @@ import icu.rolin.easy.model.POJO.PersonActionPOJO;
 import icu.rolin.easy.model.POJO.UserPOJO;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.*;
+import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @ResponseBody
@@ -98,20 +101,42 @@ public class InfoController {
     }
 
     @GetMapping(value = "/get-mail-content")
-    public ResponseVO get_mail_content(Integer mid){
-        if(mid == null || mid <= 0){
+    public ResponseVO get_mail_content(Integer mid,Integer status){
+        if(mid == null || mid <= 0 || status == null){
             return new ResponseVO(new SimpleVO(-1,"获取错误，请检查参数"));
         }
-        return new ResponseVO(ss.getMailContent(mid));
+        if (!(status.equals(1) || status.equals(0))){
+            status = 0;
+        }
+        return new ResponseVO(ss.getMailContent(mid,status));
     }
 
     @GetMapping(value = "/get-ass-mails")
-    public ResponseVO get_ass_mail_overview(Integer aid){
+    public ResponseVO get_ass_mail_overview(Integer aid,HttpServletRequest request){
+        // 校验当前参数输入是否合法
+        if(aid == null || aid <= 0 || !ss.getAssIsExist(aid))
+            return new ResponseVO(new SimpleVO(-1,"参数出错，请检查参数aid"));
+        // 校验当前用户是否拥有该社团的管理权限
+        Integer uid = UtilsService.getUidWithTokenByRequest(request);
+        if(uid == null)
+            return new ResponseVO(new SimpleVO(-2,"请先登录！"));
+        if(!ss.verifyUserIsAssAdmin(uid,aid))
+            return new ResponseVO(new SimpleVO(-3,"你不是管理员！没有权限进入后台"));
         return new ResponseVO(ss.getAssMails(aid));
     }
 
     @GetMapping(value = "/get-fixed-show-info")
-    public ResponseVO get_show_info(Integer aid){
+    public ResponseVO get_show_info(Integer aid, HttpServletRequest request){
+        // 校验当前参数输入是否合法
+        if(aid == null || aid <= 0 || !ss.getAssIsExist(aid))
+            return new ResponseVO(new SimpleVO(-1,"参数出错，请检查参数aid"));
+        // 校验当前用户是否拥有该社团的管理权限
+        Integer uid = UtilsService.getUidWithTokenByRequest(request);
+        if(uid == null)
+            return new ResponseVO(new SimpleVO(-2,"请先登录！"));
+        if(!ss.verifyUserIsAssAdmin(uid,aid))
+            return new ResponseVO(new SimpleVO(-3,"你不是管理员！没有权限进入后台"));
+        // 获取数据并返回
         return new ResponseVO(ss.getShowInfo(aid));
     }
 

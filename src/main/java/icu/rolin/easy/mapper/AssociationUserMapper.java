@@ -45,7 +45,7 @@ public interface AssociationUserMapper {
      * @param uid 用户ID
      * @return 返回一个整数
      */
-    @Select("SELECT is_admin FROM association_user WHERE u_id = #{uid} AND a_id = #{aid}")
+    @Select("SELECT COUNT(*) FROM association_user WHERE u_id = #{uid} AND a_id = #{aid} AND is_admin = 1")
     Integer findUserIsAdminByUidAid(Integer aid,Integer uid);
 
 

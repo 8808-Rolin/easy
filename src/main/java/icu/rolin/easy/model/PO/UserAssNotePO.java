@@ -28,4 +28,13 @@ public class UserAssNotePO {
     public void setNote(String note) {
         this.note = note;
     }
+
+    @Override
+    public String toString() {
+        return "UserAssNotePO{" +
+                "uid=" + uid +
+                ", aid=" + aid +
+                ", note='" + note + '\'' +
+                '}';
+    }
 }

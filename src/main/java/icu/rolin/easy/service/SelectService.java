@@ -175,9 +175,9 @@ public class SelectService {
         Arrays.sort(ps, new Comparator<PostsPOJO>() {
             @Override
             public int compare(PostsPOJO o1, PostsPOJO o2) {
-                Long o1Stamp = Common.date2Stamp(o1.getReplyTime(),"yyyy-MM-dd HH:mm:ss");
-                Long o2Stamp = Common.date2Stamp(o2.getReplyTime(),"yyyy-MM-dd HH:mm:ss");
-                Long res = o1Stamp - o2Stamp;
+                long o1Stamp = Common.date2Stamp(o1.getReplyTime(),"yyyy-MM-dd HH:mm:ss");
+                long o2Stamp = Common.date2Stamp(o2.getReplyTime(),"yyyy-MM-dd HH:mm:ss");
+                long res = o1Stamp - o2Stamp;
                 if (res > 0)    return -1;
                 else if (res < 0)   return 1;
                 return 0;
@@ -195,6 +195,16 @@ public class SelectService {
      * 如果出错则直接返回一个空对象
      */
     public GetAssInfoAssPOJO getAssInformation(UserAssNotePO ua){
+        logger.info("请求参数："+ua.toString());
+        if(ua.getAid() == 0){
+            return new GetAssInfoAssPOJO(
+                    "公共论坛",
+                    "无",
+                    null,
+                    null,
+                    null
+            );
+        }
         Association association =
                 associationMapper.findAssociationById(ua.getAid());
         if (association == null) {
@@ -605,23 +615,40 @@ public class SelectService {
      * @return 返回渲染好的视图对象
      */
     public MailOverviewPOJO[] getMails(Integer uid){
-        ArrayList<Mail> mails = mailMapper.getMailsByTo_id(uid);
-        int mailsNumber = mails.size();
-        MailOverviewPOJO[] mailOverviewPOJOS = new MailOverviewPOJO[mailsNumber];
-        for (int i=0;i<mailsNumber;i++){
-            mailOverviewPOJOS[i] = new MailOverviewPOJO();
-            mailOverviewPOJOS[i].setMid(mails.get(i).getId());
-            mailOverviewPOJOS[i].setTitle(mails.get(i).getTitle());
-            mailOverviewPOJOS[i].setDate(Common.convertTimestamp2Date(mails.get(i).getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
-            mailOverviewPOJOS[i].setIsRead(mails.get(i).getIs_read());
-            mailOverviewPOJOS[i].setIsSystem(mails.get(i).getIs_system());
-            if(mails.get(i).getIs_system() == 0){
-                String fromUserName = userMapper.getNameById(mails.get(i).getFrom_id());
-                mailOverviewPOJOS[i].setFrom(fromUserName);
-            }else{
-                mailOverviewPOJOS[i].setFrom("系 统");
-            }
+        // 我收的
+        ArrayList<Mail> mailsTo = mailMapper.getMailsByTo_id(uid);
+        // 我发的
+        ArrayList<Mail> mailsFrom = mailMapper.getMailsByFrom_id(uid);
+        int mailsNumber = mailsTo.size() + mailsFrom.size();
 
+        MailOverviewPOJO[] mailOverviewPOJOS = new MailOverviewPOJO[mailsNumber];
+        for (int i=0;i<mailsTo.size();i++){
+            mailOverviewPOJOS[i] = new MailOverviewPOJO();
+            mailOverviewPOJOS[i].setMid(mailsTo.get(i).getId());
+            mailOverviewPOJOS[i].setTitle(mailsTo.get(i).getTitle());
+            mailOverviewPOJOS[i].setDate(Common.convertTimestamp2Date(mailsTo.get(i).getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+            mailOverviewPOJOS[i].setIsRead(mailsTo.get(i).getIs_read());
+            mailOverviewPOJOS[i].setIsSystem(mailsTo.get(i).getIs_system());
+            mailOverviewPOJOS[i].setType(0);
+            if(mailsTo.get(i).getIs_system() == 0){
+                String fromUserName = userMapper.getNameById(mailsTo.get(i).getFrom_id());
+                mailOverviewPOJOS[i].setName(fromUserName);
+            }else{
+                mailOverviewPOJOS[i].setName("系 统");
+            }
+        }
+        int j = 0;
+        for (int i=mailsTo.size();i<mailsNumber;i++){
+            mailOverviewPOJOS[i] = new MailOverviewPOJO();
+            mailOverviewPOJOS[i].setMid(mailsFrom.get(j).getId());
+            mailOverviewPOJOS[i].setTitle(mailsFrom.get(j).getTitle());
+            mailOverviewPOJOS[i].setDate(Common.convertTimestamp2Date(mailsFrom.get(j).getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+            mailOverviewPOJOS[i].setIsRead(mailsFrom.get(j).getIs_read());
+            mailOverviewPOJOS[i].setIsSystem(mailsFrom.get(j).getIs_system());
+            String toUserName = userMapper.getNameById(mailsTo.get(j).getFrom_id());
+            mailOverviewPOJOS[i].setName(toUserName);
+            mailOverviewPOJOS[i].setType(1);
+            j++;
         }
         return mailOverviewPOJOS;
     }
@@ -630,16 +657,18 @@ public class SelectService {
     /**
      * 获取邮箱邮件的详细信息
      * 如果isRead字段为2则无法获取（因为该邮件已被删除）
+     *
+     * @param type 0：表示不会改变已读，1：表示会将邮件置为已读状态
      * @param mid 邮件ID
      * @return 返回渲染好的视图
+     * @update 添加获取之后，将其标识为已读
      */
-    // TODO: 2021/11/22 获取邮件详细信息
-    public SimpleVO getMailContent(Integer mid){
+    public SimpleVO getMailContent( Integer mid,int type){
         SimpleVO simpleVO = new SimpleVO();
         Mail mail = mailMapper.getContentById(mid);
         if (mail == null || mail.getContent() == null){
             simpleVO.setMsg("获取邮件错误");
-            simpleVO.setCode(0);
+            simpleVO.setCode(-1);
         }else if (mail.getContent().equals("")){
             logger.info("这封邮件就像那群嘉心糖一样，P用没有！");
             simpleVO.setMsg("这是一封空邮件");
@@ -647,6 +676,9 @@ public class SelectService {
         }else {
             simpleVO.setMsg(mail.getContent());
             simpleVO.setCode(1);
+            if(type == 1){
+                mailMapper.setMailRead(mail.getId());
+            }
         }
         if(mail != null && mail.getIs_read() == 2) {
             simpleVO.setMsg("该邮件已删除");
@@ -909,17 +941,20 @@ public class SelectService {
     }
 
 
-    // 究极蛇皮大杂烩之乱炖东北大锅之没有任何判定的纯纯写入数据的屑方法
+    /**
+     * 获取社团管理后台数据，成功code为1，失败返回一个负数
+     * @param aid 社团ID
+     * @return 返回一个渲染完成的VO对象
+     */
     public AssShowInfoVO getShowInfo(Integer aid){
+        // 初始化对象
         AssShowInfoVO assShowInfoVO = new AssShowInfoVO();
-
+        //获取对应社团信息
         Association association = associationMapper.findAssociationById(aid);
-        if (association == null) {
-            assShowInfoVO.setCode(-1);
-            assShowInfoVO.setAssInfo(null);
-            assShowInfoVO.setShowInfo(null);
-        }
+        // 初始化社团信息POJO对象
         AssInfoPOJO assInfoPOJO = new AssInfoPOJO();
+        // 给社团信息对象注值
+            // 获取社团负责人名字
         String associationLeaderName = userMapper.getNameById(association.getLeader_id());
         assInfoPOJO.setName(association.getName());
         assInfoPOJO.setIntro(association.getIntro());
@@ -927,11 +962,13 @@ public class SelectService {
         assInfoPOJO.setOrg(association.getParent_organization());
         assInfoPOJO.setProfile(association.getLogo());
 
+        // 获取展示信息POJO
         Integer headCount = associationUserMapper.getTheAssociationMembers(aid);
         Integer postCount = postMapper.getTheAssociationPostNumber(aid);
         Integer actionCount = actionMapper.getToBeHeldActionsNumber(aid, TransformCurrentTimeUtil.returnCurrentTime());
         ShowInfoPOJO showInfoPOJO = new ShowInfoPOJO(headCount,postCount,actionCount);
 
+        //获取成功,返回code 1
         assShowInfoVO.setCode(1);
         assShowInfoVO.setAssInfo(assInfoPOJO);
         assShowInfoVO.setShowInfo(showInfoPOJO);
@@ -939,24 +976,33 @@ public class SelectService {
         return assShowInfoVO;
     }
 
+    /**
+     * 获取社团邮件概要,仅获取用户或系统发送给社团的邮件
+     * @param aid 社团UID
+     * @return 返回社团邮件
+     */
     public GetMailOverviewVO getAssMails(Integer aid){
         GetMailOverviewVO gmovvo = new GetMailOverviewVO();
-        ArrayList<Mail> mails = mailMapper.getMailsByTo_id(aid);
+        ArrayList<Mail> mails = mailMapper.getAssMailsByTo_id(aid);
         int mailsNumber = mails.size();
         if (mailsNumber == 0){
-            gmovvo.setCode(mailsNumber);
-            gmovvo.setMail(null);
+            gmovvo.setCode(0);
         }else {
             gmovvo.setCode(mailsNumber);
             MailOverviewPOJO[] mailOverviewPOJOS = new MailOverviewPOJO[mailsNumber];
             for (int i=0;i<mailsNumber;i++){
-                String fromName = userMapper.getNameById(mails.get(i).getFrom_id());
                 mailOverviewPOJOS[i].setMid(mails.get(i).getId());
                 mailOverviewPOJOS[i].setTitle(mails.get(i).getTitle());
                 mailOverviewPOJOS[i].setDate(mails.get(i).getCreate_time().toString());
                 mailOverviewPOJOS[i].setIsRead(mails.get(i).getIs_read());
                 mailOverviewPOJOS[i].setIsSystem(mails.get(i).getIs_system());
-                mailOverviewPOJOS[i].setFrom(fromName);
+                mailOverviewPOJOS[i].setType(0);
+                if(mails.get(i).getIs_system() == 0){
+                    String fromUserName = userMapper.getNameById(mails.get(i).getFrom_id());
+                    mailOverviewPOJOS[i].setName(fromUserName);
+                }else{
+                    mailOverviewPOJOS[i].setName("系 统");
+                }
             }
             gmovvo.setMail(mailOverviewPOJOS);
         }
@@ -1258,6 +1304,16 @@ public class SelectService {
     public boolean verifyUserExist(int uid){
         User code = userMapper.findById(uid);
         return code != null;
+    }
+
+    /**
+     * 判断某用户是否是社团管理员
+     * @param uid 用户ID
+     * @param aid 社团ID
+     * @return 返回布尔值
+     */
+    public boolean verifyUserIsAssAdmin(int uid,int aid){
+        return associationUserMapper.findUserIsAdminByUidAid(aid,uid) == 1;
     }
 
 }

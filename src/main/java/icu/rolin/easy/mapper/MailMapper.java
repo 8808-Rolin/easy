@@ -24,7 +24,16 @@ public interface MailMapper {
     @Select("SELECT * FROM mail WHERE to_id = #{toid} AND (is_read = 0 OR is_read = 1)")
     ArrayList<Mail> getMailsByTo_id(Integer toid);
 
+    @Select("SELECT * FROM mail WHERE to_id = #{toid} AND (is_read = 0 OR is_read = 1) AND mail_type = 1")
+    ArrayList<Mail> getAssMailsByTo_id(Integer toid);
+
+    @Select("SELECT * FROM mail WHERE from_id = #{fromid} AND (is_read = 0 OR is_read = 1)")
+    ArrayList<Mail> getMailsByFrom_id(Integer fromid);
+
     @Select("SELECT * FROM mail WHERE id = #{id}")
     Mail getContentById(Integer id);
+
+    @Update("UPDATE mail SET is_read = 1 WHERE id =#{id}")
+    Integer setMailRead(Integer id);
 
 }

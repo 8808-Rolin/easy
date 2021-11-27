@@ -19,17 +19,17 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         return new UserInterceptor();
     }
 
+    /**
+     * 拦截器按照顺序执行
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        /**
-         * 拦截器按照顺序执行
-         */
-        registry.addInterceptor(startUserInterceptor()).addPathPatterns("/api/u") //先随便写一个 放行所有请求
+
+        registry.addInterceptor(startUserInterceptor()).addPathPatterns("/api/**") //先随便写一个 放行所有请求
                 .excludePathPatterns(
-                        "/api/user/login",
-                        "/api/user/register",
-                        "/api/tool/uni-variable",
-                        "/api/user/forget-password",
+                        "/api/user/**",
+                        "/api/tool/**",
+                        "/api/bbs/get-simple-notice",
                         "/**/**/upload-image",
                         "/files/**",
                         "/images/**",
