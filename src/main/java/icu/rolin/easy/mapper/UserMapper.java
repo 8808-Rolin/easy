@@ -82,4 +82,9 @@ public interface UserMapper {
     @Select("SELECT * FROM user WHERE phone = #{phone} OR student_number = #{sid}")
     User findByPhoneStudentID(String phone,String sid);
 
+    @Select("SELECT is_open_zone FROM user WHERE id = #{uid}")
+    Integer findZoneStateByUid(Integer uid);
+
+    @Update("UPDATE user SET is_open_zone = #{type} WHERE id = #{uid}")
+    Integer updateZonStateByUidState(Integer uid,Integer type);
 }

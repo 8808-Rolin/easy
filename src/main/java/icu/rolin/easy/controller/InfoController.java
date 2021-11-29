@@ -141,7 +141,12 @@ public class InfoController {
     }
 
     @GetMapping(value = "/get-person-act")
+    // TODO: 2021/11/29 该接口会返回个人活跃度前10的用户的活跃度信息。
     public ResponseVO get_person_act(Integer aid){
+        // 判断数据合法性
+        if(aid == null || aid <= 0 || !ss.getAssIsExist(aid))
+            return new ResponseVO(new SimpleVO(-1,"参数出错，请检查参数aid"));
+        
         return new ResponseVO(new PersonActionVO());
     }
 

@@ -236,4 +236,33 @@ public class UpdateService {
         return simpleVO;
     }
 
+    /**
+     * 修改用户空间访问权限
+     * @param uid 要修改的用户ID
+     * @return 返回一个代码，负数表示错误。0表示关闭，1表示开启
+     */
+    public int switchZoneStatus(Integer uid) {
+        // 判断当前空间开闭状态
+        Integer state = userMapper.findZoneStateByUid(uid);
+        if(state == null || state < 0 || state > 1){
+            return -100;
+        }
+        // 执行切换状态
+        Integer result = -1;
+        switch (state){
+            case 0:
+                result = userMapper.updateZonStateByUidState(uid,1);
+                if(result == 1) result = 1;
+                break;
+            case 1:
+                result = userMapper.updateZonStateByUidState(uid,0);
+                if(result == 1) result = 0;
+                break;
+            default:
+                result = -101;
+        }
+        if (result == null) return -102;
+        // 返回值
+        return result;
+    }
 }

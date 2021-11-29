@@ -1268,6 +1268,25 @@
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
 
+### 3.6.7 切换空间状态(Finish)
+用户进入本人的空间之后，可以控制自己空间是否对外开放，当用户做此操作时，需要调用该接口
+该接口是一个开关，调用一次之后能够切换空间状态
+
+<table>
+    <tr><th colspan="3">请求</th></tr>
+    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/switch-state</td></tr>
+    <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
+    <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
+    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
+    <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
+    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+	<tr><td>code</td><td colspan=2>表示修改是否成功，失败返回-1.关闭成功返回0，开启成功返回1</td></tr>
+    <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
+</table>
+
 
 ## 3.7 社团管理后台相关接口
 

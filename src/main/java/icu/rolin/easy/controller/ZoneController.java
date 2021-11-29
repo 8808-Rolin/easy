@@ -155,4 +155,33 @@ public class ZoneController {
         return new ResponseVO(us.updateUserBirth(up));
     }
 
+    @PostMapping(value = "/switch-state")
+    public ResponseVO switch_state(Integer uid,HttpServletRequest request,HttpServletResponse response){
+        // 判断参数合法性以及权限
+        if(uid == null || uid <= 0)
+            return new ResponseVO(new SimpleVO(-1,"参数错误！错误代码：-1"));
+        Integer loginUserUid = UtilsService.getUidWithTokenByRequest(request);
+        if(loginUserUid == null || loginUserUid <= 0 || !ss.verifyUserExist(uid)){
+            response.setStatus(809);
+            return new ResponseVO(new SimpleVO(-2,"当前未登录或用户不存在,错误代码：-2"));
+        }
+        if (!uid.equals(loginUserUid))
+            return new ResponseVO(new SimpleVO(-3,"当前用户无权操作！错误代码：-3"));
+
+        // 执行操作
+        int code = us.switchZoneStatus(uid);
+        SimpleVO svo = new SimpleVO();
+        svo.setCode(code);
+        switch (code){
+            case 0:
+                svo.setMsg("你已关闭该空间，他人无法直接访问到你的信息了！");
+                break;
+            case 1:
+                svo.setMsg("你已开启空间，别人可以直接访问你的个人空间了！");
+                break;
+            default:
+                svo.setMsg("操作错误，错误代码:"+code);
+        }
+        return new ResponseVO(svo);
+    }
 }

@@ -645,7 +645,7 @@ public class SelectService {
             mailOverviewPOJOS[i].setDate(Common.convertTimestamp2Date(mailsFrom.get(j).getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
             mailOverviewPOJOS[i].setIsRead(mailsFrom.get(j).getIs_read());
             mailOverviewPOJOS[i].setIsSystem(mailsFrom.get(j).getIs_system());
-            String toUserName = userMapper.getNameById(mailsTo.get(j).getFrom_id());
+            String toUserName = userMapper.getNameById(mailsFrom.get(j).getFrom_id());
             mailOverviewPOJOS[i].setName(toUserName);
             mailOverviewPOJOS[i].setType(1);
             j++;
@@ -1013,6 +1013,7 @@ public class SelectService {
 
 
 
+
     public GetUsersVO getMemberInformation(Integer aid){
         GetUsersVO getUsersVO = new GetUsersVO();
         ArrayList<Association_User> association_users = associationUserMapper.findAllMembersByAID(aid);
@@ -1162,6 +1163,8 @@ public class SelectService {
 
         return amvo;
     }
+
+
 
 
     /**
@@ -1315,5 +1318,6 @@ public class SelectService {
     public boolean verifyUserIsAssAdmin(int uid,int aid){
         return associationUserMapper.findUserIsAdminByUidAid(aid,uid) == 1;
     }
+
 
 }
