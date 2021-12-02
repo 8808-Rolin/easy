@@ -1,6 +1,7 @@
 package icu.rolin.easy.controller;
 
 import com.alibaba.fastjson.JSON;
+import icu.rolin.easy.interceptor.UserInterceptor;
 import icu.rolin.easy.model.DO.Association;
 import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
@@ -165,12 +166,31 @@ public class InfoController {
 
     @PostMapping(value = "/get-member-information-list")
     public ResponseVO get_member_list_ass(Integer aid){
+        if(aid == null || aid <= 0 || !ss.getAssIsExist(aid))
+            return new  ResponseVO(ss.getAllUserInformation());
         return new ResponseVO(ss.getMemberInformation(aid));
     }
 
     @PostMapping(value = "/remove-user")
-    public ResponseVO remove_user(UserAssNotePO ua){
-        return new ResponseVO(ds.removeMember(ua));
+    public ResponseVO remove_user(UserAssNotePO ua,HttpServletRequest request){
+        if(ua == null || ua.getAid() == null || ua.getUid() == null || ua.getAid() <= 0 || ua.getUid()<= 0){
+            return new ResponseVO(new SimpleVO(-1,"参数错误！！！请检查参数"));
+        }
+        //判断登录用户是否具有该社团的管理员资格
+        Integer uid = UtilsService.getUidWithTokenByRequest(request);
+        if(uid == null || uid <= 0){
+            return new ResponseVO(new SimpleVO(-2,"Token错误！是否未登录"));
+        }
+        if(!ss.verifyUserIsAssAdmin(uid,ua.getAid())){
+            return new ResponseVO(new SimpleVO(-3,"权限错误！你不是社团管理员"));
+        }
+        String state = ds.removeMember(ua);
+        if(state.equals("")){
+            //成功
+            return new ResponseVO(new SimpleVO(0,"移除成功！"));
+        }else{
+            return new ResponseVO(new SimpleVO(1,state));
+        }
     }
 
     @PostMapping(value = "/update-ass-info")

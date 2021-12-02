@@ -1022,40 +1022,79 @@ public class SelectService {
     }
 
 
-
-
-
+    /**
+     * 获取社团成员
+     * @param aid 社团ID
+     * @return 返回视图对象
+     */
     public GetUsersVO getMemberInformation(Integer aid){
         GetUsersVO getUsersVO = new GetUsersVO();
         ArrayList<Association_User> association_users = associationUserMapper.findAllMembersByAID(aid);
         int membersNumber = association_users.size();
         if (membersNumber == 0){
-            getUsersVO.setCode(-1);
+            getUsersVO.setCode(0);
             getUsersVO.setMsg("可能该社团没有任何成员");
             getUsersVO.setUser(null);
-        }else {
-            User[] users = new User[membersNumber];
-            for (int i=0;i<membersNumber;i++){
-                users[i] = userMapper.findById(association_users.get(i).getU_id());
-            }
-            GetUserPOJO[] getUserPOJOS = new GetUserPOJO[membersNumber];
-            for (int i=0;i<membersNumber;i++){
-                getUserPOJOS[i].setUid(users[i].getId());
-                getUserPOJOS[i].setUsername(users[i].getUsername());
-                getUserPOJOS[i].setRealname(users[i].getRealname());
-                getUserPOJOS[i].setStudentID(users[i].getStudent_number());
-                getUserPOJOS[i].setCollege(collegeTableMapper.findCollegeNameById(users[i].getCollege_id()));
-                getUserPOJOS[i].setIntro(users[i].getIntro());
-                getUserPOJOS[i].setPermisson(users[i].getLevel());
-                getUserPOJOS[i].setBirth(users[i].getBirth().toString());
-            }
-            getUsersVO.setCode(1);
+            return getUsersVO;
+        }
+
+        User[] users = new User[membersNumber];
+        for (int i=0;i<membersNumber;i++){
+            users[i] = userMapper.findById(association_users.get(i).getU_id());
+        }
+        GetUserPOJO[] getUserPOJOS = new GetUserPOJO[membersNumber];
+        for (int i=0;i<membersNumber;i++) {
+            getUserPOJOS[i] = new GetUserPOJO();
+            getUserPOJOS[i].setUid(users[i].getId());
+            getUserPOJOS[i].setUsername(users[i].getUsername());
+            getUserPOJOS[i].setRealname(users[i].getRealname());
+            getUserPOJOS[i].setStudentID(users[i].getStudent_number());
+            getUserPOJOS[i].setCollege(collegeTableMapper.findCollegeNameById(users[i].getCollege_id()));
+            getUserPOJOS[i].setIntro(users[i].getIntro());
+            getUserPOJOS[i].setPermisson(users[i].getLevel());
+            getUserPOJOS[i].setBirth(users[i].getBirth().toString());
+        }
+            getUsersVO.setCode(membersNumber);
             getUsersVO.setMsg("获取社团用户信息成功");
             getUsersVO.setUser(getUserPOJOS);
-        }
 
         return getUsersVO;
     }
+
+    /**
+     * 获取全部用户的信息
+     * @return 返回视图对象
+     */
+    public GetUsersVO getAllUserInformation(){
+        GetUsersVO getUsersVO = new GetUsersVO();
+        ArrayList<User> users = userMapper.findAll();
+        int membersNumber = users.size();
+        if (membersNumber == 0){
+            getUsersVO.setCode(-1);
+            getUsersVO.setMsg("获取出错");
+            getUsersVO.setUser(null);
+            return getUsersVO;
+        }
+
+        GetUserPOJO[] getUserPOJOS = new GetUserPOJO[membersNumber];
+        for (int i=0;i<membersNumber;i++) {
+            getUserPOJOS[i] = new GetUserPOJO();
+            getUserPOJOS[i].setUid(users.get(i).getId());
+            getUserPOJOS[i].setUsername(users.get(i).getUsername());
+            getUserPOJOS[i].setRealname(users.get(i).getRealname());
+            getUserPOJOS[i].setStudentID(users.get(i).getStudent_number());
+            getUserPOJOS[i].setCollege(collegeTableMapper.findCollegeNameById(users.get(i).getCollege_id()));
+            getUserPOJOS[i].setIntro(users.get(i).getIntro());
+            getUserPOJOS[i].setPermisson(users.get(i).getLevel());
+            getUserPOJOS[i].setBirth(users.get(i).getBirth().toString());
+        }
+        getUsersVO.setCode(membersNumber);
+        getUsersVO.setMsg("获取所有信息成功！");
+        getUsersVO.setUser(getUserPOJOS);
+
+        return getUsersVO;
+    }
+
 
     public GetJoinApplyVO getJoinApplyList(Integer aid){
         GetJoinApplyVO gjavo = new GetJoinApplyVO();

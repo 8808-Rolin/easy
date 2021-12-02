@@ -1375,7 +1375,7 @@
 
 #### 3.7.2.1 社团成员管理
 
-##### 3.7.2.1.1 获取社团成员
+##### 3.7.2.1.1 获取社团成员 (Finish)
 
 该接口用来获取社团成员列表，为了提高接口的复用度，将加入一个类型参数，用来区分是获取社团成员或者是全部成员。
 
@@ -1390,7 +1390,7 @@
     <tr><td>aid</td><td>Integer</td><td><b>可选</b>。id值，是论坛唯一标志，若参数为0或为空，则默认获取所有用户</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
+    <tr><td>code</td><td colspan=2>整数：获取成功以及数量 负数：获取失败</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
     <tr><th>data.user[]</td><th colspan=2>result为0时返回如下用户信息</td></tr>
     <tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
@@ -1403,14 +1403,14 @@
     <tr><td>birth</td><td colspan=2>用户生日</td></tr>
 </table>
 
-##### 3.7.2.1.2 踢出成员
+##### 3.7.2.1.2 踢出成员 （Finish）
 
 调用该接口可以将某一个成员移除出该社团
 
 <table>
     <tr><th colspan="3">请求</th></tr>
-    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/association/remove-user</td></tr>
+    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr> 
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/remove-user</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    

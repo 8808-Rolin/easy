@@ -1,6 +1,8 @@
 package icu.rolin.easy.service;
 
 import icu.rolin.easy.mapper.*;
+import icu.rolin.easy.model.DO.Action;
+import icu.rolin.easy.model.DO.Join_Action;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.VO.SimpleVO;
 import org.slf4j.Logger;
@@ -94,25 +96,56 @@ public class DeleteService {
     }
 
 
-
-    public SimpleVO removeMember(UserAssNotePO ua){
-        SimpleVO simpleVO = new SimpleVO();
-        if (ua.getUid() == null || ua.getAid() == null){
-            simpleVO.setMsg("请求参数丢失");
-            simpleVO.setCode(-1);
-            logger.error("清除邮箱---请求参数丢失...");
-        }else {
-            Integer code = associationUserMapper.deleteUserByAidUid(ua.getAid(), ua.getUid());
-            if (code != 0){
-                simpleVO.setMsg("成功删除社团用户");
-                simpleVO.setCode(code);
-            }else {
-                simpleVO.setCode(-1);
-                simpleVO.setMsg("删除社团用户失败");
+    /**
+     * 踢出成员，并退出其参加的活动
+     * @param ua 用户参数 uid和aid
+     * @return 返回字符串，为空时成功
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String removeMember(UserAssNotePO ua){
+        try {
+            // 先移除参加的活动
+            // 1. 收集社团的所有活动
+            ArrayList<Action> actions = actionMapper.findByA_id(ua.getAid());
+            // 2. 收集用户参加的所有活动
+            ArrayList<Join_Action> userAction = joinActionMapper.findByUid(ua.getUid());
+            // 判断是否需要移除
+            for (Join_Action ja : userAction) {
+                for (Action action : actions) {
+                    if(ja.getAct_id() == action.getId()){
+                        // 相等则移除
+                        Integer code = joinActionMapper.removeUser(ja.getAct_id(),ua.getUid());
+                        if(code == 0){
+                            logger.error("将用户移出社团失败 ---> 无法取消其活动");
+                            return "将用户移出社团失败 ---> 无法取消其活动";
+                        }
+                    }else continue;
+                }
             }
+            // 移除对应成员
+            // 1. 判断用户是否在社团里
+            Integer code = associationUserMapper.getUserIsJoinAssociation(ua.getAid(),ua.getUid());
+            if (code == null || code == 0){
+                // 不在社团里
+                logger.error("用户不在社团里，无法进行删除操作");
+                return "用户不在社团里，无法进行删除操作";
+            }
+            // 进行一个用户的删除
+            code = associationUserMapper.deleteUserByAidUid(ua.getAid(),ua.getUid());
+            if(code == null || code == 0){
+                //删除失败，事务回滚，结束操作
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                logger.error("删除用户失败,事务已回滚");
+                return "删除用户大失败！！！";
+            }
+            return "";
+        }catch (Exception e){
+            e.printStackTrace();
+            //手动强制回滚事务
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            logger.error("删除用户失败！");
+            return "删除用户大失败！！！出错异常请联系管理员";
         }
-
-        return simpleVO;
     }
 
 

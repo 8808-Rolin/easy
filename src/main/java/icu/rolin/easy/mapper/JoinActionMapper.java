@@ -1,10 +1,7 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.Join_Action;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
@@ -21,5 +18,11 @@ public interface JoinActionMapper {
 
     @Select("SELECT * FROM join_action WHERE act_id = #{acid}")
     ArrayList<Join_Action> getActionPersonNumber(Integer acid);
+
+    @Select("SELECT * FROM join_action WHERE u_id = #{uid}")
+    ArrayList<Join_Action> findByUid(Integer uid);
+
+    @Delete("DELETE FROM join_action WHERE u_id = #{uid} AND act_id = #{acid}")
+    Integer removeUser(Integer acid , Integer uid);
 
 }
