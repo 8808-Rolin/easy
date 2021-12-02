@@ -15,41 +15,41 @@
 
 - [Easy社团 数据库设计开发文档](#easy社团-数据库设计开发文档)
 - [1. 引言](#1-引言)
-    - [1.1 编写目的](#11-编写目的)
-    - [1.2 背景](#12-背景)
-    - [1.3 开发环境](#13-开发环境)
-    - [1.4 术语定义](#14-术语定义)
+  - [1.1 编写目的](#11-编写目的)
+  - [1.2 背景](#12-背景)
+  - [1.3 开发环境](#13-开发环境)
+  - [1.4 术语定义](#14-术语定义)
 - [2. 外部设计](#2-外部设计)
-    - [2.1 标识符和状态](#21-标识符和状态)
-    - [2.2 使用它的程序](#22-使用它的程序)
-    - [2.4 设计约束](#24-设计约束)
-    - [2.5 建表规约](#25-建表规约)
-    - [2.6 ORM映射规约](#26-orm映射规约)
+  - [2.1 标识符和状态](#21-标识符和状态)
+  - [2.2 使用它的程序](#22-使用它的程序)
+  - [2.4 设计约束](#24-设计约束)
+  - [2.5 建表规约](#25-建表规约)
+  - [2.6 ORM映射规约](#26-orm映射规约)
 - [3. 结构设计](#3-结构设计)
-    - [3.1 概念结构设计](#31-概念结构设计)
-    - [3.2 逻辑结构设计](#32-逻辑结构设计)
-        - [3.2.1 数据库表功能](#321-数据库表功能)
-        - [3.2.2 各表设计](#322-各表设计)
-            - [3.2.2.1 用户表(user)](#3221-用户表user)
-            - [3.2.2.2 学院ID对应表(college_table)](#3222-学院id对应表college_table)
-            - [3.2.2.3 创建社团申请表(apply_create)](#3223-创建社团申请表apply_create)
-            - [3.2.2.4 协会成员表(association_user)](#3224-协会成员表association_user)
-            - [3.2.2.5 申请加入协会表(apply_join_association)](#3225-申请加入协会表apply_join_association)
-            - [3.2.2.6 通用审批表(apply_commond)](#3226-通用审批表apply_commond)
-            - [3.2.2.7 申请内容表(apply_content)](#3227-申请内容表apply_content)
-            - [3.2.2.8 邮箱表](#3228-邮箱表)
-            - [3.2.2.9 参加活动表](#3229-参加活动表)
-            - [3.2.2.10 活动表](#32210-活动表)
-            - [3.2.2.11 社团表](#32211-社团表)
-            - [3.2.2.12 帖子数据表](#32212-帖子数据表)
-            - [3.2.2.13 评论表 (comments)](#32213-评论表-comments)
-            - [3.2.2.14 收藏表(favorite_table)](#32214-收藏表favorite_table)
-            - [3.2.2.15 帖子内容表(post_content)](#32215-帖子内容表post_content)
+  - [3.1 概念结构设计](#31-概念结构设计)
+  - [3.2 逻辑结构设计](#32-逻辑结构设计)
+    - [3.2.1 数据库表功能](#321-数据库表功能)
+    - [3.2.2 各表设计](#322-各表设计)
+      - [3.2.2.1 用户表(user)](#3221-用户表user)
+      - [3.2.2.2 学院ID对应表(college_table)](#3222-学院id对应表college_table)
+      - [3.2.2.3 创建社团申请表(apply_create)](#3223-创建社团申请表apply_create)
+      - [3.2.2.4 协会成员表(association_user)](#3224-协会成员表association_user)
+      - [3.2.2.5 申请加入协会表(apply_join_association)](#3225-申请加入协会表apply_join_association)
+      - [3.2.2.6 通用审批表(apply_commond)](#3226-通用审批表apply_commond)
+      - [3.2.2.7 申请内容表(apply_content)](#3227-申请内容表apply_content)
+      - [3.2.2.8 邮箱表](#3228-邮箱表)
+      - [3.2.2.9 参加活动表](#3229-参加活动表)
+      - [3.2.2.10 活动表](#32210-活动表)
+      - [3.2.2.11 社团表](#32211-社团表)
+      - [3.2.2.12 帖子数据表](#32212-帖子数据表)
+      - [3.2.2.13 评论表 (comments)](#32213-评论表-comments)
+      - [3.2.2.14 收藏表(favorite_table)](#32214-收藏表favorite_table)
+      - [3.2.2.15 帖子内容表(post_content)](#32215-帖子内容表post_content)
 - [4.数据库实施](#4数据库实施)
-    - [4.1 创建数据库](#41-创建数据库)
-    - [4.3 插入默认数据与测试数据](#43-插入默认数据与测试数据)
-        - [4.3.1 默认数据](#431-默认数据)
-        - [4.3.2测试数据](#432测试数据)
+  - [4.1 创建数据库](#41-创建数据库)
+  - [4.3 插入默认数据与测试数据](#43-插入默认数据与测试数据)
+    - [4.3.1 默认数据](#431-默认数据)
+    - [4.3.2测试数据](#432测试数据)
 
 # 1. 引言
 
@@ -98,12 +98,12 @@
 
 ## 1.5 更新历史
 
-| 更新时间   | 更新章节           | 更新内容                              |
-| ---------- | ------------------ | ------------------------------------- |
-| 2021-11-06 | 社团表、用户表     | 头像修改为相对路径URL，不再使用Base64 |
-| 2021-11-07 | 3.2.2.3 创建社团表 | 修订 新增note字段                     |
-| 2021-11-08 | 3.2.2.7 申请内容表 | 移除该表，将其合并成内容表content     |
-| 2021-11-09 | 3.2.2.10 活动表    | 新增position字段，记录活动举办地点    |
+| 更新时间       | 更新章节          | 更新内容                    |
+| ---------- | ------------- | ----------------------- |
+| 2021-11-06 | 社团表、用户表       | 头像修改为相对路径URL，不再使用Base64 |
+| 2021-11-07 | 3.2.2.3 创建社团表 | 修订 新增note字段             |
+| 2021-11-08 | 3.2.2.7 申请内容表 | 移除该表，将其合并成内容表content    |
+| 2021-11-09 | 3.2.2.10 活动表  | 新增position字段，记录活动举办地点   |
 
 # 2. 外部设计
 
@@ -151,27 +151,25 @@
 
 ### 3.2.1 数据库表功能
 
-
-
 本系统基于MySQL 8.0 ,数据库名为 EASY_DB，由user、association等是十几个表构成，其功能如下表所示： 
 
-| 序号 | 表 |功能描述 | 
-| ---- | ---- |:--:|
-| 1 | user|用户表，包含用户信息以及用户空间数据 |
-| 2 | association |社团表，包含社团信息 | 
-| 3 | post |帖子表，包含帖子信息 |
-| 4 | comment |评论表 |
-| 5 | post_content|帖子内容表，是帖子表的从表 | 
-| 6 | favorite_table |用户收藏表 | 
-| 7 | mail |邮件数据表 |
-| 8 | action |活动纪录表 | 
-| 9 | join_action |活动参与人员表 | 
-|10 | apply_join_association |加入社团申请表 | 
-| 11 | association_user |社团成员表 | 
-| 12 | apply_commond |通用社团审批表 | 
-| 13 |apply_content |审批内容表，是通用社团审批表的从表 | 
-| 14 | apply_create |创建社团申请表 |
-| 15 | college_table |学院对应表 |
+| 序号  | 表                      | 功能描述               |
+| --- | ---------------------- |:------------------:|
+| 1   | user                   | 用户表，包含用户信息以及用户空间数据 |
+| 2   | association            | 社团表，包含社团信息         |
+| 3   | post                   | 帖子表，包含帖子信息         |
+| 4   | comment                | 评论表                |
+| 5   | post_content           | 帖子内容表，是帖子表的从表      |
+| 6   | favorite_table         | 用户收藏表              |
+| 7   | mail                   | 邮件数据表              |
+| 8   | action                 | 活动纪录表              |
+| 9   | join_action            | 活动参与人员表            |
+| 10  | apply_join_association | 加入社团申请表            |
+| 11  | association_user       | 社团成员表              |
+| 12  | apply_commond          | 通用社团审批表            |
+| 13  | apply_content          | 审批内容表，是通用社团审批表的从表  |
+| 14  | apply_create           | 创建社团申请表            |
+| 15  | college_table          | 学院对应表              |
 
 ### 3.2.2 各表设计
 
@@ -199,7 +197,6 @@
     <tr><td>个人简介</td><td>intro</td><td>varchar(255);DF "该用户真是懒到不行啦~，没有填写简介呢" </td><td></td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr></table>
-
 
 #### 3.2.2.2 学院ID对应表(college_table)
 
@@ -229,9 +226,6 @@
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
-
-
-
 
 #### 3.2.2.4 协会成员表(association_user)
 
@@ -277,8 +271,6 @@
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
 
-
-
 #### 3.2.2.8 邮箱表
 
 <table>
@@ -293,12 +285,9 @@
     <tr><td>是否已读</td><td>is_read</td><td>unsigned int;NN;DF 0 </td><td></td></tr>
     <tr><td>是否系统邮件</td><td>is_system</td><td>unsigned int;NN;DF 0 </td><td></td></tr>
     <tr><td>邮件类型</td><td>mail_type</td><td>unsigned int;NN;DF 0 </td><td>0为个人邮件，1为社团邮件</td></tr>
-	<tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
+    <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
-
-
-
 
 #### 3.2.2.9 参加活动表
 
@@ -325,12 +314,10 @@
     <tr><td>position</td><td>position</td><td>unsign int;NN </td><td>举办活动的地点</td></tr>
     <tr><td>开始时间</td><td>start_time</td><td>DATETIME;NN </td><td></td></tr>
     <tr><td>结束时间</td><td>end_time</td><td>DATETIME;NN </td><td></td></tr>
-	<tr><td>是否通过</td><td>is_approved</td><td>unsigned int;NN;DF 0 </td><td>0为否，1为真</td></tr>
+    <tr><td>是否通过</td><td>is_approved</td><td>unsigned int;NN;DF 0 </td><td>0为否，1为真</td></tr>
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
-
-
 
 #### 3.2.2.11 社团表
 
@@ -348,7 +335,6 @@
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
 
-
 #### 3.2.2.12 帖子表 (Post)
 
 <table>
@@ -365,7 +351,6 @@
     <tr><td>创建时间</td><td>create_time</td><td>timestamp;NN;DEFAULT CURRENT_TIMESTAMP</td><td></td></tr>
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
-
 
 #### 3.2.2.13 评论表 (comments)
 
@@ -405,7 +390,6 @@
     <tr><td>更改时间</td><td>update_time</td><td>Timestamp;NN;ON UPDATE CURRENT_TIMESTAMP </td><td></td></tr>
 </table>
 
-
 # 4.数据库实施
 
 ## 4.1 创建数据库
@@ -415,7 +399,7 @@
 ```mysql
 DROP DATABASE IF EXISTS `easy_db`;
 CREATE DATABASE IF NOT EXISTS `easy_db` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-````
+```
 
 ## 4.2 创建表
 
@@ -570,7 +554,7 @@ CREATE TABLE comments (
   `create_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-	
+
 CREATE TABLE favorite_table (
   `id` INT UNSIGNED AUTO_INCREMENT NOT NULL UNIQUE,
   `p_id` INT UNSIGNED NOT NULL COMMENT '帖子ID',
@@ -586,7 +570,6 @@ CREATE TABLE content (
   `update_time` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 ```
 
 ## 4.3 插入默认数据与测试数据
@@ -617,21 +600,24 @@ INSERT INTO user (username,realname,student_number,college_id,password,email,pho
 INSERT INTO user (username,realname,student_number,college_id,password,email,phone,sex,birth,is_open_zone,level,user_avatar,notice,intro) VALUES ("Faker","李相赫","202006070015",1,"5f4dcc3b5aa765d61d8327deb882cf99","test_account_16@foxmail.com","18906070015",1,"2000-01-01",1,0,"/images/default.jpg","这是测试用户，这是我的空间公告","李相赫（游戏ID：Faker），绰号“大魔王”，司职《英雄联盟》中单，1996年5月7日出生于韩国，是国际电子竞技俱乐部T1英雄联盟分部的队员之一");
 INSERT INTO user (username,realname,student_number,college_id,password,email,phone,sex,birth,is_open_zone,level,user_avatar,notice,intro) VALUES ("AdminTest","贺建锋","202006070016",1,"5f4dcc3b5aa765d61d8327deb882cf99","test_account_17@foxmail.com","18906070017",0,"1966-04-01",0,2,"/images/default.jpg","这是一个管理员用户，这是我的空间公告","管理员就是牛逼好吧");
 ```
+
 #### 4.3.1.2 插入学院ID数据
+
 - 一共有1~8，8个学院数据
-```sql
-INSERT INTO college_table(college_name) VALUES ("信息技术学院");
-INSERT INTO college_table(college_name) VALUES ("应用外语学院");
-INSERT INTO college_table(college_name) VALUES ("轻化工技术学院");
-INSERT INTO college_table(college_name) VALUES ("财贸学院");
-INSERT INTO college_table(college_name) VALUES ("男德学院");
-INSERT INTO college_table(college_name) VALUES ("酒店管理学院");
-INSERT INTO college_table(college_name) VALUES ("艺术设计学院");
-INSERT INTO college_table(college_name) VALUES ("机电技术学院");
-INSERT INTO college_table(college_name) VALUES ("A-SOUL学院");
+  
+  ```sql
+  INSERT INTO college_table(college_name) VALUES ("信息技术学院");
+  INSERT INTO college_table(college_name) VALUES ("应用外语学院");
+  INSERT INTO college_table(college_name) VALUES ("轻化工技术学院");
+  INSERT INTO college_table(college_name) VALUES ("财贸学院");
+  INSERT INTO college_table(college_name) VALUES ("男德学院");
+  INSERT INTO college_table(college_name) VALUES ("酒店管理学院");
+  INSERT INTO college_table(college_name) VALUES ("艺术设计学院");
+  INSERT INTO college_table(college_name) VALUES ("机电技术学院");
+  INSERT INTO college_table(college_name) VALUES ("A-SOUL学院");
+  ```
 
 ```
-
 #### 4.3.1.3 新建社团申请表数据
 - 初始一共由四则数据，均是没有通过审批的
 ```sql
@@ -640,57 +626,67 @@ INSERT INTO apply_create (uid,name,logo,intro,note,parent_organization) VALUES (
 INSERT INTO apply_create (uid,name,logo,intro,note,parent_organization) VALUES (3,"轻音部","/images/default.jpg","如果不能重新召集起4名成员就会被废部。前来参观合唱部的琴吹䌷加入了，正在寻找最后一人……。","决定在学校寻找据点，亲自成立一个社团","社团联合会");
 INSERT INTO apply_create (uid,name,logo,intro,note,parent_organization) VALUES (4,"摸鱼社","/images/default.jpg","大家一起来摸鱼。","这是一条备注信息","学校直辖协会");
 ```
+
 #### 4.3.1.4 协会表数据
+
 - 默认头像：/images/default.jpg
+
 - 一共由5个协会数据组成
-```sql
-INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (5,"轻风文学社","/images/default.jpg","这是文学社的简介信息","社团联合会");
-INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (6,"自由天空动漫协会","/images/default.jpg","我们是广东轻工职业技术学院 60多个社团里之一的，艺术类社团 自由天空动漫协会，成立于2004年。是由一批动漫爱好者自主建立的属于业余爱好的社团。 ","社团联合会");
-INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (7,"国学社","/images/default.jpg","这是国学社的简介信息","社团联合会");
-INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (8,"青年志愿服务协会","/images/default.jpg","这是青年志愿服务协会的简介信息","校团委");
-INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (9,"马克思主义与习近平新时代特色社会主义研究社团","/images/default.jpg","这是马克思主义与习近平新时代特色社会主义研究社团的简介信息","校党委");
-```
+  
+  ```sql
+  INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (5,"轻风文学社","/images/default.jpg","这是文学社的简介信息","社团联合会");
+  INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (6,"自由天空动漫协会","/images/default.jpg","我们是广东轻工职业技术学院 60多个社团里之一的，艺术类社团 自由天空动漫协会，成立于2004年。是由一批动漫爱好者自主建立的属于业余爱好的社团。 ","社团联合会");
+  INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (7,"国学社","/images/default.jpg","这是国学社的简介信息","社团联合会");
+  INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (8,"青年志愿服务协会","/images/default.jpg","这是青年志愿服务协会的简介信息","校团委");
+  INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (9,"马克思主义与习近平新时代特色社会主义研究社团","/images/default.jpg","这是马克思主义与习近平新时代特色社会主义研究社团的简介信息","校党委");
+  ```
 
 #### 4.1.1.5 协会成员表
+
 - 拥有社团的首先是管理员
+
 - 其次每个社团拥有一定数量的社员，也有没有社员的社团
-```sql
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,5,1);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,10,1);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,11,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,13,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,14,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(2,6,1);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(2,1,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(2,2,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(2,3,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,7,1);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,1,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,2,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,3,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,4,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,11,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,14,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(4,8,1);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(5,9,1);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(5,10,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(5,11,0);
-INSERT INTO association_user(a_id,u_id,is_admin)VALUES(5,12,0);
-```
+  
+  ```sql
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,5,1);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,10,1);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,11,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,13,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(1,14,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(2,6,1);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(2,1,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(2,2,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(2,3,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,7,1);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,1,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,2,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,3,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,4,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,11,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(3,14,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(4,8,1);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(5,9,1);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(5,10,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(5,11,0);
+  INSERT INTO association_user(a_id,u_id,is_admin)VALUES(5,12,0);
+  ```
 
 #### 4.1.1.6 申请加入协会数据
+
 - 大部分是未通过状态，只有两个是通过状态
-```sql
-INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (1,4,"测试数据.........",0);
-INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (2,4,"测试数据.........",0);
-INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (3,4,"测试数据.........",0);
-INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (4,4,"测试数据.........",0);
-INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (5,4,"测试数据.........",0);
-INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (6,4,"测试数据.........",0);
-INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (1,1,"测试数据.........",0);
-INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (2,1,"测试数据.........",0);
-VALUES (2,3,"测试数据.........通过了呢~",1);
-INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (3,3,"测试数据.........我能过吗",1);
+  
+  ```sql
+  INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (1,4,"测试数据.........",0);
+  INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (2,4,"测试数据.........",0);
+  INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (3,4,"测试数据.........",0);
+  INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (4,4,"测试数据.........",0);
+  INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (5,4,"测试数据.........",0);
+  INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (6,4,"测试数据.........",0);
+  INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (1,1,"测试数据.........",0);
+  INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (2,1,"测试数据.........",0);
+  VALUES (2,3,"测试数据.........通过了呢~",1);
+  INSERT INTO apply_join_association (u_id,a_id,note,is_approved) VALUES (3,3,"测试数据.........我能过吗",1);
+  ```
 
 ```
 #### 4.3.1.7 邮箱表数据
@@ -710,7 +706,9 @@ INSERT INTO mail (from_id,to_id,title,content,is_read,is_system,mail_type) VALUE
 INSERT INTO mail (from_id,to_id,title,content,is_read,is_system,mail_type) VALUES (11,2,"10-这是一封用户发送给社团的测试邮件","这里是邮件内容！！！！",0,0,1);
 INSERT INTO mail (from_id,to_id,title,content,is_read,is_system,mail_type) VALUES (11,2,"1-这是一封用户发送给社团的测试邮件","这里是邮件内容！！！！",1,0,1);
 ```
+
 #### 4.3.1.8 内容表数据
+
 ```sql
 INSERT INTO content (content) VALUES ("<a href='www.baidu.com'>1-通用申请表-测试数据内容表格</a>");
 INSERT INTO content (content) VALUES ("<a href='www.baidu.com'>2-通用申请表-测试数据内容表格</a>");
@@ -734,31 +732,33 @@ INSERT INTO content (content) VALUES ("<a href='www.BILIBILI.com'>19-帖子内�
 INSERT INTO content (content) VALUES ("<a href='www.BILIBILI.com'>20-帖子内容，奇奇怪怪！</a>");
 INSERT INTO content (content) VALUES ("<a href='www.BILIBILI.com'>21-帖子内容，奇奇怪怪！</a>\n<p>富途moomoo小岛粉丝专享一股NIO蔚来赠股，价值约40美金，全网中文博主独家福利！\n通过小岛链接入金100美金可额外获赠一股NIO！小岛专属页面链接打开可看到新人豪礼详情。</p>");
 INSERT INTO content (content) VALUES ("<a href='www.BILIBILI.com'>22-帖子内容，奇奇怪怪！</a>");
-
-
-
-
 ```
+
 #### 4.3.1.9 通用审批表数据
+
 - 均未通过
-```sql
-INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",1);
-INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",2);
-INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",3);
-INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",4);
-INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",5);
-INSERT INTO apply_commond(a_id,title,content_id) VALUES (3,"我想要举办社团活动",6);
-INSERT INTO apply_commond(a_id,title,content_id) VALUES (4,"我想要举办社团活动",7);
-```
-#### 4.3.1.10 活动表数据
-```sql
-INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (1,"举办Lovelive1",8,"2021-06-27 18:00:00","2021-12-08 12:00:00",1,"第四实训楼 C209");
-INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (2,"举办Lovelive2",9,"2021-12-27 18:00:00","2021-12-30 13:00:00",0,"第一教学楼 1109");
-INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (3,"举办Lovelive3",10,"2021-11-27 18:00:00","2021-12-08 12:00:00",0,"43栋楼下");
-INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (3,"举办Lovelive4",11,"2021-11-27 18:00:00","2021-12-08 12:00:00",1,"x");
-```
+  
+  ```sql
+  INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",1);
+  INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",2);
+  INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",3);
+  INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",4);
+  INSERT INTO apply_commond(a_id,title,content_id) VALUES (2,"我想要举办社团活动",5);
+  INSERT INTO apply_commond(a_id,title,content_id) VALUES (3,"我想要举办社团活动",6);
+  INSERT INTO apply_commond(a_id,title,content_id) VALUES (4,"我想要举办社团活动",7);
+  ```
+  
+  #### 4.3.1.10 活动表数据
+  
+  ```sql
+  INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (1,"举办Lovelive1",8,"2021-06-27 18:00:00","2021-12-08 12:00:00",1,"第四实训楼 C209");
+  INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (2,"举办Lovelive2",9,"2021-12-27 18:00:00","2021-12-30 13:00:00",0,"第一教学楼 1109");
+  INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (3,"举办Lovelive3",10,"2021-11-27 18:00:00","2021-12-08 12:00:00",0,"43栋楼下");
+  INSERT INTO action (a_id,title,content_id,start_time,end_time,is_approved,position) VALUES (3,"举办Lovelive4",11,"2021-11-27 18:00:00","2021-12-08 12:00:00",1,"x");
+  ```
 
 #### 4.3.1.11 参加活动表
+
 ```SQL
 INSERT INTO join_action (act_id,u_id) VALUES (1,5);
 INSERT INTO join_action (act_id,u_id) VALUES (1,10);
@@ -768,15 +768,20 @@ INSERT INTO join_action (act_id,u_id) VALUES (4,1);
 INSERT INTO join_action (act_id,u_id) VALUES (4,2);
 INSERT INTO join_action (act_id,u_id) VALUES (4,3);
 ```
+
 #### 4.3.1.12 帖子表
+
 - 插入一些帖子，公告论坛一共有5个帖子，两个论坛各三个帖子
+
 - 其中，公共论坛有三个公告，其他论坛各一个
-```sql
-INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,16,"这是一则公共交流区的公告",12,"ceshi,Test,测试",0);
-INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,16,"美商务部长下周访问亚洲强化供应链 行程不包括中国",13,"ceshi,Test,测试",0);
-INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,16,"中國共産黨第十九屆中央委員會第六次全體會議在京召開",14,"ceshi,Test,测试",0);
-INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,13,"习氏决议VS.邓氏决议 学者吁警惕个人野心膨胀危及国际秩序",15,"ceshi,Test,测试",1);
-INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,4,"每次穿裙子回寝室，我原来的室友们都极其淡定，有一种我是他们姐姐的感觉",16,"ceshi,Test,测试",1);
+  
+  ```sql
+  INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,16,"这是一则公共交流区的公告",12,"ceshi,Test,测试",0);
+  INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,16,"美商务部长下周访问亚洲强化供应链 行程不包括中国",13,"ceshi,Test,测试",0);
+  INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,16,"中國共産黨第十九屆中央委員會第六次全體會議在京召開",14,"ceshi,Test,测试",0);
+  INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,13,"习氏决议VS.邓氏决议 学者吁警惕个人野心膨胀危及国际秩序",15,"ceshi,Test,测试",1);
+  INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (0,4,"每次穿裙子回寝室，我原来的室友们都极其淡定，有一种我是他们姐姐的感觉",16,"ceshi,Test,测试",1);
+  ```
 
 INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (2,6,"WE ARE THE CHAMPION!!!!!",17,"ceshi,Test,测试",0);
 INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (3,7,"天宫玉兔的汉服真的好好看哇！",18,"ceshi,Test,测试",0);
@@ -784,12 +789,13 @@ INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (2,1,"舌尖
 INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (2,2,"大家还是要知道「距离产生美」，网络上的人设可以是完美的，但实际情况是你不知道对方实际是一个什么样的人",20,"ceshi,Test,测试",1);
 INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (5,12,"罗杰叔叔点评：地狱厨神戈登拉姆齐版10分钟拉面",21,"ceshi,Test,测试",1);
 INSERT INTO post (a_id,u_id,title,content_id,tags,post_type) VALUES (5,9,"【小岛浪吹】目前尺度最大的一期，这么多年你都白嫖了，原来里面有这么多牛B",22,"ceshi,Test,测试",1);
+
 ```
 #### 4.3.1.13 评论表
 - 三种情况：
-	- 没有回复
-	- 有几条回复
-	- 有很多回复
+    - 没有回复
+    - 有几条回复
+    - 有很多回复
 ```sql
 INSERT INTO comments (p_id,u_id,content) VALUES(2,3,"测试评论等等等等");
 INSERT INTO comments (p_id,u_id,content) VALUES(2,4,"测试评论等等等等");
@@ -821,10 +827,13 @@ INSERT INTO comments (p_id,u_id,content) VALUES(7,1,"好的好的撒娇的发货
 INSERT INTO comments (p_id,u_id,content) VALUES(7,1,"好的好的撒娇的发货时间发货哈大家进啊·和大家安静·x");
 INSERT INTO comments (p_id,u_id,content) VALUES(7,1,"楼主牛逼！！！！！！！！！！！！！！！！！！！！");
 ```
+
 #### 4.3.1.14 收藏表
+
 ```sql
 INSERT INTO favorite_table(p_id,u_id) VALUES (2,1);
 INSERT INTO favorite_table(p_id,u_id) VALUES (2,2);
 INSERT INTO favorite_table(p_id,u_id) VALUES (3,4);
 ```
+
 ### 4.3.2 默认数据

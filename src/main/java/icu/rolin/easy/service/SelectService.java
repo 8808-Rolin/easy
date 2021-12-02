@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -963,10 +965,19 @@ public class SelectService {
         assInfoPOJO.setProfile(association.getLogo());
 
         // 获取展示信息POJO
+        ShowInfoPOJO showInfoPOJO = new ShowInfoPOJO();
         Integer headCount = associationUserMapper.getTheAssociationMembers(aid);
         Integer postCount = postMapper.getTheAssociationPostNumber(aid);
         Integer actionCount = actionMapper.getToBeHeldActionsNumber(aid, TransformCurrentTimeUtil.returnCurrentTime());
-        ShowInfoPOJO showInfoPOJO = new ShowInfoPOJO(headCount,postCount,actionCount);
+        String finalMember = Common.convertTimestamp2Date(associationUserMapper.findByAidDescTime(aid).getCreate_time(),"yyyy-MM-dd HH:mm:ss");
+        String finalPost = Common.convertTimestamp2Date(postMapper.findByAidTimeDesc(aid).getCreate_time(),"yyyy-MM-dd HH:mm:ss");
+        String nextAction = actionMapper.findByAidNext(aid).getTitle();
+        showInfoPOJO.setHeadcount(headCount);
+        showInfoPOJO.setPostcount(postCount);
+        showInfoPOJO.setActioncount(actionCount);
+        showInfoPOJO.setFinalMember(finalMember);
+        showInfoPOJO.setFinalPost(finalPost);
+        showInfoPOJO.setNextAction(nextAction);
 
         //获取成功,返回code 1
         assShowInfoVO.setCode(1);
@@ -1165,6 +1176,76 @@ public class SelectService {
     }
 
 
+    /**
+     * 该接口会返回个人活跃度前10的用户的活跃度信息。
+     * @param aid 社团ID
+     * @return 返回社团活跃度排名前几的用户和活跃度信息
+     */
+    public DataViewPOJO[] getAssPersonAct(int aid){
+        // 获取社团的所有成员
+        ArrayList<Association_User> users_id = associationUserMapper.findAllMembersByAID(aid);
+        System.out.println();
+        if (users_id == null || users_id.size() == 0) return null;
+
+        // 定义当前和七天前的时间戳
+        Calendar nowTime =Calendar.getInstance();
+        nowTime.setTime(new Date());
+        nowTime.set(Calendar.DATE,nowTime.get(Calendar.DATE)-7);
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        Timestamp week_before = new Timestamp(nowTime.getTimeInMillis());
+
+        // 遍历计算所有的社团成员的活跃度
+        DataViewPOJO[] pa = new DataViewPOJO[users_id.size()];
+        for (int i = 0; i < users_id.size(); i++) {
+            // 获得用户信息
+            User user = userMapper.findById(users_id.get(i).getU_id());
+            // 获得用户发帖和评论数据
+            ArrayList<Post> post = postMapper.findByUidAid(users_id.get(i).getU_id(),aid);
+            ArrayList<Comments> comments = new ArrayList<>();
+            ArrayList<Post> post_temp = postMapper.findByAid(aid);
+            for (Post p : post_temp) {
+                ArrayList<Comments> c = commentsMapper.findByPidUid(
+                        p.getId(),
+                        user.getId()
+                );
+                if(c == null || c.size()==0) continue;
+                comments.addAll(c);
+            }
+            // 七天内收藏总数
+            ArrayList<Favorite_Table> favorite_tables = favoriteTableMapper.getAllFavoriteTableByU_idAfter(users_id.get(i).getU_id(),week_before);
+            // 七天内论坛发帖总数
+            ArrayList<Post> assPost = postMapper.findByAidDate(aid,week_before);
+
+            pa[i] = new DataViewPOJO();
+            pa[i].setId(users_id.get(i).getU_id());
+            pa[i].setName(user.getUsername());
+            int userPost = 0;
+            int userComment = 0;
+            int userFavorite = 0;
+            int assPostNum = assPost.size();
+            // 计算七天内用户发帖数量
+            for (Post p : post) {
+                if (p.getCreate_time().before(week_before)) continue;
+                userPost++;
+            }
+            // 计算七天内用户的发布评论数量
+            for (Comments c : comments) {
+                if(c.getCreate_time().before(week_before)) continue;
+                userComment++;
+            }
+
+            // 进行一个法的算
+            // TODO: 2021/11/30 修改个人活跃度算法 
+            float x = userPost * 0.5f + userComment * 0.4f + userFavorite * 0.1f;
+            pa[i].setNum(x);
+
+        }
+        return pa;
+        // 对其进行排序
+
+        // 截断返回
+
+    }
 
 
     /**

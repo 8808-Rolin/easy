@@ -42,6 +42,9 @@ public interface CommentsMapper {
     @Select("SELECT id FROM comments WHERE p_id = #{pid}")
     ArrayList<Integer> findIdByPid(Integer pid);
 
+    @Select("SELECT * FROM comments WHERE p_id = #{pid} AND u_id = #{uid}")
+    ArrayList<Comments> findByPidUid(Integer pid,Integer uid);
+
     @Select("SELECT * FROM comments WHERE content LIKE CONCAT('%',#{key},'%')")
     ArrayList<Comments> findCommentLikeKey(String key);
 

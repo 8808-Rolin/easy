@@ -16,7 +16,7 @@ import java.util.ArrayList;
 @CacheNamespace(implementation = RedisCache.class)
 public interface AssociationUserMapper {
 
-    @Select("SELECT * FROM association_user WHERE id = #{aid}")
+    @Select("SELECT * FROM association_user WHERE a_id = #{aid}")
     ArrayList<Association_User> findAllMembersByAID(Integer aid);
 
     @Select("SELECT * FROM association_user")
@@ -54,6 +54,9 @@ public interface AssociationUserMapper {
 
     @Delete("DELETE FROM association_user WHERE a_id = #{aid} AND u_id = #{uid}")
     Integer deleteUserByAidUid(Integer aid, Integer uid);
+
+    @Select("SELECT * FROM association_user WHERE a_id = #{aid} ORDER BY create_time DESC LIMIT 1")
+    Association_User findByAidDescTime(Integer aid);
 
 
 }

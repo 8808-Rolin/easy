@@ -28,5 +28,8 @@ public interface ActionMapper {
     @Select("SELECT MAX(id) FROM action")
     Integer getTheLatestId();
 
+    @Select("SELECT * FROM action WHERE a_id=#{aid} AND start_time > NOW() ORDER BY start_time DESC LIMIT 1")
+    Action findByAidNext(Integer aid);
+
 
 }

@@ -4,6 +4,8 @@ import icu.rolin.easy.model.DO.Post;
 import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @Mapper
@@ -64,5 +66,17 @@ public interface PostMapper {
 
     @Select("SELECT COUNT(id) FROM post WHERE u_id = #{uid}")
     Integer countPostOfUid(Integer uid);
+
+    @Select("SELECT * FROM post WHERE u_id = #{uid} AND a_id = #{aid}")
+    ArrayList<Post> findByUidAid(Integer uid,Integer aid);
+
+    @Select("SELECT * FROM post WHERE a_id = #{aid}")
+    ArrayList<Post> findByAid(Integer aid);
+
+    @Select("SELECT * FROM post WHERE a_id = #{aid} AND create_time > #{afterDate}")
+    ArrayList<Post> findByAidDate (Integer aid, Timestamp afterDate);
+
+    @Select("SELECT * FROM post WHERE a_id = #{aid} ORDER BY create_time DESC LIMIT 1")
+    Post findByAidTimeDesc (Integer aid);
 
 }

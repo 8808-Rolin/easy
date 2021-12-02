@@ -4,6 +4,9 @@ public class ShowInfoPOJO {
     private Integer headcount;
     private Integer postcount;
     private Integer actioncount;
+    private String finalMember;
+    private String finalPost;
+    private String nextAction;
 
     public Integer getHeadcount() {
         return headcount;
@@ -29,9 +32,27 @@ public class ShowInfoPOJO {
         this.actioncount = actioncount;
     }
 
-    public ShowInfoPOJO(Integer headcount, Integer postcount, Integer actioncount) {
-        this.headcount = headcount;
-        this.postcount = postcount;
-        this.actioncount = actioncount;
+    public String getFinalMember() {
+        return finalMember;
+    }
+
+    public void setFinalMember(String finalMember) {
+        this.finalMember = finalMember;
+    }
+
+    public String getFinalPost() {
+        return finalPost;
+    }
+
+    public void setFinalPost(String finalPost) {
+        this.finalPost = finalPost;
+    }
+
+    public String getNextAction() {
+        return nextAction;
+    }
+
+    public void setNextAction(String nextAction) {
+        this.nextAction = nextAction;
     }
 }

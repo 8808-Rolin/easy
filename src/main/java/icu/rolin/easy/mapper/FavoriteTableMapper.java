@@ -4,6 +4,7 @@ import icu.rolin.easy.model.DO.Favorite_Table;
 import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @Mapper
@@ -21,5 +22,8 @@ public interface FavoriteTableMapper {
 
     @Select("SELECT * FROM favorite_table WHERE u_id = #{uid}")
     ArrayList<Favorite_Table> getAllFavoriteTableByU_id(Integer uid);
+
+    @Select("SELECT * FROM favorite_table WHERE u_id = #{uid} AND create_time < #{after}")
+    ArrayList<Favorite_Table> getAllFavoriteTableByU_idAfter(Integer uid, Timestamp after);
 
 }
