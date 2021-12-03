@@ -1349,6 +1349,69 @@ public class SelectService {
         return associationMapper.findAssociationById(id);
     }
 
+    /**
+     * 通过关键词查询用户，可以返回用户信息列表
+     * 关键字类型如下：
+     * 昵称、真实姓名
+     * 学号、手机号
+     * @param keyword 关键字
+     * @param uid 需要排除的UID
+     * @return 返回去重后的结果
+     */
+    public Set<FindUserKeywordPOJO> findUserKeyword(String keyword,int uid){
+        // 昵称模糊搜索  真实姓名模糊搜索 简介模糊搜索
+        ArrayList<User> userA = userMapper.findLikeKey(keyword);
+        // 学号精准搜素
+        Integer userB_id = userMapper.findIdByNumber(keyword);
+        User userB = null;
+        if (userB_id != null){
+            userB = userMapper.findById(userB_id);
+        }
+        // 手机号精准搜索
+        Integer userC_id = userMapper.findIdByPhone(keyword);
+        User userC = null;
+        if (userC_id != null) {
+            userC = userMapper.findById(userC_id);
+        }
+        // 插入数组，精准搜索结果在前，模糊搜索结果在后，去重操作
+        Set<FindUserKeywordPOJO> setObject = new HashSet<>();
+        // 插入手机
+        if(userC_id != null){
+            if (userC.getId() != uid){
+                setObject.add(new FindUserKeywordPOJO(userC.getId(),userC.getUsername(),userC.getStudent_number(),userC.getRealname()));
+            }
+        }
+        // 插入学号
+        if(userB_id != null){
+            if(userB.getId() != uid){
+                setObject.add(new FindUserKeywordPOJO(userB.getId(),userB.getUsername(),userB.getStudent_number(),userB.getRealname()));
+            }
+        }
+        //插入模糊搜索
+        for (User user : userA) {
+            setObject.add(new FindUserKeywordPOJO(user.getId(),user.getUsername(),user.getStudent_number(),user.getRealname()));
+        }
+        return setObject;
+    }
+
+    /**
+     * 获取某社团的所有管理员信息
+     * @param aid 社团ID
+     * @return 返回一个数组
+     */
+    public ArrayList<FindUserKeywordPOJO> findAssAdmin(int aid){
+        ArrayList<Association_User> aus = associationUserMapper.findByAidAdmin(aid);
+        if (aus == null) {
+            return null;
+        }
+        ArrayList<FindUserKeywordPOJO> find = new ArrayList<>();
+        for (Association_User au : aus) {
+            User user = userMapper.findById(au.getU_id());
+            find.add(new FindUserKeywordPOJO(user.getId(),user.getUsername(),user.getStudent_number(),user.getRealname()));
+        }
+        return find;
+    }
+
     // -----验证操作-----
 
 

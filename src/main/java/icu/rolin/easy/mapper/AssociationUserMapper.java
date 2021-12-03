@@ -45,6 +45,15 @@ public interface AssociationUserMapper {
     @Select("SELECT COUNT(*) FROM association_user WHERE u_id = #{uid} AND a_id = #{aid} AND is_admin = 1")
     Integer findUserIsAdminByUidAid(Integer aid,Integer uid);
 
+    /**
+     * 查询一个用户是否是某社团的一个管理员，如果是则返回1，否返回0，如果不存在则返回null
+     * @param aid 社团ID
+     * @param uid 用户ID
+     * @return 返回一个整数
+     */
+    @Select("SELECT * FROM association_user WHERE a_id = #{aid} AND is_admin = 1")
+    ArrayList<Association_User> findByAidAdmin(Integer aid);
+
 
     @Select("SELECT COUNT(u_id) FROM association_user WHERE a_id = #{aid}")
     Integer getTheAssociationMembers(Integer aid);

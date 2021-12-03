@@ -20,7 +20,7 @@ INSERT INTO college_table(college_name) VALUES ("信息技术学院");
 INSERT INTO college_table(college_name) VALUES ("应用外语学院");
 INSERT INTO college_table(college_name) VALUES ("轻化工技术学院");
 INSERT INTO college_table(college_name) VALUES ("财贸学院");
-INSERT INTO college_table(college_name) VALUES ("男德学院");
+INSERT INTO college_table(college_name) VALUES ("国际关系学院");
 INSERT INTO college_table(college_name) VALUES ("酒店管理学院");
 INSERT INTO college_table(college_name) VALUES ("艺术设计学院");
 INSERT INTO college_table(college_name) VALUES ("机电技术学院");

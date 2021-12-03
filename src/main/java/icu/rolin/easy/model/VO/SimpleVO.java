@@ -10,7 +10,7 @@ package icu.rolin.easy.model.VO;
  */
 public class SimpleVO {
     private Integer code;
-    private String msg;
+    private Object msg;
 
     public SimpleVO() {
 
@@ -24,11 +24,11 @@ public class SimpleVO {
         this.code = code;
     }
 
-    public String getMsg() {
+    public Object getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public void setMsg(Object msg) {
         this.msg = msg;
     }
 
