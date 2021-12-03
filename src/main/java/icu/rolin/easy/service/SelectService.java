@@ -1062,7 +1062,7 @@ public class SelectService {
             getUserPOJOS[i].setStudentID(users[i].getStudent_number());
             getUserPOJOS[i].setCollege(collegeTableMapper.findCollegeNameById(users[i].getCollege_id()));
             getUserPOJOS[i].setIntro(users[i].getIntro());
-            getUserPOJOS[i].setPermisson(users[i].getLevel());
+            getUserPOJOS[i].setPermisson(associationUserMapper.findUserIsAdminByUidAid(aid,users[i].getId()));
             getUserPOJOS[i].setBirth(users[i].getBirth().toString());
         }
             getUsersVO.setCode(membersNumber);
