@@ -19,4 +19,6 @@ public interface ApplyJoinAssociationMapper {
     @Update("UPDATE apply_join_association SET is_approved = #{type} WHERE id = #{id}")
     Integer setJoinApplyStatus(Integer type,Integer id);
 
+    @Select("SELECT * FROM apply_join_association WHERE id = #{id}")
+    Apply_Join_Association findByID(Integer id);
 }

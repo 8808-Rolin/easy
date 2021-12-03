@@ -1,10 +1,7 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.Association_User;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
@@ -57,6 +54,9 @@ public interface AssociationUserMapper {
 
     @Select("SELECT * FROM association_user WHERE a_id = #{aid} ORDER BY create_time DESC LIMIT 1")
     Association_User findByAidDescTime(Integer aid);
+
+    @Insert("INSERT INTO association_user (a_id,u_id,is_admin) VALUES (#{aid},#{uid},0)")
+    Integer insertUserToAss(Integer aid,Integer uid);
 
 
 }

@@ -1,12 +1,15 @@
 package icu.rolin.easy.service;
 
 import icu.rolin.easy.mapper.*;
+import icu.rolin.easy.model.DO.Apply_Join_Association;
 import icu.rolin.easy.model.PO.*;
 import icu.rolin.easy.model.VO.SimpleVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 @Service
 public class UpdateService {
@@ -40,6 +43,9 @@ public class UpdateService {
     PostMapper postMapper;
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    IncreaseService is;
 
 
     /**
@@ -192,18 +198,70 @@ public class UpdateService {
         return simpleVO;
     }
 
-    public SimpleVO setJoinApplyStatus(Integer type,Integer uaid){
-        SimpleVO simpleVO = new SimpleVO();
-        Integer code = applyJoinAssociationMapper.setJoinApplyStatus(type,uaid);
-        if (code == 0){
-            logger.warn("修改申请状态失败！");
-            simpleVO.setCode(-1);
-            simpleVO.setMsg("无法修改申请状态");
-        }else {
-            simpleVO.setCode(1);
-            simpleVO.setMsg("修改成功！");
+    /**
+     * 需要事务回滚，若申请通过则将用户成为该社团的成员，若申请不通过，则数据库对应字段值应为-1
+     * @param type 类型 0：不通过，1：通过
+     * @param uaid 申请ID
+     * @return 返回渲染视图
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public SimpleVO setJoinApplyStatus(int type,int uaid){
+        Apply_Join_Association aj = applyJoinAssociationMapper.findByID(uaid);
+        if (aj == null) {
+            return new SimpleVO(-8,"不存在这个UAID");
         }
+        SimpleVO simpleVO = new SimpleVO();
+        Integer status = -1;
 
+        // 起稿邮件
+        SendMailPO sm = new SendMailPO();
+        sm.setIsSystem(1);
+        sm.setFromuid(null);
+        sm.setTouid(aj.getU_id());
+        sm.setTitle("申请加入社团结果通知");
+        sm.setMailType(0);
+
+        try{
+            switch (type){
+                case 0:
+                    // 拒绝申请
+                    status = applyJoinAssociationMapper.setJoinApplyStatus(2,uaid);
+                    if(status == 1){
+                        logger.info("拒绝了学生的入社申请");
+                        sm.setContent("很遗憾的告诉你，你申请加入的《"+associationMapper.findAssociationById(aj.getA_id()).getName()+"社团》\n申请" +
+                                "没有通过，你可以重新发起申请审批，继续完善你的申请备注，谢谢！");
+                        is.sendEmailWithSystem(sm);
+                    }
+                    break;
+                case 1:
+                    // 通过申请
+                    status = applyJoinAssociationMapper.setJoinApplyStatus(1,uaid);
+                    if(status == 0){
+                        logger.info("通过学生的入社申请ERROR");
+                        return new SimpleVO(-9,"通过学生的入社申请ERROR");
+                    }else{
+                        status = associationUserMapper.insertUserToAss(aj.getA_id(),aj.getU_id());
+                        sm.setContent("很开心的告诉你，你申请加入的《"+associationMapper.findAssociationById(aj.getA_id()).getName()+"社团》\n申请" +
+                                "通过了！恭喜你成为该社团中的一员，谨代表所有会员欢迎你的加入");
+                        is.sendEmailWithSystem(sm);
+                    }
+
+                    break;
+                default:
+                    return new SimpleVO(-3,"参数大错误！");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return new SimpleVO(-5,"操作失败，请联系管理员");
+        }
+        if(status == 1) {
+            simpleVO.setCode(0);
+            simpleVO.setMsg("操作成功！");
+        }else {
+            simpleVO.setCode(-1);
+            simpleVO.setMsg("操作失败！");
+        }
         return simpleVO;
     }
 

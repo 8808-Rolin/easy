@@ -1138,6 +1138,12 @@ public class SelectService {
             joinApplyPOJOs[i].setStudentID(users[i].getStudent_number());
             joinApplyPOJOs[i].setCollege(collegeTableMapper.findCollegeNameById(users[i].getCollege_id()));
             joinApplyPOJOs[i].setNote(ajass.get(i).getNote());
+            joinApplyPOJOs[i].setStatus(ajass.get(i).getIs_approved());
+            if(ajass.get(i).getIs_approved() == 0){
+                joinApplyPOJOs[i].setTime(Common.convertTimestamp2Date(ajass.get(i).getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+            }else{
+                joinApplyPOJOs[i].setTime(Common.convertTimestamp2Date(ajass.get(i).getUpdate_time(),"yyyy-MM-dd HH:mm:ss"));
+            }
         }
         gjavo.setCode(joinApplyPOJOs.length);
         gjavo.setMsg("获取社团申请表用户信息成功");
@@ -1458,5 +1464,39 @@ public class SelectService {
         return associationUserMapper.findUserIsAdminByUidAid(aid,uid) == 1;
     }
 
+    /**
+     * 验证UAID是否合法，是否存在该id
+     * @param uaid 社团加入申请ID
+     * @return 布尔值
+     */
+    public boolean verifyUaidExist(int uaid){
+        return applyJoinAssociationMapper.findByID(uaid) != null;
+    }
+
+
+    /**
+     * 判断UAID所指向的内容和否合法,以及用户权限
+     * @param uaid 社团加入申请ID
+     * @param uid  操作该接口的用户UID
+     * @return 布尔值
+     */
+    public boolean verifyUaidValidity(int uaid,int uid){
+        Apply_Join_Association info = applyJoinAssociationMapper.findByID(uaid);
+        Integer status = associationUserMapper.findUserIsAdminByUidAid(info.getA_id(),uid);
+        if( status == null || status == 0 ){
+            logger.error("该登录用户不是管理员，无法操作");
+            return false;
+        }
+
+        Association_User au = associationUserMapper.findAssociation_userById(info.getU_id(),info.getA_id());
+        if(au != null) {
+            logger.error("该用户已经加入社团，无法再次加入");
+            if(info.getIs_approved() != 1){
+                applyJoinAssociationMapper.setJoinApplyStatus(1,uaid);
+            }
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -9,6 +9,7 @@ import icu.rolin.easy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -64,7 +65,16 @@ public class ApplyController {
     }
 
     @PostMapping(value = "/set-join-apply-status")
-    public ResponseVO set_join_apply(Integer type,Integer uaid){
+    public ResponseVO set_join_apply(Integer type, Integer uaid, HttpServletRequest request){
+        // 判断参数合法性
+        if(type == null || uaid == null || type < 0 || type > 1|| uaid <= 0|| !ss.verifyUaidExist(uaid)){
+            return new ResponseVO(new SimpleVO(-1,"参数错误！！！"));
+        }
+        // 判断该UAID是否已经被审批过或者对象用户已经在社团中
+        if(UtilsService.getUidWithTokenByRequest(request) == null ||
+                !ss.verifyUaidValidity(uaid,UtilsService.getUidWithTokenByRequest(request))){
+            return new ResponseVO(new SimpleVO(-2,"操作错误，请重新检查参数!"));
+        }
         return new ResponseVO(us.setJoinApplyStatus(type,uaid));
     }
 

@@ -1444,12 +1444,14 @@
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
     <tr><th>data.apply[]</td><th colspan=2>result为0时返回如下审批列表信息</td></tr>
     <tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
+    <tr><td>status</td><td colspan=2>状态，2为不通过，0为未操作，1为通过</td></tr>
     <tr><td>uaid</td><td colspan=2>user-apply-ID ：用户申请数据唯一标识符</td></tr>
     <tr><td>userName</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realName</td><td colspan=2>用户真实姓名</td></tr>
     <tr><td>studentID</td><td colspan=2>学号或教工号</td></tr>
     <tr><td>college</td><td colspan=2>用户所属学院</td></tr>
     <tr><td>note</td><td colspan=2>申请备注</td></tr>
+      <tr><td>time</td><td colspan=2>申请时间/处理时间</td></tr>
 </table>
 
 ##### 3.7.2.2.2 审批操作

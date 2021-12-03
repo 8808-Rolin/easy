@@ -8,6 +8,24 @@ public class JoinApplyPOJO {
     private String studentID;
     private String college;
     private String note;
+    private Integer status;
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Integer getUid() {
         return uid;
