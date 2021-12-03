@@ -194,8 +194,43 @@ public class InfoController {
     }
 
     @PostMapping(value = "/update-ass-info")
-    public ResponseVO update_ass_info(AssInfoUpdatePO aiu){
-        return new ResponseVO(us.updateAssociationInfo(aiu));
+    public ResponseVO update_ass_info(AssInfoUpdatePO aiu,HttpServletRequest request){
+        // 判断合法性
+        if(aiu.getAid() == null || !ss.verifyAssExist(aiu.getAid()))
+            return new ResponseVO(new SimpleVO(-1,"参数错误!"));
+        // 判断管理权限
+        Integer uid = UtilsService.getUidWithTokenByRequest(request);
+        if(uid == null || uid <= 0){
+            return new ResponseVO(new SimpleVO(-2,"Token错误！是否未登录"));
+        }
+        if(!ss.verifyUserIsAssAdmin(uid,aiu.getAid())){
+            return new ResponseVO(new SimpleVO(-3,"权限错误！你不是社团管理员"));
+        }
+
+        // 执行业务语句
+        SimpleVO s = null;
+        switch (us.updateAssociationInfo(aiu)){
+            case 0:
+                s = new SimpleVO(0,"修改成功");
+                break;
+            case -1:
+                s = new SimpleVO(-1,"修改名字错误！");
+                break;
+            case -2:
+                s = new SimpleVO(-2,"修改简介错误！");
+                break;
+            case -3:
+                s = new SimpleVO(-3,"修改社团LOGO错误！");
+                break;
+            case -4:
+                s = new SimpleVO(-4,"移交会长失败，数据库错误！");
+                break;
+            case -5:
+                s = new SimpleVO(-5,"移交会长失败，新会长不是管理员，无法移交");
+                break;
+        }
+        return new ResponseVO(s);
+
     }
 
     @GetMapping(value = "/get-alluser-number")

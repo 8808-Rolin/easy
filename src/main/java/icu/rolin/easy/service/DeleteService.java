@@ -50,6 +50,9 @@ public class DeleteService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    IncreaseService is;
+
     /**
      * 删除帖子业务操作，同时要删除所有评论以及内容表内容
      * 防止表的内容不一，采用事务回滚的方式控制
@@ -137,6 +140,10 @@ public class DeleteService {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 logger.error("删除用户失败,事务已回滚");
                 return "删除用户大失败！！！";
+            }else{
+                is.sendSystemMail("你已被《"+associationMapper.findAssociationById(ua.getAid()).getName()+"》移除会员资格",
+                        "很遗憾的通知您，您已被本社团移除了会员资格，您可以重新申请加入社团\n敬请谅解",
+                        ua.getUid());
             }
             return "";
         }catch (Exception e){

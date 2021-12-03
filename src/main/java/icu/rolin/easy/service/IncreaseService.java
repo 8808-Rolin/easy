@@ -49,6 +49,8 @@ public class IncreaseService {
     @Autowired
     SelectService selectService;
 
+
+
     /**
      * 当用户申请参加活动时，程序将调用该接口为用户注册参加活动信息
      *
@@ -179,7 +181,7 @@ public class IncreaseService {
      * 由系统发送邮件给用户，该右键无需注明发送发送者
      *
      * @param sm 邮件参数对象(该参数没有from_uid选项)
-     * @return 返回一个boolean值，是当前业务的状态
+     * @return 返回一个视图
      */
     public SimpleVO sendEmailWithSystem(SendMailPO sm) {
         SimpleVO svo = new SimpleVO();
@@ -307,5 +309,23 @@ public class IncreaseService {
         return simpleVO;
     }
 
+    /**
+     * 发送一封系统邮件给指定用户
+     * @param title 邮件标题
+     * @param content 邮件内容
+     * @param uid 接受用户的UID
+     * @return 表示发送是否成功
+     */
+    public boolean sendSystemMail(String title,String content,int uid){
+        SendMailPO sm = new SendMailPO();
+        sm.setIsSystem(1);
+        sm.setFromuid(null);
+        sm.setTouid(uid);
+        sm.setTitle(title);
+        sm.setMailType(0);
+        sm.setContent(content);
+        return sendEmailWithSystem(sm).getCode() != -1;
+
+    }
 
 }

@@ -39,11 +39,21 @@ public interface AssociationMapper {
     @Select("SELECT logo FROM association WHERE id = #{id}")
     String getAssociationLogoById(Integer id);
 
-    @Update("UPDATE association SET name = #{name}, intro = #{intro}, logo = #{logo}, leader_id = #{leaderid} WHERE id = #{id}")
-    Integer updateAssociationInfo(String name, String intro, String logo, Integer leaderid, Integer id);
 
     // 判断此人是不是社团老大
     @Select("SELECT COUNT(*) FROM association WHERE id = #{id} AND leader_id = #{leaderid}")
     Integer verifyMemberGradge(Integer id, Integer leaderid);
+
+    @Update("UPDATE association SET name = #{name} WHERE id = #{aid}")
+    Integer updateNameById(String name,Integer aid);
+
+    @Update("UPDATE association SET intro = #{name} WHERE id = #{aid}")
+    Integer updateIntroById(String name,Integer aid);
+
+    @Update("UPDATE association SET logo = #{name} WHERE id = #{aid}")
+    Integer updateLogoById(String name,Integer aid);
+
+    @Update("UPDATE association SET leader_id = #{name} WHERE id = #{aid}")
+    Integer updateLeaderById(Integer uid,Integer aid);
 
 }

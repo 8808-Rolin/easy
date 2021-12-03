@@ -8,6 +8,15 @@ public class MailOverviewPOJO {
     private Integer isSystem;
     private Integer type;
     private String name;
+    private Integer name_id;
+
+    public Integer getName_id() {
+        return name_id;
+    }
+
+    public void setName_id(Integer name_id) {
+        this.name_id = name_id;
+    }
 
     public Integer getMid() {
         return mid;

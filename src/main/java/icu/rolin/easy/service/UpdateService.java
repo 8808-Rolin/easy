@@ -47,6 +47,9 @@ public class UpdateService {
     @Autowired
     IncreaseService is;
 
+    @Autowired
+    SelectService ss;
+
 
     /**
      * 当用户忘记密码时，调用该业务为用户修改密码
@@ -265,19 +268,37 @@ public class UpdateService {
         return simpleVO;
     }
 
-    public SimpleVO updateAssociationInfo(AssInfoUpdatePO aiu){
-        SimpleVO simpleVO = new SimpleVO();
-        Integer code = associationMapper.updateAssociationInfo(aiu.getName(), aiu.getIntro(), aiu.getLogo(), aiu.getHeaderuid(), aiu.getAid());
-        if (code == 0){
-            logger.warn("修改社团基本信息失败！");
-            simpleVO.setCode(-1);
-            simpleVO.setMsg("无法修改社团信息");
-        }else {
-            simpleVO.setCode(1);
-            simpleVO.setMsg("修改成功！");
+    /**
+     * 更新社团信息，需要注意的有下面：
+     * 1. 更新领导者时要先确认该人是管理员才可以
+     * @param aiu 包装信息
+     * @return 0:成功，-1：名字错误 -2：简介错误 -3：logo错误 -4：管理员错误 -5：新会长不是管理员
+     */
+    public int updateAssociationInfo(AssInfoUpdatePO aiu){
+        if (aiu.getName() != null) {
+            if(associationMapper.updateNameById(aiu.getName(),aiu.getAid()) != 1)
+                return -1;
         }
+        if (aiu.getIntro() != null) {
+            if(associationMapper.updateIntroById(aiu.getIntro(),aiu.getAid()) != 1){
+                return -2;
+            }
+        }
+        if(aiu.getLogo() != null){
+            if(associationMapper.updateLogoById(aiu.getLogo(),aiu.getAid())!= 1)
+                return -3;
+        }
+        if(aiu.getHeaderuid() != null){
+            // 判断这个人是不是社团管理员
+            if (!ss.verifyUserIsAssAdmin(aiu.getHeaderuid(),aiu.getAid())) {
+                return -5;
+            }
+            if(associationMapper.updateLeaderById(aiu.getHeaderuid(), aiu.getAid())!=1){
+                return -4;
+            }
+        }
+        return 0;
 
-        return simpleVO;
     }
 
 

@@ -41,6 +41,14 @@ public class ApplyController {
     //非成员社团用户可以在社团页面申请加入社团，该接口需要提供一个uid、aid、以及申请备注放能够提交成功
     @PostMapping(value = "/join-association")
     public ResponseVO join_ass(UserAssNotePO uan){
+        // 参数合法性认证
+        if(uan == null || uan.getAid() == null || uan.getUid() == null ||!ss.verifyAssExist(uan.getAid())){
+            return new ResponseVO(new SimpleVO(-1,"参数错误！！！请检查参数"));
+        }
+        // 是否已经提交过申请
+        if(ss.verifyUserIsSubmitApprove(uan.getUid(),uan.getAid())){
+            return new ResponseVO(new SimpleVO(-2,"你已提交过申请，请耐心等待审批......"));
+        }
         boolean key = is.applyJoinAssociation(uan);
         if (key) return new ResponseVO(new SimpleVO(0,"申请成功提交"));
         return new ResponseVO(new SimpleVO(1,"申请提交失败，请检查数据传输准确性！"));
@@ -49,9 +57,10 @@ public class ApplyController {
     @PostMapping(value = "/get-join-apply-list")
     public ResponseVO get_join_apply_list(Integer aid){
         // 参数合法性认证
-        if(aid == null || aid <= 0){
+        if(aid == null || !ss.verifyAssExist(aid)){
             return new ResponseVO(new SimpleVO(-1,"参数错误！！！请检查参数"));
         }
+
         try{
             GetJoinApplyVO g = ss.getJoinApplyList(aid);
             return  new ResponseVO(g);

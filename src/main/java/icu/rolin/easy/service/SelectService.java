@@ -624,6 +624,7 @@ public class SelectService {
         int mailsNumber = mailsTo.size() + mailsFrom.size();
 
         MailOverviewPOJO[] mailOverviewPOJOS = new MailOverviewPOJO[mailsNumber];
+        // 收件箱
         for (int i=0;i<mailsTo.size();i++){
             mailOverviewPOJOS[i] = new MailOverviewPOJO();
             mailOverviewPOJOS[i].setMid(mailsTo.get(i).getId());
@@ -635,11 +636,13 @@ public class SelectService {
             if(mailsTo.get(i).getIs_system() == 0){
                 String fromUserName = userMapper.getNameById(mailsTo.get(i).getFrom_id());
                 mailOverviewPOJOS[i].setName(fromUserName);
+                mailOverviewPOJOS[i].setName_id(mailsTo.get(i).getFrom_id());
             }else{
                 mailOverviewPOJOS[i].setName("系 统");
             }
         }
         int j = 0;
+        // 发件箱
         for (int i=mailsTo.size();i<mailsNumber;i++){
             mailOverviewPOJOS[i] = new MailOverviewPOJO();
             mailOverviewPOJOS[i].setMid(mailsFrom.get(j).getId());
@@ -1054,6 +1057,8 @@ public class SelectService {
             users[i] = userMapper.findById(association_users.get(i).getU_id());
         }
         GetUserPOJO[] getUserPOJOS = new GetUserPOJO[membersNumber];
+        // 判断社团会长
+        Integer leaderID = associationMapper.findAssociationById(aid).getLeader_id();
         for (int i=0;i<membersNumber;i++) {
             getUserPOJOS[i] = new GetUserPOJO();
             getUserPOJOS[i].setUid(users[i].getId());
@@ -1062,12 +1067,31 @@ public class SelectService {
             getUserPOJOS[i].setStudentID(users[i].getStudent_number());
             getUserPOJOS[i].setCollege(collegeTableMapper.findCollegeNameById(users[i].getCollege_id()));
             getUserPOJOS[i].setIntro(users[i].getIntro());
+            if(users[i].getId() == leaderID){
+                getUserPOJOS[i].setPermisson(3);
+            }else{
+                getUserPOJOS[i].setPermisson(associationUserMapper.findUserIsAdminByUidAid(aid,users[i].getId()));
+            }
             getUserPOJOS[i].setPermisson(associationUserMapper.findUserIsAdminByUidAid(aid,users[i].getId()));
             getUserPOJOS[i].setBirth(users[i].getBirth().toString());
         }
-            getUsersVO.setCode(membersNumber);
-            getUsersVO.setMsg("获取社团用户信息成功");
-            getUsersVO.setUser(getUserPOJOS);
+        // 排序 管理员在前
+        Arrays.sort(getUserPOJOS, new Comparator<GetUserPOJO>() {
+            @Override
+            public int compare(GetUserPOJO o1, GetUserPOJO o2) {
+                if(o1.getPermisson()>o2.getPermisson()) {
+                    return -1;
+                }
+                if (o1.getPermisson() == o1.getPermisson()){
+                    return 0;
+                }else{
+                    return 1;
+                }
+            }
+        });
+        getUsersVO.setCode(membersNumber);
+        getUsersVO.setMsg("获取社团用户信息成功");
+        getUsersVO.setUser(getUserPOJOS);
 
         return getUsersVO;
     }
@@ -1127,6 +1151,10 @@ public class SelectService {
         User[] users = new User[ajassNumber];
         for (int i=0;i<ajassNumber;i++){
             users[i] = userMapper.findById(ajass.get(i).getU_id());
+            if (users[i] == null){
+                logger.warn("找不到该用户！");
+                return null;
+            }
         }
         JoinApplyPOJO[] joinApplyPOJOs = new JoinApplyPOJO[ajassNumber];
         for (int i=0;i<ajassNumber;i++){
@@ -1453,6 +1481,15 @@ public class SelectService {
         User code = userMapper.findById(uid);
         return code != null;
     }
+    /**
+     * 验证一个社团aid是否存在，判断其合法性
+     * @param aid 要验证的用户ID
+     * @return 返回一个状态
+     */
+    public boolean verifyAssExist(int aid){
+        Integer code = associationMapper.findAssIsExist(aid);
+        return code == 1;
+    }
 
     /**
      * 判断某用户是否是社团管理员
@@ -1462,6 +1499,7 @@ public class SelectService {
      */
     public boolean verifyUserIsAssAdmin(int uid,int aid){
         return associationUserMapper.findUserIsAdminByUidAid(aid,uid) == 1;
+
     }
 
     /**
@@ -1497,6 +1535,17 @@ public class SelectService {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 判断用户是否提交过申请入社表单，当用户目前有一个正在审批的申请则无法提交
+     * @param uid 用户ID
+     * @param aid 社团ID
+     * @return 布尔值,有则返回真，无则返回假
+     */
+    public boolean verifyUserIsSubmitApprove(int uid,int aid){
+        Integer x = applyJoinAssociationMapper.countApproveNumberByIDID(aid,uid);
+        return x == 1;
     }
 
 }

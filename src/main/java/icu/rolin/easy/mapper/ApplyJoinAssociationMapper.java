@@ -21,4 +21,8 @@ public interface ApplyJoinAssociationMapper {
 
     @Select("SELECT * FROM apply_join_association WHERE id = #{id}")
     Apply_Join_Association findByID(Integer id);
+
+    @Select("SELECT COUNT(*) FROM apply_join_association WHERE a_id = #{aid} AND u_id = #{uid} AND is_approved != 0")
+    Integer countApproveNumberByIDID(Integer aid,Integer uid);
+
 }
