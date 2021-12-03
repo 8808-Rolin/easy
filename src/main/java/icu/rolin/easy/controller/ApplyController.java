@@ -3,6 +3,7 @@ package icu.rolin.easy.controller;
 import icu.rolin.easy.model.PO.CreateAssPO;
 import icu.rolin.easy.model.PO.SendApplyPO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
+import icu.rolin.easy.model.POJO.JoinApplyPOJO;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,20 @@ public class ApplyController {
 
     @PostMapping(value = "/get-join-apply-list")
     public ResponseVO get_join_apply_list(Integer aid){
-        return  new ResponseVO(ss.getJoinApplyList(aid));
+        // 参数合法性认证
+        if(aid == null || aid <= 0){
+            return new ResponseVO(new SimpleVO(-1,"参数错误！！！请检查参数"));
+        }
+        try{
+            GetJoinApplyVO g = ss.getJoinApplyList(aid);
+            return  new ResponseVO(g);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("get_join_apply_list ERROR");
+            return  new ResponseVO(new SimpleVO(-2,"ERROR,请联系管理员处理"));
+        }
+
+
     }
 
     @PostMapping(value = "/set-join-apply-status")

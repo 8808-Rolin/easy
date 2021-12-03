@@ -969,15 +969,26 @@ public class SelectService {
         Integer headCount = associationUserMapper.getTheAssociationMembers(aid);
         Integer postCount = postMapper.getTheAssociationPostNumber(aid);
         Integer actionCount = actionMapper.getToBeHeldActionsNumber(aid, TransformCurrentTimeUtil.returnCurrentTime());
-        String finalMember = Common.convertTimestamp2Date(associationUserMapper.findByAidDescTime(aid).getCreate_time(),"yyyy-MM-dd HH:mm:ss");
-        String finalPost = Common.convertTimestamp2Date(postMapper.findByAidTimeDesc(aid).getCreate_time(),"yyyy-MM-dd HH:mm:ss");
-        String nextAction = actionMapper.findByAidNext(aid).getTitle();
+        Association_User finalMember = associationUserMapper.findByAidDescTime(aid);
+        Post finalPost = postMapper.findByAidTimeDesc(aid);
+        Action nextAction = actionMapper.findByAidNext(aid);
         showInfoPOJO.setHeadcount(headCount);
         showInfoPOJO.setPostcount(postCount);
         showInfoPOJO.setActioncount(actionCount);
-        showInfoPOJO.setFinalMember(finalMember);
-        showInfoPOJO.setFinalPost(finalPost);
-        showInfoPOJO.setNextAction(nextAction);
+        if (finalMember == null)
+            showInfoPOJO.setFinalMember("");
+        else
+            showInfoPOJO.setFinalMember(Common.convertTimestamp2Date(finalMember.getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+
+        if (finalPost == null)
+            showInfoPOJO.setFinalPost("");
+        else
+            showInfoPOJO.setFinalPost(Common.convertTimestamp2Date(finalPost.getCreate_time(),"yyyy-MM-dd HH:mm:ss"));
+
+        if (nextAction == null)
+            showInfoPOJO.setNextAction("");
+        else
+            showInfoPOJO.setNextAction(nextAction.getTitle());
 
         //获取成功,返回code 1
         assShowInfoVO.setCode(1);
@@ -1096,33 +1107,41 @@ public class SelectService {
     }
 
 
-    public GetJoinApplyVO getJoinApplyList(Integer aid){
+    /**
+     * 这里是用户申请加入社团时，社团管理员审批社团成员所调用的接口
+     * @author Joolum
+     * @param aid 社团ID
+     * @return 返回视图
+     */
+    public GetJoinApplyVO getJoinApplyList(int aid) throws Exception{
         GetJoinApplyVO gjavo = new GetJoinApplyVO();
         ArrayList<Apply_Join_Association> ajass = applyJoinAssociationMapper.getApplyJoinList(aid);
         int ajassNumber = ajass.size();
-        if (ajassNumber == 0){
+        if (ajassNumber == 0) {
             gjavo.setCode(0);
-            gjavo.setMsg("可能该社团压根没人想进，或者出错了");
+            gjavo.setMsg("莫得数据");
             gjavo.setApply(null);
-        }else {
-            gjavo.setCode(1);
-            User[] users = new User[ajassNumber];
-            for (int i=0;i<ajassNumber;i++){
-                users[i] = userMapper.findById(ajass.get(i).getU_id());
-            }
-            JoinApplyPOJO[] joinApplyPOJOs = new JoinApplyPOJO[ajassNumber];
-            for (int i=0;i<ajassNumber;i++){
-                joinApplyPOJOs[i].setUid(users[i].getId());
-                joinApplyPOJOs[i].setUaid(ajass.get(i).getId());
-                joinApplyPOJOs[i].setUserName(users[i].getUsername());
-                joinApplyPOJOs[i].setRealName(users[i].getRealname());
-                joinApplyPOJOs[i].setStudentID(users[i].getStudent_number());
-                joinApplyPOJOs[i].setCollege(collegeTableMapper.findCollegeNameById(users[i].getCollege_id()));
-                joinApplyPOJOs[i].setNote(ajass.get(i).getNote());
-            }
-            gjavo.setMsg("获取社团申请表用户信息成功");
-            gjavo.setApply(joinApplyPOJOs);
+            return gjavo;
         }
+
+        User[] users = new User[ajassNumber];
+        for (int i=0;i<ajassNumber;i++){
+            users[i] = userMapper.findById(ajass.get(i).getU_id());
+        }
+        JoinApplyPOJO[] joinApplyPOJOs = new JoinApplyPOJO[ajassNumber];
+        for (int i=0;i<ajassNumber;i++){
+            joinApplyPOJOs[i] = new JoinApplyPOJO();
+            joinApplyPOJOs[i].setUid(users[i].getId());
+            joinApplyPOJOs[i].setUaid(ajass.get(i).getId());
+            joinApplyPOJOs[i].setUserName(users[i].getUsername());
+            joinApplyPOJOs[i].setRealName(users[i].getRealname());
+            joinApplyPOJOs[i].setStudentID(users[i].getStudent_number());
+            joinApplyPOJOs[i].setCollege(collegeTableMapper.findCollegeNameById(users[i].getCollege_id()));
+            joinApplyPOJOs[i].setNote(ajass.get(i).getNote());
+        }
+        gjavo.setCode(joinApplyPOJOs.length);
+        gjavo.setMsg("获取社团申请表用户信息成功");
+        gjavo.setApply(joinApplyPOJOs);
 
         return gjavo;
     }

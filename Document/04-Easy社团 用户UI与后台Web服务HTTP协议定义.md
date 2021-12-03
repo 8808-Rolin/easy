@@ -1427,7 +1427,7 @@
 
 这里是用户申请加入社团时，社团管理员审批社团成员所调用的接口
 
-##### 3.7.2.2.1 获取审批列表
+##### 3.7.2.2.1 获取审批列表 (Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1440,7 +1440,7 @@
     <tr><td>aid</td><td>Integer</td><td>id值，是论坛唯一标志</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</td><th colspan=2>响应数据体</td></tr>
-    <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
+    <tr><td>code</td><td colspan=2>正数：获取成功并返回数量 负数：获取失败</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
     <tr><th>data.apply[]</td><th colspan=2>result为0时返回如下审批列表信息</td></tr>
     <tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
