@@ -4,6 +4,7 @@ package icu.rolin.easy.controller;
 import icu.rolin.easy.model.PO.SendMailPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
 import icu.rolin.easy.model.POJO.AssOverviewPOJO;
+import icu.rolin.easy.model.POJO.FindUserKeywordPOJO;
 import icu.rolin.easy.model.VO.AssListVO;
 import icu.rolin.easy.model.VO.CollegeListVO;
 import icu.rolin.easy.model.VO.ResponseVO;
@@ -15,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Set;
 
 @RestController
 @ResponseBody
@@ -33,7 +38,35 @@ public class ToolController {
 
 
 
+    @GetMapping(value = "/find-user")
+    public ResponseVO findUser(String keyword, HttpServletRequest request){
+        // 验证当前UID合法性，并在结果集中排除该UID
+        Integer uid = UtilsService.getUidWithTokenByRequest(request);
+        if(uid == null)
+            return new ResponseVO(new SimpleVO(-1,"请先登录！"));
 
+        // 搜索结果
+        Set<FindUserKeywordPOJO> res = ss.findUserKeyword(keyword,uid);
+        SimpleVO s = new SimpleVO();
+        s.setCode(res.size());
+        s.setMsg(res);
+        return new ResponseVO(s);
+    }
+
+    @GetMapping(value = "/findAssAdmin")
+    public ResponseVO findAssAdmin(Integer aid){
+        // 判断参数合法性
+        if(aid == null || !ss.verifyAssExist(aid)){
+            return new ResponseVO(new SimpleVO(-1,"参数错误，请检查参数!"));
+        }
+
+        ArrayList<FindUserKeywordPOJO> res = ss.findAssAdmin(aid);
+        SimpleVO s = new SimpleVO();
+        s.setCode(res.size());
+        s.setMsg(res);
+        return new ResponseVO(s);
+
+    }
 
     @GetMapping(value = "/uni-variable")
     public ResponseVO uni_variable(UniVariablePO uv){
