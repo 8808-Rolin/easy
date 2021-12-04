@@ -287,28 +287,36 @@ public class IncreaseService {
 
     }
 
+    /**
+     * 发表活动业务
+     * @param actObj 参数对象，已经做好初步判定
+     * @return 返回一个视图对象
+     */
+    @Transactional(rollbackFor = Exception.class)
     public SimpleVO releaseAction(ReleaseActionPO actObj) {
-        SimpleVO simpleVO = new SimpleVO();
-
-        int contentCode = contentMapper.savePost_content(actObj.getContent());
-        if (contentCode == 0) {
-            simpleVO.setCode(0);
-            simpleVO.setMsg("活动内容插入数据库插入失败..");
-            logger.error("提交社团活动申请---内容插入失败");
-        } else {
-            int contentId = contentMapper.getTheLatestID();
-            int code = actionMapper.releaseAction(actObj.getAid(), actObj.getTitle(), contentId, actObj.getPosition(), actObj.getStartTime(), actObj.getEndTime());
-            if (code == 0) {
-                simpleVO.setMsg("社团活动申请提交失败");
-                simpleVO.setCode(-1);
-            } else {
-                int actId = actionMapper.getTheLatestId();
-                simpleVO.setMsg("社团活动申请提交成功");
-                simpleVO.setCode(actId);
-            }
-        }
-
-        return simpleVO;
+       try{
+           // 插入内容
+           int contentCode = contentMapper.savePost_content(actObj.getContent());
+           if (contentCode == 0) {
+               logger.error("提交社团活动申请---内容插入失败");
+               return new SimpleVO(-1,"发布活动申请失败，内容数据库插入出错！");
+           } else {
+               int contentId = contentMapper.getTheLatestID();
+               int code = actionMapper.releaseAction(actObj.getAid(), actObj.getTitle(), contentId, actObj.getPosition(), actObj.getStartTime(), actObj.getEndTime());
+               if (code == 0) {
+                   logger.error("提交社团活动申请---内容插入失败");
+                   TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                   return new SimpleVO(-2,"发布活动申请失败，活动数据库插入出错！");
+               } else {
+                   int actId = actionMapper.getTheLatestId();
+                   return new SimpleVO(actId,"提交申请成功");
+               }
+           }
+       }catch (Exception e){
+           TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+           e.printStackTrace();
+           return new SimpleVO(-3,"程序运行出错！");
+       }
     }
 
     /**

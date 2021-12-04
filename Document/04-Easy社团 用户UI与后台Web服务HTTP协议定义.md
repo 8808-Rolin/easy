@@ -1552,7 +1552,7 @@
     <tr><td>aid</td><td>Integer</td><td>id值，是论坛唯一标识符</td></tr>
     <tr><td>name</td><td>String</td><td>论坛名称</td></tr>
     <tr><td>intro</td><td>String</td><td>论坛简介</td></tr>
-    <tr><td>logo</td><td>String</td><td>论坛Logo，Base64编码格式字符串</td></tr>
+    <tr><td>logo</td><td>String</td><td>论坛Logo，URL</td></tr>
     <tr><td>headeruid</td><td>Integer</td><td>论坛负责人的UID</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</th><th colspan=2>响应数据体</th></tr>
@@ -1632,7 +1632,7 @@
 
 ### 3.7.6 活动管理
 
-#### 3.7.6.1 活动发布
+#### 3.7.6.1 活动发布(Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1654,7 +1654,7 @@
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
 
-#### 3.7.6.2 活动一览
+#### 3.7.6.2 活动一览 (Finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1681,7 +1681,7 @@
     <tr><td>status</td><td colspan=2>活动状态码：0：待审核，1：已发布，2，审批不过</td></tr>
 </table>
 
-#### 3.7.6.3 活动参加人员
+#### 3.7.6.3 活动参加人员(finish)
 
 <table>
     <tr><th colspan="3">请求</th></tr>
@@ -1696,10 +1696,7 @@
     <tr><th>data</td><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是action长度</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
-    <tr><th>data.action_member[]</td><th colspan=2>参加活动的人员</th></tr>
-    <tr><td>uid</td><td colspan=2>用户ID</td></tr>
-    <tr><td>username</td><td colspan=2>用户昵称</td></tr>
-    <tr><td>studentid</td><td colspan=2>学号</td></tr>
+    <tr><th>data.action_member[]</td><th colspan=2>参加活动的人员，是一个User对象数组</th></tr>
 </table>
 
 ## 3.8 学校管理后台相关接口

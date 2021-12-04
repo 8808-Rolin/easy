@@ -40,16 +40,34 @@ public class ActionController {
 
     @PostMapping(value = "/release-action")
     public ResponseVO release(ReleaseActionPO actObj){
+        // 参数合法性判断
+        if(actObj == null || actObj.getTitle() == null || actObj.getTitle().equals("")
+                || actObj.getContent() == null || actObj.getContent().equals("")
+                ||actObj.getAid() == null || !ss.verifyAssExist(actObj.getAid())
+                || actObj.getPosition() == null || actObj.getStartTime() == null || actObj.getEndTime()==null ){
+            return new ResponseVO(new SimpleVO(-1,"参数错误！"));
+        }
         return new ResponseVO(is.releaseAction(actObj));
     }
+
     @PostMapping(value = "/get-action-list")
     public ResponseVO get_action_list(Integer aid){
+        // 判断参数合法性
+        if(aid == null || !ss.verifyAssExist(aid)){
+            return new ResponseVO(new SimpleVO(-1,"参数错误！"));
+        }
+
         return new ResponseVO(ss.getActionList(aid));
     }
 
     @GetMapping(value = "/get-action-member")
-    public ResponseVO get_action_member(Integer aid){
-        return new ResponseVO(ss.getActionMember(aid));
+    public ResponseVO get_action_member(Integer actid){
+        // 判断参数合法性
+        if(actid == null || actid <= 0){
+            return new ResponseVO(new SimpleVO(-1,"参数错误！"));
+        }
+
+        return new ResponseVO(ss.getActionMember(actid));
     }
 
     @PostMapping(value = "/get-act-apply")

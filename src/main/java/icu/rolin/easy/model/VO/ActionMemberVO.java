@@ -1,11 +1,12 @@
 package icu.rolin.easy.model.VO;
 
+import icu.rolin.easy.model.DO.User;
 import icu.rolin.easy.model.POJO.UserSimplePOJO;
 
 public class ActionMemberVO {
     private Integer code;
     private String msg;
-    private UserSimplePOJO[] action_member;
+    private User[] action_member;
 
     public Integer getCode() {
         return code;
@@ -23,11 +24,12 @@ public class ActionMemberVO {
         this.msg = msg;
     }
 
-    public UserSimplePOJO[] getAction_member() {
+
+    public User[] getAction_member() {
         return action_member;
     }
 
-    public void setAction_member(UserSimplePOJO[] action_member) {
+    public void setAction_member(User[] action_member) {
         this.action_member = action_member;
     }
 }

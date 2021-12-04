@@ -1205,33 +1205,33 @@ public class SelectService {
         return gaavo;
     }
 
+    /**
+     * 获取社团活动列表，包括审核了和未审核的活动
+     * @param aid  社团ID
+     * @return 视图对象
+     */
     public GetActionListVO getActionList(Integer aid){
         GetActionListVO galco = new GetActionListVO();
         ArrayList<Action> actions = actionMapper.findByA_id(aid);
         Integer actionNumber = actions.size();
-        if (actionNumber == 0){
-            galco.setMsg("可能这个社团一点活动都没有");
-            galco.setCode(0);
-            galco.setAction(null);
-        }else {
-            galco.setCode(actionNumber);
-            ActionDataPOJO[] actionDataPOJOS = new ActionDataPOJO[actionNumber];
-            for (int i=0;i<actionNumber;i++){
-                String assName = associationMapper.getAssociationNameById(actions.get(i).getA_id());
-                String content = contentMapper.findContentById(actions.get(i).getContent_id());
-                actionDataPOJOS[i].setActid(actions.get(i).getId());
-                actionDataPOJOS[i].setAid(actions.get(i).getA_id());
-                actionDataPOJOS[i].setAssname(assName);
-                actionDataPOJOS[i].setTitle(actions.get(i).getTitle());
-                actionDataPOJOS[i].setContent(content);
-                actionDataPOJOS[i].setStartTime(actions.get(i).getStart_time().toString());
-                actionDataPOJOS[i].setEndTime(actions.get(i).getEnd_time().toString());
-                actionDataPOJOS[i].setStatus(actions.get(i).getIs_approved());
-            }
-            galco.setAction(actionDataPOJOS);
-            galco.setMsg("获取社团活动列表成功！");
-        }
 
+        galco.setCode(actionNumber);
+        ActionDataPOJO[] actionDataPOJOS = new ActionDataPOJO[actionNumber];
+        for (int i=0;i<actionNumber;i++){
+            actionDataPOJOS[i] = new ActionDataPOJO();
+            String assName = associationMapper.getAssociationNameById(actions.get(i).getA_id());
+            String content = contentMapper.findContentById(actions.get(i).getContent_id());
+            actionDataPOJOS[i].setActid(actions.get(i).getId());
+            actionDataPOJOS[i].setAid(actions.get(i).getA_id());
+            actionDataPOJOS[i].setAssname(assName);
+            actionDataPOJOS[i].setTitle(actions.get(i).getTitle());
+            actionDataPOJOS[i].setContent(content);
+            actionDataPOJOS[i].setStartTime(actions.get(i).getStart_time().toString());
+            actionDataPOJOS[i].setEndTime(actions.get(i).getEnd_time().toString());
+            actionDataPOJOS[i].setStatus(actions.get(i).getIs_approved());
+        }
+        galco.setAction(actionDataPOJOS);
+        galco.setMsg("获取社团活动列表成功！");
         return galco;
     }
 
@@ -1245,27 +1245,23 @@ public class SelectService {
         return c;
     }
 
+    /**
+     * 获取活动参加的人员列表
+     * @param aid  要获取的社团ID
+     * @return 返回一个视图对象
+     */
     public ActionMemberVO getActionMember(Integer aid){
         ActionMemberVO amvo = new ActionMemberVO();
+
         ArrayList<Join_Action> join_actions = joinActionMapper.getActionPersonNumber(aid);
         Integer personNumber = join_actions.size();
-        if (personNumber == 0){
-            amvo.setMsg("可能这个活动一点人都没有");
-            amvo.setCode(0);
-            amvo.setAction_member(null);
-        }else {
-            amvo.setCode(personNumber);
-            UserSimplePOJO[] userSimplePOJOS = new UserSimplePOJO[personNumber];
-            for (int i=0;i<personNumber;i++){
-                User user = userMapper.findById(join_actions.get(i).getU_id());
-                userSimplePOJOS[i].setUid(user.getId());
-                userSimplePOJOS[i].setUsername(user.getUsername());
-                userSimplePOJOS[i].setStudentid(user.getStudent_number());
-            }
-            amvo.setAction_member(userSimplePOJOS);
-            amvo.setMsg("获取活动人员信息成功!");
+        amvo.setCode(personNumber);
+        User[] users = new User[personNumber];
+        for (int i = 0; i < users.length; i++) {
+            users[i] = userMapper.findById(join_actions.get(i).getU_id());
         }
-
+        amvo.setAction_member(users);
+        amvo.setMsg("获取活动人员信息成功!");
         return amvo;
     }
 
