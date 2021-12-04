@@ -19,4 +19,8 @@ public interface ApplyCommondMapper {
     @Insert("INSERT INTO apply_commond (a_id, title, content_id) VALUES(#{aid}, #{title},#{contentid})")
     Integer insertAssApply(Integer aid, String title, Integer contentid);
 
+    @Select("SELECT max(id) FROM apply_commond")
+    Integer getTheLatestID();
+
+
 }

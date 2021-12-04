@@ -97,7 +97,17 @@ public class ApplyController {
     }
 
     @PostMapping(value = "/submit-association-apply")
-    public ResponseVO send_apply_ass(SendApplyPO sapo){
+    public ResponseVO send_apply_ass(SendApplyPO sapo,HttpServletRequest request){
+        // 验证参数合法性
+        if(sapo == null || sapo.getAid() == null || sapo.getTitle() == null || sapo.getContent() == null
+                ||!ss.verifyAssExist(sapo.getAid()) || sapo.getTitle().equals("") || sapo.getContent().equals("")){
+            return new ResponseVO(new SimpleVO(-1,"参数错误，提交失败"));
+        }
+        // 验证权限
+        Integer uid = UtilsService.getUidWithTokenByRequest(request);
+        if(uid == null || ss.verifyUserIsAssAdmin(uid,sapo.getAid())){
+            return new ResponseVO(new SimpleVO(-2,"权限错误，提交失败"));
+        }
         return new ResponseVO(is.submitAssApply(sapo));
     }
 

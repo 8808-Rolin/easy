@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -256,33 +257,34 @@ public class IncreaseService {
         return code == 1;
     }
 
+    /**
+     * 提交申请，插入数据库 多表：内容表
+     * @param sapo 请求参数，已经做好了数据合法性判断
+     * @return 返回一个视图对象
+     */
+    @Transactional(rollbackFor = Exception.class)
     public SimpleVO submitAssApply(SendApplyPO sapo) {
-        SimpleVO simpleVO = new SimpleVO();
-        if (sapo.getAid() == null) {
-            simpleVO.setMsg("请求参数丢失");
-            simpleVO.setCode(-1);
-            logger.error("提交社团申请---请求参数丢失...");
-        } else {
+        try{
             int contentCode = contentMapper.savePost_content(sapo.getContent());
             if (contentCode == 0) {
-                simpleVO.setCode(0);
-                simpleVO.setMsg("申请内容插入数据库插入失败..");
                 logger.error("提交社团申请---内容插入失败");
+                return new SimpleVO(-3,"提交申请失败，内容数据库插入出错！");
             } else {
                 int contentId = contentMapper.getTheLatestID();
                 int code = applyCommondMapper.insertAssApply(sapo.getAid(), sapo.getTitle(), contentId);
                 if (code == 0) {
-                    simpleVO.setMsg("社团申请提交失败");
-                    simpleVO.setCode(-1);
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return new SimpleVO(-4,"提交申请失败，插入数据库错误！");
                 } else {
-                    simpleVO.setMsg("社团申请提交成功");
-                    simpleVO.setCode(1);
+                    return new SimpleVO(applyCommondMapper.getTheLatestID(),"提交成功!");
                 }
             }
-
+        }catch (Exception e){
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return new SimpleVO(-5,"提交失败，出大错！");
         }
 
-        return simpleVO;
     }
 
     public SimpleVO releaseAction(ReleaseActionPO actObj) {

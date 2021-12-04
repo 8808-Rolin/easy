@@ -1588,7 +1588,7 @@
     <tr><td>status</td><td colspan=2>审批状态</td></tr>
 </table>
 
-#### 3.7.5.2 发送审批
+#### 3.7.5.2 发送审批(Finish)
 
 社团管理者可以调用该接口发送审批文档和数据给学校层，同样采用富文本编辑器，图片和附件都采用URL的形式上传。
 
@@ -1641,15 +1641,15 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
-    <tr><td>title</td></td><td>String</td><td>活动标题</td></tr>
-    <tr><td>content</td></td><td>String</td><td>活动内容</td></tr>
-    <tr><td>aid</td></td><td>Integer</td><td>活动举办所在社团</td></tr>
-    <tr><td>position</td></td><td>String</td><td>活动举办地点</td></tr>
-    <tr><td>startTime</td></td><td>String</td><td>开始时间</td></tr>
-    <tr><td>endTime</td></td><td>String</td><td>结束时间</td></tr>
+    <tr><th>参数名</th><t>参数类型</t>h<th>备注</th></tr>
+    <tr><td>title</td><td>String</td><td>活动标题</td></tr>
+    <tr><td>content</td><td>String</td><td>活动内容</td></tr>
+    <tr><td>aid</td><td>Integer</td><td>活动举办所在社团</td></tr>
+    <tr><td>position</td><td>String</td><td>活动举办地点</td></tr>
+    <tr><td>startTime</td><td>String</td><td>开始时间</td></tr>
+    <tr><td>endTime</td><td>String</td><td>结束时间</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个actid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
@@ -1663,13 +1663,13 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
-    <tr><td>aid</td></td><td>Integer</td><td>活动举办所在社团aid,为0则显示所有活动</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
+    <tr><td>aid</td><td>Integer</td><td>活动举办所在社团aid,为0则显示所有活动</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是action长度</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
-    <tr><th>data.action[]</td><th colspan=2>活动数据</th></tr>
+    <tr><th>data.action[]</th><th colspan=2>活动数据</th></tr>
     <tr><td>actid</td><td colspan=2>活动ID</td></tr>
     <tr><td>aid</td><td colspan=2>社团ID</td></tr>
     <tr><td>assname</td><td colspan=2>社团名字</td></tr>
