@@ -536,7 +536,7 @@
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><td>aid</td><td>Integer</td><td>社团ID</td></tr>
-    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr>
     <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>整数表示返回数量，0为没有数据</td></tr>
     <tr><th>msg[]</th><th colspan=2>结果数组</th></tr>
@@ -588,7 +588,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/create-ass</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>assname</td><td>String</td><td>社团名字</td></tr>
     <tr><td>assintro</td><td>String</td><td>社团简介</td></tr>
@@ -596,7 +596,7 @@
     <tr><td>assprofile</td><td>String</td><td>社团头像URL</td></tr>
     <tr><td>uid</td><td>Integer</td><td>申请人UID</td></tr>
     <tr><td>org</td><td>String</td><td>社团所属组织</td></tr>
-    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr>
     <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败返回-1，成功返回一个caid => create association ID</td></tr>
     <tr><td>msg</td><td colspan=2></td></tr>
@@ -619,7 +619,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/get-show-data</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>id值，是用户的唯一标识符</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
@@ -673,7 +673,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/release-post</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户唯一标志</td></tr>
     <tr><td>releaseArea</td><td>Integer</td><td>发表域，为社团的aid，公共论坛值为0</td></tr>
@@ -681,7 +681,7 @@
     <tr><td>postTitle</td><td>String</td><td>帖子标题</td></tr>
     <tr><td>content</td><td>String</td><td>帖子内容，带格式的文本串</td></tr>
     <tr><td>tags</td><td>String</td><td>逗号分隔的关键词标签</td></tr>
-    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr>
     <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1为失败，成功返回PID</td></tr>
     <tr><td>msg</td><td colspan=2>返回提示信息，提示成功或者失败以及失败的原因</td></tr>
@@ -699,7 +699,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/get-ass-information</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户唯一标志</td></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，论坛的aid值</td></tr>
@@ -726,12 +726,12 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/apply/join-association</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户唯一标志</td></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，论坛的aid值</td></tr>
     <tr><td>note</td><td>String</td><td>申请备注</td></tr>
-    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr>
     <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0为申请成功，1为申请失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
@@ -745,7 +745,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-action-overview</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户唯一标志</td></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，论坛的aid值</td></tr>
@@ -769,7 +769,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-action-info</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
     <tr><td>actid</td><td>Integer</td><td>ID值，活动的唯一标识符</td></tr>
@@ -1034,7 +1034,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/get-post</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>zone-uid</td><td>Integer</td><td>空间主人的UID->master user id</td></tr>
     <tr><td>type</td><td>Integer</td><td>查询类型：0为帖子列表 1为收藏收藏列表</td></tr>
@@ -1105,7 +1105,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-mail-content</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>mid</td><td>Integer</td><td>ID值，邮件的唯一标识符</td></tr>
     <tr><td>status</td><td>Integer</td><td>0：表示不会改变已读，1：表示会将邮件置为已读状态</td></tr>
@@ -1123,7 +1123,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/get-information</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户的唯一标识符,是空间的主人Muid</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
@@ -1157,7 +1157,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-notice</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>公告新内容</td></tr>
@@ -1179,7 +1179,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-name</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新昵称</td></tr>
@@ -1197,7 +1197,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-intro</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新头像，是一个URL</td></tr>
@@ -1215,7 +1215,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-profile</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新头像，是一个Base64编码字符串</td></tr>
@@ -1233,7 +1233,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-email</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新邮箱</td></tr>
@@ -1251,7 +1251,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/update-birth</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新的生日</td></tr>
@@ -1272,7 +1272,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/zone/switch-state</td></tr>
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
@@ -1330,7 +1330,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-ass-mails</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
@@ -1401,7 +1401,7 @@
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-daily-act</td></tr>
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th colspan="3">请求参数</th></tr>
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，社团的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 

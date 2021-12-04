@@ -66,7 +66,6 @@ public class ToolController {
         s.setCode(res.size());
         s.setMsg(res);
         return new ResponseVO(s);
-
     }
 
     @GetMapping(value = "/uni-variable")
