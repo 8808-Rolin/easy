@@ -32,12 +32,10 @@ public class SimpleVO {
         this.msg = msg;
     }
 
-    public SimpleVO(Integer code, String msg) {
+    public SimpleVO(Integer code, Object msg) {
         this.code = code;
         this.msg = msg;
     }
-
-
 }
 
 

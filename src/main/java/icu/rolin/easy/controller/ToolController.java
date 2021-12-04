@@ -1,6 +1,7 @@
 package icu.rolin.easy.controller;
 
 
+import icu.rolin.easy.model.DO.Content;
 import icu.rolin.easy.model.PO.SendMailPO;
 import icu.rolin.easy.model.PO.UniVariablePO;
 import icu.rolin.easy.model.POJO.AssOverviewPOJO;
@@ -166,5 +167,18 @@ public class ToolController {
             i++;
         }
         return new ResponseVO(postTypes);
+    }
+
+    @GetMapping(value = "/getContent")
+    public ResponseVO getContentById(Integer cid){
+        if (cid == null || cid <= 0){
+            return new ResponseVO(new SimpleVO(-1,"参数错误！"));
+        }
+        Content c = ss.getContentById(cid);
+        if(c == null){
+            return new ResponseVO(new SimpleVO(-2,"无法找到对应的内容！！"));
+        }else{
+            return new ResponseVO(new SimpleVO(0,c));
+        }
     }
 }

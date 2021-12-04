@@ -88,8 +88,12 @@ public class ApplyController {
     }
 
     @PostMapping(value = "/get-association-apply-list")
-    public ResponseVO get_ass_apply_list(Integer aid, @RequestParam(value = "headeruid") Integer uid){
-        return new ResponseVO(ss.getAssociationListApplyList(aid,uid));
+    public ResponseVO get_ass_apply_list(Integer aid){
+        // 判断参数合法性
+        if(aid == null || !ss.verifyAssExist(aid)){
+            return new ResponseVO(new SimpleVO(-1,"参数错误，请检查参数"));
+        }
+        return new ResponseVO(ss.getAssociationListApplyList(aid));
     }
 
     @PostMapping(value = "/submit-association-apply")

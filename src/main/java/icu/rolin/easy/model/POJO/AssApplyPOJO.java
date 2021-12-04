@@ -3,8 +3,17 @@ package icu.rolin.easy.model.POJO;
 public class AssApplyPOJO {
     private Integer aaid;
     private String title;
+    private Integer content_id;
     private String date;
     private Integer status;
+
+    public Integer getContent_id() {
+        return content_id;
+    }
+
+    public void setContent_id(Integer content_id) {
+        this.content_id = content_id;
+    }
 
     public Integer getAaid() {
         return aaid;

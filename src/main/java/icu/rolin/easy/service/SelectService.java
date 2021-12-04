@@ -1180,35 +1180,27 @@ public class SelectService {
         return gjavo;
     }
 
-    //用membergradge做用户权限判定
-    public GetAssApplyVO getAssociationListApplyList(Integer aid,Integer uid){
+
+    /**
+     * 获取社团的审批列表,该审批是社团向学校提交的审批
+     * @param aid 社团ID
+     * @return 返回一个渲染好的视图
+     */
+    public GetAssApplyVO getAssociationListApplyList(Integer aid){
         GetAssApplyVO gaavo = new GetAssApplyVO();
-        Integer memberGradge = associationMapper.verifyMemberGradge(aid,uid);
-        if (memberGradge == 0){
-            logger.warn("用户无权限查看社团后台！");
-            gaavo.setCode(-1);
-            gaavo.setMsg("宁越俎代庖了，爬！");
-            gaavo.setApply(null);
-        }else {
-            ArrayList<Apply_Commond> apply_commonds = applyCommondMapper.getAssociationApplyList(aid);
-            int acNumber = apply_commonds.size();
-            if (acNumber == 0){
-                gaavo.setCode(0);
-                gaavo.setMsg("可能这个社团雀食是没人想进吧...");
-                gaavo.setApply(null);
-            }else {
-                gaavo.setCode(acNumber);
-                AssApplyPOJO[] assApplyPOJOS = new AssApplyPOJO[acNumber];
-                for (int i=0;i<acNumber;i++){
-                    assApplyPOJOS[i].setAaid(apply_commonds.get(i).getId());
-                    assApplyPOJOS[i].setStatus(apply_commonds.get(i).getIs_approved());
-                    assApplyPOJOS[i].setTitle(apply_commonds.get(i).getTitle());
-                    assApplyPOJOS[i].setDate(apply_commonds.get(i).getCreate_time().toString());
-                }
-                gaavo.setApply(assApplyPOJOS);
-                gaavo.setMsg("你所热爱的，就是你的生活");
-            }
+        ArrayList<Apply_Commond> apply_commonds = applyCommondMapper.getAssociationApplyList(aid);
+        int acNumber = apply_commonds.size();
+        gaavo.setCode(acNumber);
+        AssApplyPOJO[] assApplyPOJOS = new AssApplyPOJO[acNumber];
+        for (int i=0;i<acNumber;i++){
+            assApplyPOJOS[i].setAaid(apply_commonds.get(i).getId());
+            assApplyPOJOS[i].setStatus(apply_commonds.get(i).getIs_approved());
+            assApplyPOJOS[i].setTitle(apply_commonds.get(i).getTitle());
+            assApplyPOJOS[i].setContent_id(apply_commonds.get(i).getContent_id());
+            assApplyPOJOS[i].setDate(apply_commonds.get(i).getCreate_time().toString());
         }
+        gaavo.setApply(assApplyPOJOS);
+        gaavo.setMsg("你所热爱的，就是你的生活");
 
         return gaavo;
     }
@@ -1241,6 +1233,16 @@ public class SelectService {
         }
 
         return galco;
+    }
+
+    /**
+     * 用户可以通过该业务，以一个cid获取内容
+     * @param cid 内容ID
+     * @return 返回一个内容对象
+     */
+    public Content getContentById(int cid){
+        Content c = contentMapper.getContentByID(cid);
+        return c;
     }
 
     public ActionMemberVO getActionMember(Integer aid){

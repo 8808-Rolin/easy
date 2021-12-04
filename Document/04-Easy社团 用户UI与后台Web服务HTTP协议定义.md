@@ -204,12 +204,12 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>loginType</td><td>Integer</td><td>0:代表使用学号密码登录，1：代表使用手机密码登录</td></tr>
     <tr><td>account</td><td>String</td><td>登录用户名(学号、手机)</td></tr>
     <tr><td>password</td><td>String</td><td>用户密码（MD5加密）</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0：登录成功，非0：登陆失败</td></tr>
     <tr><td>token</td><td colspan=2>code为0时返回该字段，是一个Token值，否则为空</td></tr>
     <tr><td>uid</td><td colspan=2>code为0时返回该字段，是用户的ID字段，否则为空</td></tr>
@@ -227,10 +227,10 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td colspan=3>  无  </td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td colspan=3>  无  </td></tr>
 </table>
 
@@ -245,7 +245,7 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>realName</td><td>String</td><td>中文字符串，是用户的真实姓名</td></tr>
     <tr><td>userName</td><td>String</td><td>中文字符串，是用户的昵称</td></tr>
     <tr><td>studentID</td><td>String</td><td>数字字符串，是用户的学号或老师教工号(唯一)</td></tr>
@@ -257,7 +257,7 @@
     <tr><td>birth</td><td>String</td><td>日期字符串，2000-00-00格式</td></tr>
     <tr><td>headImage</td><td>String</td><td>BASE64编码字符串，用户头像</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0：注册成功，非0：注册失败</td></tr>
     <tr><td>msg</td><td colspan=2>当code非0时原因，否则为空</td></tr>
 </table>
@@ -273,13 +273,13 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>studentID</td><td>String</td><td>数字字符串，学生的学号或老师的教工号</td></tr>
     <tr><td>phone</td><td>String</td><td>数字字符串，用户的手机号</td></tr>
     <tr><td>email</td><td>String</td><td>邮箱字符串</td></tr>
     <tr><td>password</td><td>String</td><td>新的用户密码（MD5加密）</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0：修改成功，非0：修改失败</td></tr>
     <tr><td>msg</td><td colspan=2>当code非0时原因，否则为空</td></tr>
 </table>
@@ -297,11 +297,11 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>studentID</td><td>String</td><td>学号</td></tr>
     <tr><td>phone</td><td>String</td><td>手机号码</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>结果代码：0->均不重复；1->学号重复；2->手机重复;3->均重复 </td></tr>
     <tr><td>msg</td><td colspan=2>描述信息</td></tr>
 </table>
@@ -319,13 +319,13 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>id值，是用户的唯一标识符</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败，可能是Token不对</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
-    <tr><th>data.user</td><th colspan=2>result为0时返回如下用户信息</th></tr>
+    <tr><th>data.user</th><th colspan=2>result为0时返回如下用户信息</th></tr>
     <tr><td>userName</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realName</td><td colspan=2>用户真实姓名</td></tr>
     <tr><td>studentID</td><td colspan=2>学号或教工号</td></tr>
@@ -348,10 +348,10 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>imageBASE64</td><td>String</td><td>图片的BASE64字符串编码</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>结果代码：0，转码成功 1，转码失败 </td></tr>
     <tr><td>msg</td><td colspan=2>如果code为0，则返回图片的URL地址，如果code为1，则返回错误信息</td></tr>
 </table>
@@ -365,7 +365,7 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
      <tr><td>isSystem</td><td>Integer</td><td>是否是系统发送，0为是用户发送，1为系统发送</td></tr>
     <tr><td>mailType</td><td>Integer</td><td>邮件类型，0：发送给用户，1：发送给社团</td></tr>
     <tr><td>fromuid</td><td>Integer</td><td>ID值，发送者UID(isSystem为1时无需该字段)</td></tr>
@@ -373,7 +373,7 @@
     <tr><td>title</td><td>String</td><td>邮件标题</td></tr>
     <tr><td>content</td><td>String</td><td>邮件内容</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回一个mid</td></tr>
     <tr><td>msg</td><td colspan=2>描述信息</td></tr>
 </table>
@@ -389,12 +389,12 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
      <tr><td>aid</td><td>Integer</td><td>社团唯一标识符，为0时获取全部用户信息</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
-    <tr><th>data.members[]</td><th colspan=2>用户信息</th></tr>
+    <tr><th>data.members[]</th><th colspan=2>用户信息</th></tr>
     <tr><td>uid</td><td colspan=2>用户uid</td></tr>
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realname</td><td colspan=2>用户真实姓名</td></tr>
@@ -412,9 +412,9 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>无</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
-    <tr><th>data.ass[]</td><th colspan=2>社团信息</th></tr>
+    <tr><th>data.ass[]</th><th colspan=2>社团信息</th></tr>
     <tr><td>aid</td><td colspan=2>社团uid</td></tr>
     <tr><td>name</td><td colspan=2>社团名称</td></tr>
 </table>
@@ -430,10 +430,10 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">multipart/form-data</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>file</td><td>file</td><td>二进制的文件数据</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>结果代码：0，转码成功 1，转码失败 </td></tr>
     <tr><td>msg</td><td colspan=2>如果code为0，则返回文件的URL地址，如果code为1，则返回错误信息</td></tr>
 </table>
@@ -449,9 +449,9 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>无</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示发送是否成功，失败返回-1，成功返回数据条数</td></tr>
-    <tr><th>data.college[]</td><th colspan=2>社团信息</th></tr>
+    <tr><th>data.college[]</th><th colspan=2>社团信息</th></tr>
     <tr><td>coid</td><td colspan=2>学院ID，coid</td></tr>
     <tr><td>name</td><td colspan=2>学院名称</td></tr>
 </table>
@@ -468,7 +468,7 @@
     <tr><td>fileName</td><td>String</td><td>预下载的文件名字</td></tr>
     <tr><td>uid</td><td>Integer</td><td>下载者的UID</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>file</td><th colspan=2>文件实体</th></tr>
+    <tr><th>file</th><th colspan=2>文件实体</th></tr>
 </table>
 
 #### 3.1.4.9 获取总的帖子类型（Finish）
@@ -482,7 +482,7 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>无</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data[]</td><th colspan=2>帖子类型数组</th></tr>
+    <tr><th>data[]</th><th colspan=2>帖子类型数组</th></tr>
 </table>
 
 #### 3.1.4.10 通过社团ID获取社团信息（Finish）
@@ -496,7 +496,7 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><td>aid</td><td>Integer</td><td>社团AID</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示请求是否成功，0为成功，-1为失败</td></tr>
     <tr><td>msg</td><td colspan=2>失败或成功的原因和信息</td></tr>
     <tr><td>leader_id</td><td colspan=2>社团名称</td></tr>
@@ -537,7 +537,7 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><td>aid</td><td>Integer</td><td>社团ID</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>整数表示返回数量，0为没有数据</td></tr>
     <tr><th>msg[]</th><th colspan=2>结果数组</th></tr>
     <tr><td>uid</td><td colspan=2>用户ID</td></tr>
@@ -563,7 +563,7 @@
 - 公告发布日期
 - 公告的pid(可以通过pid直接进入页面)
 
-<table  >
+<table>
     <tr><th colspan="3">请求</th></tr>
     <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
     <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/bbs/get-simple-notice</td></tr>
@@ -572,9 +572,9 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><td colspan=3>无</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>公告数量，是一个整数</td></tr>
-    <tr><th>data.notice[]</td><th colspan=2>当数量不为0时返回如下Json对象数组</th></tr>
+    <tr><th>data.notice[]</th><th colspan=2>当数量不为0时返回如下Json对象数组</th></tr>
     <tr><td>title</td><td colspan=2>公告标题</td></tr>
     <tr><td>date</td><td colspan=2>公告日期</td></tr>
     <tr><td>pid</td><td colspan=2>pid，帖子唯一标识符，可以直接进入帖子页面</td></tr>
@@ -589,7 +589,7 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>assname</td><td>String</td><td>社团名字</td></tr>
     <tr><td>assintro</td><td>String</td><td>社团简介</td></tr>
     <tr><td>note</td><td>String</td><td>申请备注</td></tr>
@@ -597,7 +597,7 @@
     <tr><td>uid</td><td>Integer</td><td>申请人UID</td></tr>
     <tr><td>org</td><td>String</td><td>社团所属组织</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败返回-1，成功返回一个caid => create association ID</td></tr>
     <tr><td>msg</td><td colspan=2></td></tr>
 </table>
@@ -620,13 +620,13 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>id值，是用户的唯一标识符</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1获取失败，0没有获取到数据，正整数值：数据数量(是当前学校社团总数)</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
-    <tr><th>data.ass[]</td><th colspan=2>result为0时返回如下社团信息数组</th></tr>
+    <tr><th>data.ass[]</th><th colspan=2>result为0时返回如下社团信息数组</th></tr>
     <tr><td>assName</td><td colspan=2>社团名称</td></tr>
     <tr><td>aid</td><td colspan=2>ID值，社团唯一标识符</td></tr>
     <tr><td>isJoin</td><td colspan=2>0为未加入，1为已加入</td></tr>
@@ -644,16 +644,16 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>一个整数值，等于社团的aid,公共交流板块值为0</td></tr>
     <tr><td>type</td><td>Integer</td><td>不可空，需要什么类型的帖子，默认为
         1->公告帖子，2->普通帖子</td></tr>
     <tr><td>page</td><td>Integer</td><td>可空，页面值，默认为1,公告不需要page以及limit</td></tr>
     <tr><td>limit</td><td>Integer</td><td>可空，每页展示几页，默认为10，公告不需要page以及limit</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>一个整数值，返回所有帖子的总数量</td></tr>
-    <tr><th>data.posts[]</td><th colspan=2>code字段不为0时返回该列表数组</td></tr>
+    <tr><th>data.posts[]</th><th colspan=2>code字段不为0时返回该列表数组</th></tr>
     <tr><td>pid</td><td colspan=2>ID值，帖子唯一标识符</td></tr>
     <tr><td>postType</td><td colspan=2>文本数据，帖子类型</td></tr>
     <tr><td>postTitle</td><td colspan=2>帖子标题</td></tr>
@@ -674,7 +674,7 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户唯一标志</td></tr>
     <tr><td>releaseArea</td><td>Integer</td><td>发表域，为社团的aid，公共论坛值为0</td></tr>
     <tr><td>postType</td><td>String</td><td>帖子类型，字符串</td></tr>
@@ -682,7 +682,7 @@
     <tr><td>content</td><td>String</td><td>帖子内容，带格式的文本串</td></tr>
     <tr><td>tags</td><td>String</td><td>逗号分隔的关键词标签</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1为失败，成功返回PID</td></tr>
     <tr><td>msg</td><td colspan=2>返回提示信息，提示成功或者失败以及失败的原因</td></tr>
 </table>
@@ -700,11 +700,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户唯一标志</td></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，论坛的aid值</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0为获取成功，1为获取失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
     <tr><td>permissionCode</td><td colspan=2>权限代码，2为社团管理员 1为用户以加入该社团，0为用户未加入该社团</td></tr>
@@ -727,12 +727,12 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户唯一标志</td></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，论坛的aid值</td></tr>
     <tr><td>note</td><td>String</td><td>申请备注</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0为申请成功，1为申请失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
 </table>
@@ -746,14 +746,14 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户唯一标志</td></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，论坛的aid值</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1为获取失败，0为没有数据，正整数表示获取到的数据数量</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
-    <tr><th>data.action[]</td><th colspan=2>活动列表</th></tr>
+    <tr><th>data.action[]</th><th colspan=2>活动列表</th></tr>
     <tr><td>actid</td><td colspan=2>ID值，活动唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>活动的标题</td></tr>
     <tr><td>position</td><td colspan=2>活动举办地点</td></tr>
@@ -770,11 +770,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
     <tr><td>actid</td><td>Integer</td><td>ID值，活动的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0成功，1失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回失败的原因</td></tr>
     <tr><td>title</td><td colspan=2>活动标题</td></tr>
@@ -1035,13 +1035,13 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>zone-uid</td><td>Integer</td><td>空间主人的UID->master user id</td></tr>
     <tr><td>type</td><td>Integer</td><td>查询类型：0为帖子列表 1为收藏收藏列表</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>返回一个整数，表示获取到的数据数量</td></tr>
-    <tr><th>data.posts[]</td><th colspan=2>当code不为0时，返回该字段，是一个对象数组</td></tr>
+    <tr><th>data.posts[]</th><th colspan=2>当code不为0时，返回该字段，是一个对象数组</th></tr>
     <tr><td>aid</td><td colspan=2>ID值，该帖子所在社团的aid号</td></tr>
     <tr><td>aname</td><td colspan=2>帖子所在社团的名称</td></tr>
     <tr><td>title</td><td colspan=2>帖子标题</td></tr>
@@ -1081,12 +1081,12 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>返回一个整数，表示获取到的数据数量</td></tr>
-    <tr><th>data.mail[]</td><th colspan=2>当code不为0时，返回该字段，是一个对象数组</td></tr>
+    <tr><th>data.mail[]</th><th colspan=2>当code不为0时，返回该字段，是一个对象数组</th></tr>
     <tr><td>mid</td><td colspan=2>mail-ID:邮件的唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>邮件标题</td></tr>
     <tr><td>date</td><td colspan=2>邮件发送日期</td></tr>
@@ -1124,13 +1124,13 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>ID值，用户的唯一标识符,是空间的主人Muid</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0表示获取失败，1表示获取成功</td></tr>
     <tr><td>assNum</td><td colspan=2>用户加入的社团数量</td></tr>
-    <tr><th>data.userdata</td><th colspan=2>当code不为0时，返回该字段，是一个用户数据</th></tr>
+    <tr><th>data.userdata</th><th colspan=2>当code不为0时，返回该字段，是一个用户数据</th></tr>
     <tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realname</td><td colspan=2>用户真实姓名</td></tr>
@@ -1141,7 +1141,7 @@
     <tr><td>college</td><td colspan=2>用户所属院系</td></tr>
     <tr><td>birth</td><td colspan=2>用户生日</td></tr>
     <tr><td>numpost</td><td colspan=2>发帖数量(包括回复)</td></tr>
-    <tr><th>data.joinass[]</td><th colspan=2>返回用户加入的社团，是一个对象数组</th></tr>
+    <tr><th>data.joinass[]</th><th colspan=2>返回用户加入的社团，是一个对象数组</th></tr>
     <tr><td>aid</td><td colspan=2>社团唯一标识符</td></tr>
     <tr><td>name</td><td colspan=2>社团名称</td></tr>
     <tr><td>profile</td><td colspan=2>社团头像Logo</td></tr>
@@ -1158,11 +1158,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>公告新内容</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
@@ -1180,11 +1180,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新昵称</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
@@ -1198,11 +1198,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新头像，是一个URL</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
@@ -1216,11 +1216,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新头像，是一个Base64编码字符串</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
@@ -1234,11 +1234,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新邮箱</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
@@ -1252,11 +1252,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><td>newProfile</td><td>String</td><td>新的生日</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示修改是否成功，成功返回0，失败返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
@@ -1273,10 +1273,10 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示修改是否成功，失败返回-1.关闭成功返回0，开启成功返回1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
@@ -1298,18 +1298,18 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，社团的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，非1代表失败</td></tr>
-    <tr><th>data.assInfo</td><th colspan=2>社团信息</td></tr>
+    <tr><th>data.assInfo</th><th colspan=2>社团信息</th></tr>
     <tr><td>name</td><td colspan=2>社团名字</td></tr>
     <tr><td>intro</td><td colspan=2>社团简介</td></tr>
     <tr><td>principal</td><td colspan=2>社团负责人</td></tr>
     <tr><td>org</td><td colspan=2>社团所属组织</td></tr>
     <tr><td>profile</td><td colspan=2>社团头像 BASE64编码</td></tr>
-    <tr><th>data.showInfo</td><th colspan=2>社团信息</td></tr>
+    <tr><th>data.showInfo</th><th colspan=2>社团信息</th></tr>
     <tr><td>headcount</td><td colspan=2>社团总人数</td></tr>
     <tr><td>postcount</td><td colspan=2>论坛总帖数</td></tr>
     <tr><td>actioncount</td><td colspan=2>待举行活动的数量</td></tr>
@@ -1331,12 +1331,12 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，用户的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>返回一个整数，表示获取到的数据数量 <b>负数表示错误</b></td></tr>
-    <tr><th>data.mail[]</td><th colspan=2>当code不为0时，返回该字段，是一个对象数组</th></tr>
+    <tr><th>data.mail[]</th><th colspan=2>当code不为0时，返回该字段，是一个对象数组</th></tr>
     <tr><td>mid</td><td colspan=2>mail-ID:邮件的唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>邮件标题</td></tr>
     <tr><td>date</td><td colspan=2>邮件发送日期</td></tr>
@@ -1356,11 +1356,11 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>mid</td><td>Integer</td><td>ID值，邮件的唯一标识符</td></tr>
     <tr><td>status</td><td>Integer</td><td>0：表示不会改变已读，1：表示会将邮件置为已读状态</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
     <tr><td>msg</td><td colspan=2>邮件内容</td></tr>
 </table>
@@ -1548,14 +1548,14 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>id值，是论坛唯一标识符</td></tr>
     <tr><td>name</td><td>String</td><td>论坛名称</td></tr>
     <tr><td>intro</td><td>String</td><td>论坛简介</td></tr>
     <tr><td>logo</td><td>String</td><td>论坛Logo，Base64编码格式字符串</td></tr>
     <tr><td>headeruid</td><td>Integer</td><td>论坛负责人的UID</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0：请求成功 非0：请求失败</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
@@ -1564,8 +1564,7 @@
 
 社团在此处可以提交一些审批申请，比如像活动申请啊，场地申请啊，也可以向学校提交年审文件之类的。
 
-#### 3.7.5.1 审批清单
-
+#### 3.7.5.1 审批清单 （FINISH）
 该接口用以拉取该社团所有的审批历史，包括审批中、审批打回、审批通过的都在此处
 
 <table>
@@ -1575,16 +1574,16 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>id值，是论坛唯一标识符</td></tr>
-    <tr><td>headeruid</td><td>Integer</td><td>论坛负责人的UID</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>请求失败：-1；请求成功则返回数据数量</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
-    <tr><th>data.apply</td><th colspan=2>当code大于0时该字段存在</th></tr>
+    <tr><th>data.apply[]</th><th colspan=2>当code大于0时该字段存在</th></tr>
     <tr><td>aaid</td><td colspan=2>Association-Apply-ID：社团申请ID值，唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>标题</td></tr>
+    <tr><td>content_id</td><td colspan=2>内容ID</td></tr>
     <tr><td>date</td><td colspan=2>发送时间</td></tr>
     <tr><td>status</td><td colspan=2>审批状态</td></tr>
 </table>
@@ -1600,14 +1599,35 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>id值，是论坛唯一标识符</td></tr>
-    <tr><td>title</td></td><td>String</td><td>审批标题</td></tr>
-    <tr><td>content</td></td><td>String</td><td>富文本审批内容</td></tr>
+    <tr><td>title</td><td>String</td><td>审批标题</td></tr>
+    <tr><td>content</td><td>String</td><td>富文本审批内容</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
+</table>
+
+#### 3.7.5.3 通过内容ID取得审批内容(Finish)
+
+<table>
+    <tr><th colspan="3">请求</th></tr>
+    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/tool/getContent</td></tr>
+    <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
+    <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
+    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
+    <tr><td>cid</td><td>Integer</td><td>id值，是Content_id</td></tr>
+    <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
+    <tr><td>code</td><td colspan=2>请求失败：-1；请求成功则返回0</td></tr>
+    <tr><th>msg</th><td colspan=2>Conetent对象</td></tr>
+    <tr><td>id</td><td colspan=2>内容ID</td></tr>
+    <tr><td>content</td><td colspan=2>内容文本</td></tr>
+    <tr><td>create_time</td><td colspan=2>创建时间</td></tr>
+    <tr><td>update_time</td><td colspan=2>更新时间</td></tr>
 </table>
 
 ### 3.7.6 活动管理
@@ -1731,17 +1751,17 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>requestType</td><td>Integer</td><td>0：按照论坛不同区分活动列表，1：按照状态不同区分活动列表</td></tr>
-    <tr><td>statusType</td></td><td>Integer</td><td>若rt为0，则该参数是论坛aid，若rt为1，则该参数0代表待发布，1：待举行，2：已举行，3：审批不过</td></tr>
+    <tr><td>statusType</td></th><td>Integer</td><td>若rt为0，则该参数是论坛aid，若rt为1，则该参数0代表待发布，1：待举行，2：已举行，3：审批不过</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时返回数据数量</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
-     <tr><th>data.action[]</td><th colspan=2>响应数据体</th></tr>
+     <tr><th>data.action[]</th><th colspan=2>响应数据体</th></tr>
     <tr><td>actid</td><td colspan=2>活动唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>活动标题</td></tr>
-    <tr><td>startTime</td></td><td colspan=2>活动开始日期</td></tr>
+    <tr><td>startTime</td></th><td colspan=2>活动开始日期</td></tr>
     <tr><td>status</td><td colspan=2>活动状态，是一个整数值</td></tr>
 </table>
 
@@ -1758,12 +1778,12 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
-    <tr><th colspan="3">None</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
+    <tr><th colspan="3">None</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为10</td></tr>
-    <tr><th>data.data[]</td><th colspan=2>数据体</td></tr>
+    <tr><th>data.data[]</th><th colspan=2>数据体</th></tr>
     <tr><td>id</td><td colspan=2>社团UID</td></tr>
     <tr><td>name</td><td colspan=2>社团名称</td></tr>
     <tr><td>num</td><td colspan=2>数值(0-1直接的小数)</td></tr>
@@ -1778,12 +1798,12 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
-    <tr><th colspan="3">None</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
+    <tr><th colspan="3">None</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为15</td></tr>
-    <tr><th>data.daily[]</td><th colspan=2>数据体</td></tr>
+    <tr><th>data.daily[]</th><th colspan=2>数据体</th></tr>
     <tr><td>date</td><td colspan=2>日期时间</td></tr>
     <tr><td>num</td><td colspan=2>数值(0-无限大)</td></tr>
 </table>
@@ -1801,12 +1821,12 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
-    <tr><th colspan="3">None</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
+    <tr><th colspan="3">None</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
-    <tr><th>data.ass[]</td><th colspan=2>数据体</td></tr>
+    <tr><th>data.ass[]</th><th colspan=2>数据体</th></tr>
     <tr><td>aid</td><td colspan=2>社团ID，社团的唯一标识符</td></tr>
     <tr><td>name</td><td colspan=2>社团名字</td></tr>
     <tr><td>intro</td><td colspan=2>社团简介</td></tr>
@@ -1826,12 +1846,12 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><th colspan="3">None</th></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量</td></tr>
-    <tr><th>data.create[]</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data.create[]</th><th colspan=2>响应数据体</th></tr>
     <tr><td>caid</td><td colspan=2>创建审批ID</td></tr>
     <tr><td>name</td><td colspan=2>社团名字</td></tr>
     <tr><td>intro</td><td colspan=2>社团简介</td></tr>
@@ -1851,11 +1871,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>caid</td><td>Integer</td><td>创建社团审批信息唯一标识符ID</td></tr>
     <tr><td>status</td><td>Integer</td><td>状态：0：不通过，1：通过</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败返回-1，成功返回一个caid</td></tr>
     <tr><td>msg</td><td colspan=2>描述信息</td></tr>
 </table>
@@ -1871,13 +1891,13 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
-    <tr><th colspan="3">None</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
+    <tr><th colspan="3">None</th></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>0：获取成功 非0：获取失败</td></tr>
     <tr><td>msg</td><td colspan=2>result非零时返回错误信息</td></tr>
-    <tr><th>data.user[]</td><th colspan=2>result为0时返回如下用户信息</td></tr>
+    <tr><th>data.user[]</th><th colspan=2>result为0时返回如下用户信息</th></tr>
     <tr><td>uid</td><td colspan=2>用户唯一标识符</td></tr>
     <tr><td>userName</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realName</td><td colspan=2>用户真实姓名</td></tr>
@@ -1899,13 +1919,13 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><th colspan="3">None</th></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时返回数据数量</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
-    <tr><th>data.list[]</td><th colspan=2>请求成功时返回该字段，是个数组</td></tr>
+    <tr><th>data.list[]</th><th colspan=2>请求成功时返回该字段，是个数组</th></tr>
     <tr><td>aaid</td><td colspan=2>审批ID</td></tr>
     <tr><td>aid</td><td colspan=2>社团ID</td></tr>
     <tr><td>title</td><td colspan=2>审批信息标题</td></tr>
@@ -1923,11 +1943,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aaid</td><td>Integer</td><td>id值，是论坛提审唯一标识符</td></tr>
-    <tr><td>status</td></td><td>Integer</td><td>0:不通过，1：通过</td></tr>
+    <tr><td>status</td><td>Integer</td><td>0:不通过，1：通过</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
@@ -1941,13 +1961,13 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>id值，论坛唯一标识符，0代表获取所有活动</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是数据的数量</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
-     <tr><th>data.action[]</td><th colspan=2>活动列表</td></tr>
+     <tr><th>data.action[]</th><th colspan=2>活动列表</th></tr>
     <tr><td>actaid</td><td colspan=2>活动审批唯一ID</td></tr>
     <tr><td>aid</td><td colspan=2>举办活动的论坛id</td></tr>
     <tr><td>assname</td><td colspan=2>举办活动的论坛名字</td></tr>
@@ -1966,11 +1986,11 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>actid</td><td>Integer</td><td>id值，是活动审批唯一标识符</td></tr>
-    <tr><td>status</td></td><td>Integer</td><td>0:不通过，1：通过</td></tr>
+    <tr><td>status</td><td>Integer</td><td>0:不通过，1：通过</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</td></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是一个aaid</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
