@@ -1064,10 +1064,10 @@
     <tr><th>请求方法</th><td colspan="2">Get</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uid</td><td>Integer</td><td>用户ID-UID</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>清除成功则返回删除的条数，若失败，返回-1</td></tr>
     <tr><td>msg</td><td colspan=2>返回描述信息</td></tr>
 </table>
@@ -1106,11 +1106,11 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>mid</td><td>Integer</td><td>ID值，邮件的唯一标识符</td></tr>
     <tr><td>status</td><td>Integer</td><td>0：表示不会改变已读，1：表示会将邮件置为已读状态</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>表示获取是否成功，成功返回1，失败返回0</td></tr>
     <tr><td>msg</td><td colspan=2>邮件内容</td></tr>
 </table>
@@ -1380,18 +1380,18 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，社团的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为10</td></tr>
-    <tr><th>data.data[]</td><th colspan=2>数据体</th></tr>
+    <tr><th>data.data[]</th><th colspan=2>数据体</th></tr>
     <tr><td>id</td><td colspan=2>用户UID</td></tr>
     <tr><td>name</td><td colspan=2>用户昵称</td></tr>
     <tr><td>num</td><td colspan=2>数值(0-1直接的小数)</td></tr>
 </table>
 
-##### 3.7.1.3.2 社团每天活跃度
+##### 3.7.1.3.2 社团每天活跃度(Finish)
 
 这里展示了社团从创立以来每天的活跃度变化
 
@@ -1402,12 +1402,12 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>aid</td><td>Integer</td><td>ID值，社团的唯一标识符</td></tr>
     <tr><th>响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败返回-1，成功返回数据数量，默认为15</td></tr>
-    <tr><th>data.daily[]</td><th colspan=2>数据体</th></tr>
+    <tr><th>data.daily[]</th><th colspan=2>数据体</th></tr>
     <tr><td>date</td><td colspan=2>日期时间</td></tr>
     <tr><td>num</td><td colspan=2>数值(0-无限大)</td></tr>
 </table>
@@ -1690,13 +1690,13 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
-    <tr><td>actid</td></td><td>Integer</td><td>活动ID</td></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
+    <tr><td>actid</td><td>Integer</td><td>活动ID</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是action长度</td></tr>
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
-    <tr><th>data.action_member[]</td><th colspan=2>参加活动的人员，是一个User对象数组</th></tr>
+    <tr><th>data.action_member[]</th><th colspan=2>参加活动的人员，是一个User对象数组</th></tr>
 </table>
 
 ## 3.8 学校管理后台相关接口
@@ -1712,10 +1712,10 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><th colspan="3">无</th></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>失败值为“-1”，成功则返回用户数量</td></tr>
     <tr><td>msg</td><td colspan=2>描述信息</td></tr>
 </table>
@@ -1729,10 +1729,10 @@
     <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><th colspan="3">无</th></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</td><th colspan=2>响应数据体</th></tr>
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>joins</td><td colspan=2>该字段返回加入社团学生的人数</td></tr>
     <tr><td>all</td><td colspan=2>字段返回全部学生的数量</td></tr>
 </table>
@@ -1750,7 +1750,7 @@
     <tr><th colspan="3">请求参数</th></tr>    
     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>requestType</td><td>Integer</td><td>0：按照论坛不同区分活动列表，1：按照状态不同区分活动列表</td></tr>
-    <tr><td>statusType</td></th><td>Integer</td><td>若rt为0，则该参数是论坛aid，若rt为1，则该参数0代表待发布，1：待举行，2：已举行，3：审批不过</td></tr>
+    <tr><td>statusType</td><td>Integer</td><td>若rt为0，则该参数是论坛aid，若rt为1，则该参数0代表待发布，1：待举行，2：已举行，3：审批不过</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
     <tr><th>data</th><th colspan=2>响应数据体</th></tr>
     <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时返回数据数量</td></tr>
@@ -1758,7 +1758,7 @@
      <tr><th>data.action[]</th><th colspan=2>响应数据体</th></tr>
     <tr><td>actid</td><td colspan=2>活动唯一标识符</td></tr>
     <tr><td>title</td><td colspan=2>活动标题</td></tr>
-    <tr><td>startTime</td></th><td colspan=2>活动开始日期</td></tr>
+    <tr><td>startTime</td><td colspan=2>活动开始日期</td></tr>
     <tr><td>status</td><td colspan=2>活动状态，是一个整数值</td></tr>
 </table>
 

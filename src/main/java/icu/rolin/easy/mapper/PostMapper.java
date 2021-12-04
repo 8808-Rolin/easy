@@ -79,4 +79,7 @@ public interface PostMapper {
     @Select("SELECT * FROM post WHERE a_id = #{aid} ORDER BY create_time DESC LIMIT 1")
     Post findByAidTimeDesc (Integer aid);
 
+    @Select("SELECT COUNT(*) FROM post WHERE DATEDIFF(create_time, NOW()) = #{day}")
+    Integer countByDate(Integer day);
+
 }

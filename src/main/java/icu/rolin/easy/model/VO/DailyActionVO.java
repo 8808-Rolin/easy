@@ -1,8 +1,10 @@
 package icu.rolin.easy.model.VO;
 
+import icu.rolin.easy.model.POJO.DailyViewPOJO;
+
 public class DailyActionVO {
     private Integer code;
-    private DailyActionVO[] daily;
+    private DailyViewPOJO[] daily;
 
     public Integer getCode() {
         return code;
@@ -12,11 +14,11 @@ public class DailyActionVO {
         this.code = code;
     }
 
-    public DailyActionVO[] getDaily() {
+    public DailyViewPOJO[] getDaily() {
         return daily;
     }
 
-    public void setDaily(DailyActionVO[] daily) {
+    public void setDaily(DailyViewPOJO[] daily) {
         this.daily = daily;
     }
 }

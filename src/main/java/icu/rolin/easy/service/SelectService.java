@@ -1339,6 +1339,28 @@ public class SelectService {
 
 
     /**
+     * 获取社团每天的活跃度
+     * 初版算法：以每日发帖量计算
+     * @param aid 社团ID
+     * @return 返回数据数组
+     */
+    public DailyViewPOJO[] getDailyAct(int aid){
+        final long ms = 1000 * 60 * 60 * 24;
+
+        // 获取七天分别的数据
+        DailyViewPOJO[] days = new DailyViewPOJO[15];
+        for (int i = 0; i <15; i++) {
+            Date today = new Date(System.currentTimeMillis() - ms * i);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            days[i] = new DailyViewPOJO();
+            days[i].setNum(postMapper.countByDate(i) / 1.2f);
+            days[i].setDate(formatter.format(today));
+        }
+        return days;
+    }
+
+
+    /**
      * 通过社团的ID可以查询到社团的详细信息
      * @param id 社团ID，是一个AID
      * @return 返回一个社团表对象

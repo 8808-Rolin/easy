@@ -5,10 +5,7 @@ import icu.rolin.easy.interceptor.UserInterceptor;
 import icu.rolin.easy.model.DO.Association;
 import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
-import icu.rolin.easy.model.POJO.AssMemberPOJO;
-import icu.rolin.easy.model.POJO.MailOverviewPOJO;
-import icu.rolin.easy.model.POJO.PersonActionPOJO;
-import icu.rolin.easy.model.POJO.UserPOJO;
+import icu.rolin.easy.model.POJO.*;
 import icu.rolin.easy.model.VO.*;
 import icu.rolin.easy.service.*;
 import org.apache.ibatis.annotations.Insert;
@@ -152,7 +149,14 @@ public class InfoController {
 
     @GetMapping(value = "/get-daily-act")
     public ResponseVO get_daily_act(Integer aid){
-        return new ResponseVO(new DailyActionVO());
+        // 判断参数合法性
+        if(aid == null || aid <= 0 || !ss.getAssIsExist(aid))
+            return new ResponseVO(new SimpleVO(-1,"参数出错，请检查参数aid"));
+        DailyViewPOJO[] x = ss.getDailyAct(aid);
+        DailyActionVO y = new DailyActionVO();
+        y.setCode(x.length);
+        y.setDaily(x);
+        return new ResponseVO(y);
     }
 
     @GetMapping(value = "/get-ass-act")
