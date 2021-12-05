@@ -1,10 +1,7 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.Association;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
@@ -53,7 +50,13 @@ public interface AssociationMapper {
     @Update("UPDATE association SET logo = #{name} WHERE id = #{aid}")
     Integer updateLogoById(String name,Integer aid);
 
-    @Update("UPDATE association SET leader_id = #{name} WHERE id = #{aid}")
+    @Update("UPDATE association SET leader_id = #{uid} WHERE id = #{aid}")
     Integer updateLeaderById(Integer uid,Integer aid);
+
+    @Insert("INSERT INTO association (leader_id,name,logo,intro,parent_organization) VALUES (#{uid},#{assName},#{logo},#{intro},#{po})")
+    Integer insertByAll(Integer uid,String assName,String logo,String intro,String po);
+
+    @Select("SELECT MAX(id) FROM association WHERE leader_id = #{leader}")
+    Integer getMaxIDByLeader(Integer leader);
 
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Array;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -464,6 +465,45 @@ public class SelectService {
         getActionInfoVO.setOverDate(Common.convertTimestamp2Date(actionInfo.getEnd_time(),"yyyy-MM-dd HH:mm:ss"));
         getActionInfoVO.setPosition(actionInfo.getPosition());
         getActionInfoVO.setStatus(status);
+        return getActionInfoVO;
+    }
+
+    /**
+     * 活动的详细信息JooLum觉得无需再做判定 OK√
+     *  获取状态码流程：
+     * 1. 先核验用户是否是该社团的
+     * 2. 若是,则进行权限核验,若不是则返回无权限码
+     * @author Joolum
+     * @param actid 传入一个actid 是活动标志
+     * @return 返回一个GetActionInfoVO对象
+     */
+    public GetActionInfoVO getDetailedActionInformation(Integer actid){
+        // 实例化一个新返回对象
+        GetActionInfoVO getActionInfoVO = new GetActionInfoVO();
+        Content content = null;
+        Action actionInfo = null;
+        try{
+            //获取活动详细信息
+            actionInfo = actionMapper.getDetailedAssActionByAcId(actid);
+            logger.info(actionInfo.toString());
+            //获取活动内容
+            content = contentMapper.getContentByID(actionInfo.getContent_id());
+            logger.info(content.getContent());
+        }catch (Exception e){
+            //获取出错，返回一个错误状态对象
+            e.printStackTrace();
+            getActionInfoVO.setCode(1);
+            getActionInfoVO.setMsg("数据库查询或后台错误，错误类型："+e.getMessage());
+            return getActionInfoVO;
+        }
+        getActionInfoVO.setCode(0);
+        getActionInfoVO.setMsg("获取成功");
+        getActionInfoVO.setTitle(actionInfo.getTitle());
+        getActionInfoVO.setContent(content.getContent());
+        getActionInfoVO.setReleaseDate(Common.convertTimestamp2Date(actionInfo.getCreate_time(),"yyyy-MM-dd"));
+        getActionInfoVO.setStartDate(Common.convertTimestamp2Date(actionInfo.getStart_time(),"yyyy-MM-dd HH:mm:ss"));
+        getActionInfoVO.setOverDate(Common.convertTimestamp2Date(actionInfo.getEnd_time(),"yyyy-MM-dd HH:mm:ss"));
+        getActionInfoVO.setPosition(actionInfo.getPosition());
         return getActionInfoVO;
     }
 
@@ -1432,7 +1472,62 @@ public class SelectService {
         return find;
     }
 
+
+    /**
+     * 获取所有的创建社团列表
+     * @return 对象数组
+     */
+    public ArrayList<CreateAssPOJO> getCreateList(){
+        ArrayList<CreateAssPOJO> cas = new ArrayList<>();
+        // 获取所有审核情况
+        ArrayList<Apply_Create> ac = applyCreateMapper.findAll();
+        for (Apply_Create apply_create : ac) {
+            CreateAssPOJO ca = new CreateAssPOJO();
+            ca.setCaid(apply_create.getId());
+            ca.setName(apply_create.getName());
+            ca.setIntro(apply_create.getIntro());
+            ca.setNote(apply_create.getNote());
+            ca.setUid(apply_create.getU_id());
+            User user = userMapper.findById(apply_create.getU_id());
+            if(user == null) {
+                logger.error("找不到对应用户，数据库出大问题！出错UID："+apply_create.getU_id());
+                continue;
+            }
+            ca.setRealname(user.getRealname());
+            ca.setStudentID(user.getStudent_number());
+            ca.setStatus(apply_create.getIs_approved());
+            cas.add(ca);
+        }
+        return cas;
+    }
+
+    public Apply_Create getApply_createById(int id){
+        return applyCreateMapper.findById(id);
+    }
+
+    public User getUserById(int id){
+        return userMapper.findById(id);
+    }
+
+
+
     // -----验证操作-----
+
+
+    /**
+     * 判断一个CAID是否已经呗审批过来
+     * 若被审批过则无法再次审批
+     * @param caid caid
+     * @return 布尔值
+     */
+    public boolean judgeCAIDIsApproved(int caid){
+        Apply_Create ac = applyCreateMapper.findById(caid);
+        if(ac == null || ac.getIs_approved() == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 
     /**

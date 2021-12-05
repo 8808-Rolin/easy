@@ -8,5 +8,6 @@ public class Constant {
     public final static String TOKEN_SECRET = "easy";
 
     //定义文件保存路径
-    public static String FILE_PATH = "D:/file/";
+    public static String FILE_PATH_ = "D:/file/";
+    public static String FILE_PATH = "/root/rolin/file/";
 }

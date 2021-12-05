@@ -2,9 +2,11 @@ package icu.rolin.easy.model.VO;
 
 import icu.rolin.easy.model.POJO.CreateAssPOJO;
 
+import java.util.ArrayList;
+
 public class CreateAssVO {
     private Integer code;
-    private CreateAssPOJO[] create;
+    private ArrayList<CreateAssPOJO> create;
 
     public Integer getCode() {
         return code;
@@ -14,11 +16,13 @@ public class CreateAssVO {
         this.code = code;
     }
 
-    public CreateAssPOJO[] getCreate() {
+    public ArrayList<CreateAssPOJO> getCreate() {
         return create;
     }
 
-    public void setCreate(CreateAssPOJO[] create) {
+    public void setCreate(ArrayList<CreateAssPOJO> create) {
         this.create = create;
+
     }
+
 }

@@ -21,7 +21,7 @@ public interface PostMapper {
     @Select("SELECT * FROM post WHERE post_type = #{postType}")
     ArrayList<Post> findPostByPostType(Integer postType);
 
-    @Select("SELECT * FROM post WHERE post_type = #{postType} AND a_id = 0")
+    @Select("SELECT * FROM post WHERE post_type = #{postType}")
     ArrayList<Post> findPostByPostTypeWithIndex(Integer postType);
 
     @Select("SELECT * FROM post WHERE a_id = #{aid} and post_type = #{post_type}")

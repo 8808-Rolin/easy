@@ -72,8 +72,13 @@ public class InfoController {
     //3.3.7 获取活动详细信息接口
     @PostMapping(value = "/get-action-info")
     public ResponseVO get_action_info(Integer uid,Integer actid){
-        if(uid == null || actid == null) return new ResponseVO(new SimpleVO(-1,"参数错误！！！"));
-        return new ResponseVO(ss.getDetailedActionInformation(uid,actid));
+        if(actid == null) return new ResponseVO(new SimpleVO(-1,"参数错误！！！"));
+        if(uid == null){
+            return new ResponseVO(ss.getDetailedActionInformation(actid));
+        }else{
+            return new ResponseVO(ss.getDetailedActionInformation(uid,actid));
+        }
+
     }
 
 

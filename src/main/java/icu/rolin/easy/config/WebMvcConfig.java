@@ -2,6 +2,7 @@ package icu.rolin.easy.config;
 
 import icu.rolin.easy.interceptor.UserInterceptor;
 import icu.rolin.easy.interceptor.ZoneInterceptor;
+import icu.rolin.easy.utils.Constant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
-    @Value("${web.static.path}")
-    private String staticPath;
+    private String staticPath = Constant.FILE_PATH;
 
     @Bean
     public UserInterceptor startUserInterceptor(){

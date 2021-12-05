@@ -1504,7 +1504,7 @@
     <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
     <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
     <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</td><th>备注</th></tr>
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
     <tr><td>uaid</td><td>Integer</td><td>id值，是审批数据唯一标志</td></tr>
     <tr><td>type</td><td>Integer</td><td>0：拒绝入社申请；1：同意入社申请</td></tr>
     <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
@@ -1856,7 +1856,7 @@
     <tr><td>uid</td><td colspan=2>创建社团的用户UID</td></tr>
     <tr><td>realname</td><td colspan=2>真实姓名</td></tr>
     <tr><td>studentID</td><td colspan=2>学号</td></tr>
-    <tr><td>status</td><td colspan=2>状态码：0:未通过，1:已通过</td></tr>
+    <tr><td>status</td><td colspan=2>状态码：0:未审批，1:已通过，2:不通过</td></tr>
 </table>
 
 ##### 3.8.2.2.2 审批

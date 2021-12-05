@@ -1,8 +1,7 @@
 package icu.rolin.easy.service;
 
 import icu.rolin.easy.mapper.*;
-import icu.rolin.easy.model.DO.Action;
-import icu.rolin.easy.model.DO.Join_Action;
+import icu.rolin.easy.model.DO.*;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.VO.SimpleVO;
 import org.slf4j.Logger;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 /**
@@ -53,6 +53,9 @@ public class DeleteService {
     @Autowired
     IncreaseService is;
 
+    @Autowired
+    SelectService ss;
+
     /**
      * 删除帖子业务操作，同时要删除所有评论以及内容表内容
      * 防止表的内容不一，采用事务回滚的方式控制
@@ -60,7 +63,25 @@ public class DeleteService {
      * @return 返回一个SimpleVO
      */
     @Transactional(rollbackFor = Exception.class)
-    public SimpleVO deletePost (int pid){
+    public SimpleVO deletePost (int pid, HttpServletRequest request){
+        //判断权限
+        Post px = postMapper.findPostById(pid);
+        if(px == null) return new SimpleVO(-3,"不存在这个帖子");
+        Integer uid = UtilsService.getUidWithTokenByRequest(request);
+        if(uid == null) return new SimpleVO(-5,"权限缺失");
+
+        // 公共论坛只有管理员能删
+        if(px.getA_id() == 0){
+            Integer level = userMapper.findLevelById(uid);
+            if(level == null || level < 2){
+                return new SimpleVO(-6,"权限不足，请检查登陆账号");
+            }
+        }
+        // 论坛只有管理者和发帖人能删
+        Integer a = px.getA_id();
+        if(!ss.verifyUserIsAssAdmin(uid,a) && uid != px.getU_id()){
+            return new SimpleVO(-6,"权限不足，请检查登陆账号");
+        }
         try{
             //通过主帖获得内容ID以及所有的评论ID
             Integer content_id = postMapper.findContentById(pid);
@@ -71,6 +92,8 @@ public class DeleteService {
             for (Integer cid : comments_id) {
                 commentsMapper.deleteCommentById(cid);
             }
+            //对附表进行一个删除(收藏表)
+            favoriteTableMapper.deleteCollectPostByPid(pid);
             // 对帖子主表进行一个删除
             postMapper.deletePostById(pid);
 
@@ -88,7 +111,21 @@ public class DeleteService {
      * @param cid 传入一个评论ID
      * @return 返回一个SimpleVO
      */
-    public SimpleVO deleteComment(int cid){
+    public SimpleVO deleteComment(int cid,HttpServletRequest request){
+        //判断权限
+        Comments px = commentsMapper.findById(cid);
+        Post py = postMapper.findPostById(px.getP_id());
+
+        if(px == null || py == null) return new SimpleVO(-3,"不存在这个评论");
+        Integer uid = UtilsService.getUidWithTokenByRequest(request);
+        if(uid == null) return new SimpleVO(-5,"权限缺失");
+
+        // 论坛只有管理者和发帖人能删,h还有评论本人
+        Integer a = py.getA_id();
+        if(!ss.verifyUserIsAssAdmin(uid,a) && uid != px.getU_id() && uid != py.getU_id()){
+            return new SimpleVO(-6,"权限不足，请检查登陆账号");
+        }
+
         try{
             commentsMapper.deleteCommentById(cid);
             return new SimpleVO(0,"删除成功");

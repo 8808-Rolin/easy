@@ -48,4 +48,7 @@ public interface CommentsMapper {
     @Select("SELECT * FROM comments WHERE content LIKE CONCAT('%',#{key},'%')")
     ArrayList<Comments> findCommentLikeKey(String key);
 
+    @Select("SELECT * FROM comments WHERE id = #{id}")
+    Comments findById(Integer id);
+
 }

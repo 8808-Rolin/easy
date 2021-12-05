@@ -1,7 +1,9 @@
 package icu.rolin.easy.service;
 
 import icu.rolin.easy.mapper.*;
+import icu.rolin.easy.model.DO.Apply_Create;
 import icu.rolin.easy.model.DO.Apply_Join_Association;
+import icu.rolin.easy.model.DO.User;
 import icu.rolin.easy.model.PO.*;
 import icu.rolin.easy.model.VO.SimpleVO;
 import org.slf4j.Logger;
@@ -247,6 +249,8 @@ public class UpdateService {
                         sm.setContent("很开心的告诉你，你申请加入的《"+associationMapper.findAssociationById(aj.getA_id()).getName()+"社团》\n申请" +
                                 "通过了！恭喜你成为该社团中的一员，谨代表所有会员欢迎你的加入");
                         is.sendEmailWithSystem(sm);
+                        //如果为0，则修改用户对象Level为1
+                        userMapper.updateUserLevel1WithLevel0(aj.getU_id());
                     }
 
                     break;
@@ -343,5 +347,57 @@ public class UpdateService {
         if (result == null) return -102;
         // 返回值
         return result;
+    }
+
+    /**
+     * 同意创建社团审批
+     * @param caid 审批ID
+     * @return 返回一个字符串，表示错误信息，成为是一个空字符串
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String agreeCreate(int caid){
+        // 同意，修改申请表
+        // 修改用户状态，如果用户Level是0则提升为1
+        // 插入社团表，新增社团，Leader为申请人
+        // 插入社团用户表，用户为申请人，is_admin为1
+        try {
+            Integer status = -1;
+            status = applyCreateMapper.updateApprovedById(caid,1);
+            if(status != 1) return "修改用户审批状态失败！";
+            Apply_Create ac = applyCreateMapper.findById(caid);
+            User user = userMapper.findById(ac.getU_id());
+            if(user == null){
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return "申请人数据错误，找不到数据！";
+            }
+            userMapper.updateUserLevel1WithLevel0(user.getId());
+            status = associationMapper.insertByAll(
+                    ac.getU_id(),
+                    ac.getName(),
+                    ac.getLogo(),
+                    ac.getIntro(),
+                    ac.getParent_organization()
+            );
+            Integer aid = associationMapper.getMaxIDByLeader(ac.getU_id());
+            if(status != 1 || aid == null || !ss.verifyAssExist(aid)) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return "创建新社团失败！！";
+            }
+            status = associationUserMapper.insertAdminToAss(aid,user.getId());
+            if(status != 1) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return "创建社团失败！无法将用户添加到社团成员中去";
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return "插入错误，数据库已回滚";
+        }
+        return "";
+    }
+    public boolean refusedCreate(int caid){
+        Integer status = applyCreateMapper.updateApprovedById(caid,2);
+        return status == 1;
     }
 }

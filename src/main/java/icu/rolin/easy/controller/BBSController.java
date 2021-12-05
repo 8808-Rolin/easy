@@ -8,6 +8,7 @@ import icu.rolin.easy.utils.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -143,12 +144,12 @@ public class BBSController {
     }
 
     @PostMapping(value = "/delete-post-discuss")
-    public ResponseVO delete_context (Integer requestType,Integer typeid){
+    public ResponseVO delete_context (Integer requestType, Integer typeid, HttpServletRequest request){
         // 判断请求类型，调用相应的Service
         if (requestType == 0 && typeid != null)  // 删除帖子
-            return new ResponseVO(ds.deletePost(typeid));
+            return new ResponseVO(ds.deletePost(typeid,request));
         else if(requestType == 1 && typeid != null) // 删除回复
-            return new ResponseVO(ds.deleteComment(typeid));
+            return new ResponseVO(ds.deleteComment(typeid,request));
         else //参数错误
             return new ResponseVO(new SimpleVO(1,"参数错误，请检查参数"));
     }

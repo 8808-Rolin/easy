@@ -87,4 +87,7 @@ public interface UserMapper {
 
     @Update("UPDATE user SET is_open_zone = #{type} WHERE id = #{uid}")
     Integer updateZonStateByUidState(Integer uid,Integer type);
+
+    @Update("UPDATE user SET level = 1 WHERE id = #{uid} AND level = 0")
+    Integer updateUserLevel1WithLevel0(Integer uid);
 }

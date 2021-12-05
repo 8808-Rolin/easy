@@ -67,5 +67,8 @@ public interface AssociationUserMapper {
     @Insert("INSERT INTO association_user (a_id,u_id,is_admin) VALUES (#{aid},#{uid},0)")
     Integer insertUserToAss(Integer aid,Integer uid);
 
+    @Insert("INSERT INTO association_user (a_id,u_id,is_admin) VALUES (#{aid},#{uid},1)")
+    Integer insertAdminToAss(Integer aid,Integer uid);
+
 
 }
