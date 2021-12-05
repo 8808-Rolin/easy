@@ -1,10 +1,7 @@
 package icu.rolin.easy.mapper;
 
 import icu.rolin.easy.model.DO.Action;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.mybatis.caches.redis.RedisCache;
 
 import java.util.ArrayList;
@@ -15,6 +12,12 @@ public interface ActionMapper {
 
     @Select("SELECT * FROM action WHERE a_id = #{aid}")
     ArrayList<Action> findByA_id(Integer aid);
+
+    @Select("SELECT * FROM action WHERE a_id = #{aid} AND is_approved = 1")
+    ArrayList<Action> findByA_idApproved(Integer aid);
+
+    @Select("SELECT * FROM action ")
+    ArrayList<Action> findAll();
 
     @Select("SELECT * FROM action WHERE id = #{id}")
     Action getDetailedAssActionByAcId(Integer id);
@@ -30,6 +33,9 @@ public interface ActionMapper {
 
     @Select("SELECT * FROM action WHERE a_id=#{aid} AND start_time > NOW() ORDER BY start_time DESC LIMIT 1")
     Action findByAidNext(Integer aid);
+
+    @Update("UPDATE action SET is_approved = #{status} WHERE id =#{id}")
+    Integer updateStateById(Integer id,Integer status);
 
 
 

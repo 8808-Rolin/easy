@@ -70,5 +70,11 @@ public interface AssociationUserMapper {
     @Insert("INSERT INTO association_user (a_id,u_id,is_admin) VALUES (#{aid},#{uid},1)")
     Integer insertAdminToAss(Integer aid,Integer uid);
 
+    @Update("UPDATE association_user SET is_admin = 1 WHERE a_id =#{aid} AND u_id = #{uid}")
+    Integer setAdminByUidAid(Integer aid,Integer uid);
+
+    @Update("UPDATE association_user SET is_admin = 0 WHERE a_id =#{aid} AND u_id = #{uid}")
+    Integer cancelAdminByUidAid(Integer aid,Integer uid);
+
 
 }

@@ -3,6 +3,7 @@ package icu.rolin.easy.service;
 import icu.rolin.easy.mapper.*;
 import icu.rolin.easy.model.DO.Apply_Create;
 import icu.rolin.easy.model.DO.Apply_Join_Association;
+import icu.rolin.easy.model.DO.Association;
 import icu.rolin.easy.model.DO.User;
 import icu.rolin.easy.model.PO.*;
 import icu.rolin.easy.model.VO.SimpleVO;
@@ -396,8 +397,82 @@ public class UpdateService {
         }
         return "";
     }
+
+    /**
+     * 拒绝创建社团审批
+     * @param caid 审批ID
+     * @return 布尔值
+     */
     public boolean refusedCreate(int caid){
         Integer status = applyCreateMapper.updateApprovedById(caid,2);
         return status == 1;
     }
+
+
+    /**
+     *活动审批
+     * @param actid  活动ID
+     * @param status 状态 0：不通过 1：通过
+     * @return 返回一个字符串，表示错误信息，成为是一个空字符串
+     */
+    public String replyAction(int actid,int status){
+        int approved;
+        if (status == 0){
+            approved = 2;
+        }else if(status == 1){
+            approved = 1;
+        }else{
+            return "参数错误，无法审批";
+        }
+        Integer ret = actionMapper.updateStateById(actid,approved);
+        if(ret == null || ret == 0 ){
+            return "审批失败！";
+        }else{
+            return "";
+        }
+    }
+
+    /**
+     * 将某人设置为管理员
+     * @param uid 用户
+     * @param aid 论坛
+     * @return 布尔状态
+     */
+    public boolean setAssAdmin(int uid,int aid){
+        // 判断是否是社团成员
+        if(!ss.userIsJoinAss(aid,uid)) {
+            logger.warn("该用户未加入社团，无法将其设置为管理员");
+            return false;
+        }
+        return associationUserMapper.setAdminByUidAid(aid,uid)==1;
+    }
+
+    /**
+     * 取消某人管理
+     * 如果该人是论坛Leader，则无法取消
+     * @param uid 用户
+     * @param aid 论坛
+     * @return 布尔状态
+     */
+    public boolean unsetAssAdmin(int uid,int aid){
+        // 判断该人是否是社团成员
+        if(!ss.userIsJoinAss(aid,uid)) {
+            logger.warn("该用户未加入社团，无法将其设置为管理员");
+            return false;
+        }
+        // 判断该人是否是Leader
+        Association as = associationMapper.findAssociationById(aid);
+        if (as == null) {
+            logger.warn("找不到该社团");
+            return false;
+        }
+        Integer leader = as.getLeader_id();
+        if(leader == uid){
+            logger.warn("该用户是社团的领导者，无法被移除管理员权限");
+            return false;
+        }
+        return associationUserMapper.cancelAdminByUidAid(aid,uid) == 1;
+    }
+
+
 }

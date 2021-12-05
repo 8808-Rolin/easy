@@ -382,7 +382,7 @@ public class SelectService {
      */
     public PersonActionPOJO[] getActionOverview(UserAssNotePO ua){
         // 获取该社团的所有活动
-        ArrayList<Action> actions = actionMapper.findByA_id(ua.getAid());
+        ArrayList<Action> actions = actionMapper.findByA_idApproved(ua.getAid());
         if(actions == null || actions.size()==0) return null;
         // 创建对象数组
         PersonActionPOJO[] personActionPOJOS = new PersonActionPOJO[actions.size()];
@@ -1233,6 +1233,7 @@ public class SelectService {
         gaavo.setCode(acNumber);
         AssApplyPOJO[] assApplyPOJOS = new AssApplyPOJO[acNumber];
         for (int i=0;i<acNumber;i++){
+            assApplyPOJOS[i] = new AssApplyPOJO();
             assApplyPOJOS[i].setAaid(apply_commonds.get(i).getId());
             assApplyPOJOS[i].setStatus(apply_commonds.get(i).getIs_approved());
             assApplyPOJOS[i].setTitle(apply_commonds.get(i).getTitle());
@@ -1253,6 +1254,35 @@ public class SelectService {
     public GetActionListVO getActionList(Integer aid){
         GetActionListVO galco = new GetActionListVO();
         ArrayList<Action> actions = actionMapper.findByA_id(aid);
+        Integer actionNumber = actions.size();
+
+        galco.setCode(actionNumber);
+        ActionDataPOJO[] actionDataPOJOS = new ActionDataPOJO[actionNumber];
+        for (int i=0;i<actionNumber;i++){
+            actionDataPOJOS[i] = new ActionDataPOJO();
+            String assName = associationMapper.getAssociationNameById(actions.get(i).getA_id());
+            String content = contentMapper.findContentById(actions.get(i).getContent_id());
+            actionDataPOJOS[i].setActid(actions.get(i).getId());
+            actionDataPOJOS[i].setAid(actions.get(i).getA_id());
+            actionDataPOJOS[i].setAssname(assName);
+            actionDataPOJOS[i].setTitle(actions.get(i).getTitle());
+            actionDataPOJOS[i].setContent(content);
+            actionDataPOJOS[i].setStartTime(actions.get(i).getStart_time().toString());
+            actionDataPOJOS[i].setEndTime(actions.get(i).getEnd_time().toString());
+            actionDataPOJOS[i].setStatus(actions.get(i).getIs_approved());
+        }
+        galco.setAction(actionDataPOJOS);
+        galco.setMsg("获取社团活动列表成功！");
+        return galco;
+    }
+
+    /**
+     * 获取所有的社团活动列表，包括审核了和未审核的活动
+     * @return 视图对象
+     */
+    public GetActionListVO getActionList(){
+        GetActionListVO galco = new GetActionListVO();
+        ArrayList<Action> actions = actionMapper.findAll();
         Integer actionNumber = actions.size();
 
         galco.setCode(actionNumber);
@@ -1472,6 +1502,10 @@ public class SelectService {
         return find;
     }
 
+    public ArrayList<Association> getAllAss(){
+        return associationMapper.findAllAssociation();
+    }
+
 
     /**
      * 获取所有的创建社团列表
@@ -1508,6 +1542,9 @@ public class SelectService {
     public User getUserById(int id){
         return userMapper.findById(id);
     }
+
+
+
 
 
 

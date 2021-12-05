@@ -1737,30 +1737,6 @@
     <tr><td>all</td><td colspan=2>字段返回全部学生的数量</td></tr>
 </table>
 
-#### 3.8.1.3 获取当前活动列表
-
-通过调用该接口，Vue可以获得当前系统所有活动。
-
-<table>
-    <tr><th colspan="3">请求</th></tr>
-    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-action-list</td></tr>
-    <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
-    <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
-    <tr><td>requestType</td><td>Integer</td><td>0：按照论坛不同区分活动列表，1：按照状态不同区分活动列表</td></tr>
-    <tr><td>statusType</td><td>Integer</td><td>若rt为0，则该参数是论坛aid，若rt为1，则该参数0代表待发布，1：待举行，2：已举行，3：审批不过</td></tr>
-    <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
-    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时返回数据数量</td></tr>
-    <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
-     <tr><th>data.action[]</th><th colspan=2>响应数据体</th></tr>
-    <tr><td>actid</td><td colspan=2>活动唯一标识符</td></tr>
-    <tr><td>title</td><td colspan=2>活动标题</td></tr>
-    <tr><td>startTime</td><td colspan=2>活动开始日期</td></tr>
-    <tr><td>status</td><td colspan=2>活动状态，是一个整数值</td></tr>
-</table>
 
 #### 3.8.1.4 社团活跃度(数据可视化)
 
@@ -1949,30 +1925,6 @@
     <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
 </table>
 
-#### 3.8.4.3 拉取活动审批列表
-
-<table>
-    <tr><th colspan="3">请求</th></tr>
-    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
-    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/action/get-act-apply</td></tr>
-    <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
-    <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
-    <tr><th colspan="3">请求参数</th></tr>    
-    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
-    <tr><td>aid</td><td>Integer</td><td>id值，论坛唯一标识符，0代表获取所有活动</td></tr>
-    <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
-    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
-    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时该参数是数据的数量</td></tr>
-    <tr><td>msg</td><td colspan=2>请求失败时返回错误信息</td></tr>
-     <tr><th>data.action[]</th><th colspan=2>活动列表</th></tr>
-    <tr><td>actaid</td><td colspan=2>活动审批唯一ID</td></tr>
-    <tr><td>aid</td><td colspan=2>举办活动的论坛id</td></tr>
-    <tr><td>assname</td><td colspan=2>举办活动的论坛名字</td></tr>
-    <tr><td>title</td><td colspan=2>活动名称</td></tr>
-    <tr><td>content</td><td colspan=2>活动申请内容</td></tr>
-    <tr><td>startTime</td><td colspan=2>开始时间</td></tr>
-    <tr><td>endTime</td><td colspan=2>结束时间</td></tr>
-</table>
 
 #### 3.8.4.4 活动审批
 
@@ -2008,10 +1960,48 @@
 
 - [3.3.3 发表帖子接口](#333-发表帖子接口)
 
-#### 3.8.5.2 删除论坛公告
+#### 3.8.5.3 删除论坛公告
 
 如果论坛公告满五个时，需要调用该接口进行删除，同理，删除论坛的接口也与前文删除帖子使用同一接口。
 
 此时requestType值为0，即删除帖子
 
 - [3.4.5 删除帖子以及回复](#345-删除帖子以及回复)
+
+### 3.8.6 临时系统管理
+#### 3.8.6.1 获取所有社团
+<table>
+    <tr><th colspan="3">请求</th></tr>
+    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/get-all-ass</td></tr>
+    <tr><th>请求方法</th><td colspan="2">GET</td></tr>   
+    <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
+    <tr><th colspan="3">请求参数</th></tr>    
+    <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
+    <tr><th colspan="3">None</th></tr>
+    <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
+    <tr><td>code</td><td colspan=2>-1：请求失败，请求成功时返回数据数量</td></tr>
+    <tr><th>data.list[]</th><th colspan=2>请求成功时返回该字段，是个数组</th></tr>
+    <tr><td>aid</td><td colspan=2>社团ID</td></tr>
+    <tr><td>name</td><td colspan=2>社团名字</td></tr>
+</table>
+
+#### 3.8.6.2 设置社员的管理员状态
+
+<table>
+    <tr><th colspan="3">请求</th></tr>
+    <tr><th>HTTP协议</th><td colspan="2">1.1</td></tr>
+    <tr><th>请求地址</th><td colspan="2">http://easy.30202.co:11119/api/info/set-ass-admin</td></tr>
+    <tr><th>请求方法</th><td colspan="2">POST</td></tr>   
+    <tr><th>封装格式</th><td colspan="2">application/x-www-form-urlencoded</td></tr>
+    <tr><th colspan="3">请求参数</th></tr>    
+     <tr><th>参数名</th><th>参数类型</th><th>备注</th></tr>
+    <tr><td>aid</td><td>Integer</td><td>id值，是社团唯一标识符</td></tr>
+      <tr><td>uid</td><td>Integer</td><td>要操作的用户ID</td></tr>
+    <tr><td>status</td><td>Integer</td><td>0：取消其管理员，1：将其设为社团管理员</td></tr>
+    <tr><th >响应结果</th><th colspan=2>Json字符串</th></tr> 
+    <tr><th>data</th><th colspan=2>响应数据体</th></tr>
+    <tr><td>code</td><td colspan=2>0为成功，负数为失败</td></tr>
+    <tr><td>msg</td><th colspan=2>文本数据</th></tr>
+</table>

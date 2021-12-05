@@ -75,7 +75,6 @@ public class IncreaseService {
 
     /**
      * 用户提交创建社团申请，该方法用以处理该业务
-     *
      * @param cap 传入的参数对象
      * @return 返回一个Map对象，Key-1 代表处理结果 Key-2代表caid
      */

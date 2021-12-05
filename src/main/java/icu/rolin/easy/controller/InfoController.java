@@ -3,6 +3,7 @@ package icu.rolin.easy.controller;
 import com.alibaba.fastjson.JSON;
 import icu.rolin.easy.interceptor.UserInterceptor;
 import icu.rolin.easy.model.DO.Association;
+import icu.rolin.easy.model.DO.User;
 import icu.rolin.easy.model.PO.AssInfoUpdatePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.*;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 @RestController
 @ResponseBody
@@ -257,10 +259,6 @@ public class InfoController {
         return new ResponseVO(new GetActionListVO());
     }
 
-    @PostMapping(value = "/create-ass-reply")
-    public ResponseVO create_ass_reply(Integer caid,Integer status){
-        return new ResponseVO(new SimpleVO());
-    }
 
     @GetMapping(value = "/get-ass-detail-list")
     public ResponseVO get_ass_detail(){
@@ -278,5 +276,99 @@ public class InfoController {
         Association association = ss.getAssociationInfoById(aid);
         if(association == null) return new ResponseVO(-1,"不存在该社团，请检查aid");
         return new ResponseVO(0,association);
+    }
+
+    @GetMapping(value = "/get-all-ass")
+    public ResponseVO getAssList(){
+        class List_{
+            private Integer aid;
+            private String name;
+
+            public Integer getAid() {
+                return aid;
+            }
+
+            public void setAid(Integer aid) {
+                this.aid = aid;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+        }
+        class VO{
+            private Integer code;
+            private List_[] list;
+
+            public VO() {
+            }
+
+            public VO(Integer code, List_[] list) {
+                this.code = code;
+                this.list = list;
+            }
+
+            public Integer getCode() {
+                return code;
+            }
+
+            public void setCode(Integer code) {
+                this.code = code;
+            }
+
+            public List_[] getList() {
+                return list;
+            }
+
+            public void setList(List_[] list) {
+                this.list = list;
+            }
+        }
+
+        ArrayList<Association> associations = ss.getAllAss();
+        List_[] list_s = new List_[associations.size()];
+        for (int i = 0; i < associations.size(); i++) {
+            list_s[i] = new List_();
+            list_s[i].setAid(associations.get(i).getId());
+            list_s[i].setName(associations.get(i).getName());
+        }
+        return new ResponseVO(new VO(list_s.length,list_s));
+    }
+
+    @PostMapping(value = "/set-ass-admin")
+    public ResponseVO setAdminInAss(Integer aid,Integer uid,Integer status,HttpServletRequest request){
+        // 判断参数合法性
+        if(aid == null || uid == null || status == null ||
+            !ss.verifyAssExist(aid) || !ss.verifyUserExist(uid)){
+            return new ResponseVO(new SimpleVO(-1,"参数错误"));
+        }
+
+        // 判断用户权限
+        Integer loginUID = UtilsService.getUidWithTokenByRequest(request);
+        if(loginUID == null) return new ResponseVO(new SimpleVO(-2,"登陆状态不对头"));
+        User loginUser = ss.getUserById(loginUID);
+        if(loginUser.getLevel() < 2) return new ResponseVO(new SimpleVO(-3,"权限错误！"));
+
+        boolean flags = false;
+        switch (status){
+            case 0:
+                flags = us.unsetAssAdmin(uid,aid);
+                break;
+            case 1:
+                flags = us.setAssAdmin(uid,aid);
+                break;
+            default:
+                return new ResponseVO(new SimpleVO(-5,"操作状态参数错误"));
+        }
+        if(!flags){
+            return new ResponseVO(new SimpleVO(-1,"操作失败，请联系管理员"));
+        }else{
+            return new ResponseVO(new SimpleVO(0,"操作成功！"));
+        }
+
     }
 }

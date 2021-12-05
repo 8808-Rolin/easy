@@ -53,11 +53,16 @@ public class ActionController {
     @PostMapping(value = "/get-action-list")
     public ResponseVO get_action_list(Integer aid){
         // 判断参数合法性
-        if(aid == null || !ss.verifyAssExist(aid)){
+        if(aid == null || (!ss.verifyAssExist(aid) && aid != 0)){
             return new ResponseVO(new SimpleVO(-1,"参数错误！"));
         }
 
-        return new ResponseVO(ss.getActionList(aid));
+        if(aid == 0){
+            return new ResponseVO(ss.getActionList());
+        }else{
+            return new ResponseVO(ss.getActionList(aid));
+        }
+
     }
 
     @GetMapping(value = "/get-action-member")
@@ -72,6 +77,7 @@ public class ActionController {
 
     @PostMapping(value = "/get-act-apply")
     public ResponseVO get_action_apply(Integer aid){
+
         return new ResponseVO(new GetActionListVO());
     }
 

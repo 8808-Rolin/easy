@@ -4,6 +4,7 @@ import icu.rolin.easy.model.DO.Apply_Create;
 import icu.rolin.easy.model.DO.User;
 import icu.rolin.easy.model.PO.CreateAssPO;
 import icu.rolin.easy.model.PO.SendApplyPO;
+import icu.rolin.easy.model.PO.UidProfilePO;
 import icu.rolin.easy.model.PO.UserAssNotePO;
 import icu.rolin.easy.model.POJO.CreateAssPOJO;
 import icu.rolin.easy.model.POJO.JoinApplyPOJO;
@@ -109,7 +110,8 @@ public class ApplyController {
         }
         // 验证权限
         Integer uid = UtilsService.getUidWithTokenByRequest(request);
-        if(uid == null || ss.verifyUserIsAssAdmin(uid,sapo.getAid())){
+        if(uid == null || !ss.verifyUserIsAssAdmin(uid,sapo.getAid())){
+            if(uid != null) System.out.println("错误UID:"+uid);
             return new ResponseVO(new SimpleVO(-2,"权限错误，提交失败"));
         }
         return new ResponseVO(is.submitAssApply(sapo));
@@ -126,7 +128,15 @@ public class ApplyController {
 
     @PostMapping(value = "/send-act-reply")
     public ResponseVO send_act_reply(Integer actid,Integer status){
-        return new ResponseVO(new SimpleVO());
+        //判断参数合法性
+        if(actid == null || status == null ||actid <=0){
+            return new ResponseVO(new SimpleVO(-2,"参数错误！"));
+        }
+        String ret = us.replyAction(actid,status);
+        if(ret.equals("")){
+            return new ResponseVO(new SimpleVO(actid,(status == 0) ? "拒绝举办活动的申请成功！":"同意其举办活动！"));
+        }
+        return new ResponseVO(new SimpleVO(-3,ret));
     }
 
     @PostMapping(value = "/send-aa-reply")
