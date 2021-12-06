@@ -5,6 +5,15 @@ public class AssMemberPOJO {
     private String username;
     private String realname;
     private String studentid;
+    private Integer is_admin;
+
+    public Integer getIs_admin() {
+        return is_admin;
+    }
+
+    public void setIs_admin(Integer is_admin) {
+        this.is_admin = is_admin;
+    }
 
     public Integer getUid() {
         return uid;

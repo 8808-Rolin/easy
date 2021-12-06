@@ -359,6 +359,7 @@ public class SelectService {
         for (int i = 0; i < aau.size(); i++) {
             amps[i] = new AssMemberPOJO();
             amps[i].setUid(aau.get(i).getU_id());
+            amps[i].setIs_admin(aau.get(i).getIs_admin());
             User user = userMapper.findSomeById(amps[i].getUid());
             if(user == null) {
                 amps[i].setUsername("该用户不存在");
@@ -1056,6 +1057,7 @@ public class SelectService {
             gmovvo.setCode(mailsNumber);
             MailOverviewPOJO[] mailOverviewPOJOS = new MailOverviewPOJO[mailsNumber];
             for (int i=0;i<mailsNumber;i++){
+                mailOverviewPOJOS[i] = new MailOverviewPOJO();
                 mailOverviewPOJOS[i].setMid(mails.get(i).getId());
                 mailOverviewPOJOS[i].setTitle(mails.get(i).getTitle());
                 mailOverviewPOJOS[i].setDate(mails.get(i).getCreate_time().toString());

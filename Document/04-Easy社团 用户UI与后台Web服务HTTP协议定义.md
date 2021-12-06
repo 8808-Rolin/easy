@@ -399,6 +399,7 @@
     <tr><td>username</td><td colspan=2>用户昵称</td></tr>
     <tr><td>realname</td><td colspan=2>用户真实姓名</td></tr>
     <tr><td>studentid</td><td colspan=2>用户学号</td></tr>
+    <tr><td>is_admin</td><td colspan=2>管理员权限</td></tr>
 </table>
 
 #### 3.1.4.5 获取所有社团列表(Finish)
